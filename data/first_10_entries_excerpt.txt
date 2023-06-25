@@ -1,0 +1,98 @@
+=============================================
+<tei:entry xml:id="d3e11Heiligenlexikon-1858" xml:lang="de">
+<tei:form type="lemma">
+<tei:term>Aaron, S. (1)</tei:term>
+</tei:form>
+<tei:sense xml:id="d1e11192"><tei:def><tei:p>
+<tei:lg>
+<tei:l>»Wunderbar ist Gott in Seinen Heiligen.«</tei:l>
+<tei:l>
+<tei:hi rend="italic">Psalm 67, 36.</tei:hi>
+</tei:l>
+</tei:lg>
+</tei:p><tei:note type="header">A</tei:note><tei:p>
+<tei:hi rend="bold">
+<tei:hi rend="superscript">1</tei:hi>S. Aaron</tei:hi>. (1. Juli). Hebr. <tei:hi rend="italic">Aharon</tei:hi>, d.i. Berg, Bergbewohner etc. – Der heil. <tei:hi rend="bold">Aaron</tei:hi>, erster Hoherpriester des israelitischen Volkes, war der älteste Sohn Amrams und Jochabeds, Bruder des Moyses und der Maria (Mirjam). Seine Frau hieß Elisabeth; seine Söhne waren Nadab, Abtu, Eleazar und Ithamar. In Aegypten geboren im Jahre 1574 vor Chr., wurde er von Gott dem Moyses zur Seite gegeben, um das Volk Israel aus Aegypten zu führen, zu welchem Zwecke er mit der Gabe der Beredsamkeit und der Wunder ausgestattet wurde; denn <tei:hi rend="bold">Aaron</tei:hi> mußte vor Pharao statt seines Bruders das Wort führen und so den König bewegen, das Volk ziehen zu lassen. Nach dem Auszug wurde er nebst seinen Söhnen zum Priesterthum berufen, und Gott bestätigte seine Würde durch ein Wunder, indem sein erstes Opfer vom himmlischen Feuer verzehrt ward, sein Stab grünte, blühte und Mandeln trug. Doch ließ er sich in der Folge, als Moyses auf dem Berge Sinai länger verweilte und das Volk an seiner Wiederkehr zweifelte, von diesem aus Furcht verleiten, ein goldenes Kalb zu verfertigen, welches sie als ihren Abgott verehrten. Seine zwei Söhne Nadab und Abtu wurden, als sie fremdes Feuer in die Stiftshütte brachten, durch des Herrn Feuer getödtet, und nicht lange nachher wollte die Rotte Korah, Dathan und Abiron ihm das Hohepriesterthum und seinem Bruder Moyses das Regiment entreißen; allein sie wurden zur Strafe für diese Empörung theils von der Erde verschlungen, theils vom himmlischen Feuer verzehrt. Eine derartige Auflehnung fand beim Volke Israel öfter statt, ungeachtet der strengen Züchtigungen Gottes, welche jedesmal auf sie folgten. Einmal murrten die Kinder Israel gegen Moyses und <tei:hi rend="bold">Aaron</tei:hi> und Gott ließ deßhalb 14,700 von ihnen umkommen; allein <tei:hi rend="bold">Aaron</tei:hi> söhnte Israel wieder mit Gott aus und besänftigte dessen Zorn. Weil aber sowohl er als sein Bruder bei dem »Wasser des Widerspruchs« gegen Gott sündigten, indem sie Gott nicht »glaubten,« der zu ihnen sprach: »<tei:hi rend="spaced">Redet</tei:hi> zu dem Felsen vor ihnen, so wird er Wasser geben,« und Moyses »<tei:hi rend="spaced">schlug</tei:hi> mit dem Stabe zweimal, statt daß er auf des Herrn Befehl blos <tei:hi rend="spaced">redete</tei:hi>« (Num. 20,8–12); so durften sie zur Strafe dieses Ungehorsames und Unglaubens »das Volk nicht in das Land führen,« das ihnen der Herr geben wollte;<tei:hi rend="bold"> Aaron</tei:hi> mußte mit Moyses und seinem Sohne Eleazar den Berg Hor (an der Südgrenze von Palästina, jetzt<tei:hi rend="spaced"> Dschebel Harun</tei:hi>, Berg des Aaron, geheißen) besteigen, und starb daselbst im 123. Jahre seines Alters (im 2583. Jahre der Welt und 1452 vor Chr.), nachdem ihm zuvor die hohenpriesterlichen Kleider genommen und seinem Sohne, dem genannten Eleazar, gegeben worden waren, der ihm auch im Hohenpriesterthume nachfolgte. Das Volk Israel beweinte ihn dreißig Tage lang, und wird sein Grab noch jetzt auf dem besagten Berge den Reisenden gezeigt. – Die hohepriesterliche Kleidung, in welcher Aaron gewöhnlich abgebildet wird, bestand aus verschiedenen Stücken und ist in der heil. Schrift beschrieben im Buche Exodus 28. und 39. Kap. Uebrigens findet man auf christlichen Denkmälern bald das eine, bald das andere Moment im Leben des ersten jüdischen Hohenpriesters dargestellt. Besonders häufig kommt vor, wie <tei:hi rend="bold">Aaron</tei:hi> vor versammeltem Volke eben dem goldenen Kalbe opfert.</tei:p><tei:p/></tei:def></tei:sense>
+</tei:entry>
+=============================================
+<tei:entry xml:id="d3e80Heiligenlexikon-1858" xml:lang="de">
+<tei:form type="lemma">
+<tei:term>Aaron, S. (2)</tei:term>
+</tei:form>
+<tei:sense xml:id="d1e11270"><tei:def><tei:p>
+<tei:hi rend="bold">
+<tei:hi rend="superscript">2</tei:hi>S. Aaron</tei:hi>, <tei:hi rend="italic">Abb</tei:hi>. (22. <tei:hi rend="italic">al</tei:hi>. 21. Juni). Der hl. Abt<tei:hi rend="bold"> Aaron</tei:hi> ward gegen das Ende des fünften Jahrhunderts in England geboren,  und kam nach Frankreich, wo er in der Bretagne auf einer der Stadt Aletha gegenüber liegenden Insel, die von ihm den Namen <tei:hi rend="spaced">Monke</tei:hi> (<tei:hi rend="italic">Monachus</tei:hi>) oder <tei:hi rend="spaced">Arem</tei:hi> (Aaron) erhielt, einem Kloster vorstand. Als der hl. Machutus (St. Malo) von England aus nach Frankreich überschiffen wollte, um daselbst den Glauben zu predigen, fand er am Ufer ein Schifflein, auf welchem der Heiland in Menschengestalt sich befand. Der Herr lud ihn zu sich auf das Schifflein ein und führte ihn über das Meer, sprechend: »Es ist auf diesem Meere eine Insel, die ein Mönch bewohnt, mit Namen Aaron; zu diesem will ich dich durch meinen Engel geleiten und er wird dich auf das Liebreichste empfangen.« So geschah es auch. <tei:hi rend="bold">Aaron</tei:hi> empfing diesen Heiligen auf eine Weise, wie man es von einem wahren Diener Gottes erwarten mußte, und theilte mit ihm die Ehre des Apostelamtes. Er starb in der Mitte des sechsten Jahrhunderts und wird sein Fest in dem Bisthume St. Malo am 22. Juni gefeiert. (An andern Orten am 21. Juni.) Vorzüglich wird er aber im Bisthume St. Brieux verehrt, woselbst auch eine Pfarrkirche ist, die seinen Namen trägt.</tei:p><tei:p/></tei:def></tei:sense>
+</tei:entry>
+=============================================
+<tei:entry xml:id="d3e122Heiligenlexikon-1858" xml:lang="de">
+<tei:form type="lemma">
+<tei:term>Aaron, SS. (3)</tei:term>
+</tei:form>
+<tei:sense xml:id="d1e11317"><tei:def><tei:p>
+<tei:hi rend="bold">
+<tei:hi rend="superscript">3</tei:hi>SS. Aaron</tei:hi>
+<tei:hi rend="italic">et Soc. MM.</tei:hi> (1. Juli). Die heil. <tei:hi rend="bold">Aaron, Julius</tei:hi> und ihre Gefährten waren aus England, und erlitten um des Glaubenswillen den Martertod zu Caerleon an der Usk, in der Grafschaft Monmouth, unter der Regierung des Kaisers Diokletian. Nach einigen Schriftstellern sollen sie zuerst nach Rom gekommen sein und sich daselbst auf das Studium der heil. Schrift verlegt haben. Nach dem ehrw. <tei:hi rend="spaced">Beda</tei:hi> wurden noch viele andere Christen beiderlei Geschlechts mit ihnen gemartert. Das Todesjahr wird verschieden angegeben. Nach <tei:hi rend="spaced">Alford</tei:hi>, der sich auf die alte Ueberlieferung der englischen Geschichtschreiber stützt, erfolgte ihr Martertod um das Jahr 287; <tei:hi rend="spaced">Bollandus</tei:hi> aber und <tei:hi rend="spaced">Sollierus</tei:hi> setzen denselben in's Jahr 303 oder 304.</tei:p><tei:p/></tei:def></tei:sense>
+</tei:entry>
+=============================================
+<tei:entry xml:id="d3e159Heiligenlexikon-1858" xml:lang="de">
+<tei:form type="lemma">
+<tei:term>Aaron (4)</tei:term>
+</tei:form>
+<tei:sense xml:id="d1e11361"><tei:def><tei:p>
+<tei:hi rend="bold">
+<tei:hi rend="superscript">4</tei:hi>Aaron</tei:hi>, <tei:hi rend="italic">Ep</tei:hi>. (13. Febr. <tei:hi rend="italic">al</tei:hi>. 28. Sept.) Der Bischof<tei:hi rend="bold"> Aaron</tei:hi> zu Auxerre blühte am Anfange des neunten Jahrhunderts und starb im Jahre 807. Welcher Klasse von Heiligen er angehöre, ist nicht ausgemacht; Einige geben ihm den Titel »ehrwürdig«, Andere »selig«, wieder Andere »heilig«. Sein Leichnam ruht in dem Priorate des heil. Gervasius zu Aurerre.</tei:p><tei:p/></tei:def></tei:sense>
+</tei:entry>
+=============================================
+<tei:entry xml:id="d3e187Heiligenlexikon-1858" xml:lang="de">
+<tei:form type="lemma">
+<tei:term>Aaron (5)</tei:term>
+</tei:form>
+<tei:sense xml:id="d1e11395"><tei:def><tei:p>
+<tei:hi rend="bold">
+<tei:hi rend="superscript">5</tei:hi>Aaron</tei:hi>, <tei:hi rend="italic">Aëp</tei:hi>. (9. Okt.) <tei:hi rend="bold">Aaron</tei:hi> war in Frankreich geboren und gehörte der Benedictiner-Congregation zu Clugny an unter dem hl. Abte Odilo. Hier zeichnete er sich durch seine Tugend und Gelehrsamkeit der Art aus, daß er von seinem Vorstande in dem von Casimir I. zu Krakau neu gegründeten Kloster, für welches der genannte König Mönche aus Clugny sich erbeten hatte, als erster Abt vorgesetzt und bald darauf vom Könige selbst zum Erzbischof von Krakau erhoben wurde. Beim Domcapitel seiner bischöflichen Kirche stand der neue Erzbischof so hoch in Ehren, daß es nicht nur alle seine Nachfolger in der Abtei unter seine Ehrenmitglieder aufnahm, sondern auch sein Familien-Wappen, drei goldene Kronen auf silbernem Grunde, als domcapitelsches Wappen erwählte, was gleichfalls auch von dem Domcapitel in Wilna geschah. Das <tei:hi rend="italic">Menologium Benedictinum</tei:hi> von <tei:hi rend="italic">Bucelin P.</tei:hi> II. zählt ihn unter die »Seligen.« Er starb am 9. Okt. 1059.</tei:p><tei:p/></tei:def></tei:sense>
+</tei:entry>
+=============================================
+<tei:entry xml:id="d3e217Heiligenlexikon-1858" xml:lang="de">
+<tei:form type="lemma">
+<tei:term>Abachum, S.</tei:term>
+</tei:form>
+<tei:sense xml:id="d1e11433"><tei:def><tei:p>
+<tei:hi rend="bold">S. Abachum</tei:hi>, <tei:hi rend="italic">Mart</tei:hi>. (19. Jan.) Gr. <tei:hi rend="italic">ἀβακός</tei:hi>, d.i. stumm. – Der hl. <tei:hi rend="bold">Abachum</tei:hi> war der Sohn des Marius und der Martha. S. <tei:ref type="entry">
+<tei:hi rend="italic">S. Marius</tei:hi>
+</tei:ref>.</tei:p><tei:p/></tei:def></tei:sense>
+</tei:entry>
+=============================================
+<tei:entry xml:id="d3e245Heiligenlexikon-1858" xml:lang="de">
+<tei:form type="lemma">
+<tei:term>Abacuc, S.</tei:term>
+</tei:form>
+<tei:sense xml:id="d1e11470"><tei:def><tei:p>
+<tei:hi rend="bold">S. Abacuc</tei:hi>, <tei:hi rend="italic">Proph</tei:hi>. (15. Jan.) Siehe <tei:hi rend="italic">S. Habacuc</tei:hi>.</tei:p><tei:p/></tei:def></tei:sense>
+</tei:entry>
+=============================================
+<tei:entry xml:id="d3e267Heiligenlexikon-1858" xml:lang="de">
+<tei:form type="lemma">
+<tei:term>Abadirus, S.</tei:term>
+</tei:form>
+<tei:sense xml:id="d1e11498"><tei:def><tei:p>
+<tei:hi rend="bold">S. Abadirus</tei:hi>, <tei:hi rend="italic">Mart</tei:hi>. (24. Sept.) Der hl. <tei:hi rend="bold">Abadir</tei:hi>, ein Martyrer zu Antinoe in Aegypten, war der Bruder der hl. <tei:hi rend="bold">Heraïs</tei:hi> oder <tei:hi rend="bold">Rhaïs</tei:hi>, einer Jungfrau in Alexandrien. Er wurde mit dieser und vielen andern Priestern, Diakonen und Jungfrauen auf ein Schiff verpackt, von Alexandrien nach Antinoe gebracht und daselbst unter grausamen Qualen dem Tode um des Glaubens willen geweiht. S. <tei:ref type="entry">
+<tei:hi rend="italic">S. Heraïs</tei:hi>
+</tei:ref>. (5. Sept.)</tei:p><tei:p/></tei:def></tei:sense>
+</tei:entry>
+=============================================
+<tei:entry xml:id="d3e298Heiligenlexikon-1858" xml:lang="de">
+<tei:form type="lemma">
+<tei:term>Abagarus, B.</tei:term>
+</tei:form>
+<tei:sense xml:id="d1e11539"><tei:def><tei:p>
+<tei:hi rend="bold">B. Abagarus</tei:hi>, <tei:hi rend="italic">Princ</tei:hi>. (20. Juni), Fürst von Edessa. S.<tei:hi rend="italic"> B. Abgarus</tei:hi>.</tei:p><tei:p/></tei:def></tei:sense>
+</tei:entry>
+=============================================
+<tei:entry xml:id="d3e320Heiligenlexikon-1858" xml:lang="de">
+<tei:form type="lemma">
+<tei:term>Abahor</tei:term>
+</tei:form>
+<tei:sense xml:id="d1e11567"><tei:def><tei:p>
+<tei:hi rend="bold">Abahor</tei:hi>
+<tei:hi rend="italic">et Soc. MM</tei:hi>. (5. Okt.) <tei:hi rend="bold">Abahor, Susia</tei:hi> und ihre Söhne werden in den koptischen Kalendern als Martyrer erwähnt. In dem äthiopischen Kalender heißen die Söhne <tei:hi rend="bold">Horus</tei:hi> und <tei:hi rend="bold">Agatho</tei:hi>, und die Mutter<tei:hi rend="bold"> Susanna</tei:hi>. Sonst ist von ihnen nichts bekannt.</tei:p><tei:p/></tei:def></tei:sense>
+</tei:entry>
