@@ -23,10 +23,32 @@ def timing_wrapper(func, param):
     if param:
         value = func(param)
     else:
+        print("no param found, running function without params")
         value = func()
     end = time.time()
     print("Finished after ", end-start)
     return value
+
+#the term of the entry contains the name of the saint and their title, usually one of: S. (Sanctus, Beati or Veritit
+def parse_term(term:str):
+
+
+def parse_entry(entry):
+    term_list = entry.find_all('term')
+    print(term_list)
+    #Assuming only one term per entry, give warning when finding other
+    if len(term_list) > 1:
+        print("Error, found more than one term!")
+        sys.exit()
+
+def parse_soup(soup):
+    entries = soup.find_all('entry')
+    for e in entries[:]:
+        parse_entry(e)
+        print(type(e))
+
+    #term = entry.find('tei:form').find('tei:term').text
+
 
 if __name__ == '__main__':
     hlex_soup = None
@@ -37,10 +59,12 @@ if __name__ == '__main__':
         print("Pickle found, loading...")
         with open('tmp/' + HLEX_SOUP_PICKLE, 'rb') as pickle_file:
             hlex_soup = timing_wrapper(joblib.load, pickle_file)
+            #print("Hlex_soup is: ")
+            #print(hlex_soup)
     else:
         print("No pickle found, loading from XML...")
         hlex_soup = timing_wrapper(load_transformed_hlex_to_soup, None)
         print("Size of Hlex Object: ",sys.getsizeof(hlex_soup))
         pickle_it(hlex_soup, "tmp/"+HLEX_SOUP_PICKLE)
-
-    print(hlex_soup.title)
+    print("Loaded", hlex_soup.title.text)
+    parse_soup(hlex_soup)
