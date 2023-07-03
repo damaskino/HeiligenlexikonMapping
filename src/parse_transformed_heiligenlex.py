@@ -30,24 +30,32 @@ def timing_wrapper(func, param):
     return value
 
 #the term of the entry contains the name of the saint and their title, usually one of: S. (Sanctus, Beati or Veritit
-def parse_term(term:str):
-
+def parse_term(term):
+    #print("Parsing term: ")
+    #print(term)
+    #print(type(term))
+    raw_term = term.text
+    print(raw_term)
+    raw_term_split = raw_term.split(" ")
+    print(raw_term_split)
+    print("\n")
 
 def parse_entry(entry):
-    term_list = entry.find_all('term')
+    term_list = entry.find_all('tei:term')
     print(term_list)
     #Assuming only one term per entry, give warning when finding other
     if len(term_list) > 1:
-        print("Error, found more than one term!")
+        print("Error, found more than one term in an entry!")
         sys.exit()
+    else:
+        term = term_list[0]
+        parse_term(term)
 
 def parse_soup(soup):
     entries = soup.find_all('entry')
     for e in entries[:]:
         parse_entry(e)
-        print(type(e))
-
-    #term = entry.find('tei:form').find('tei:term').text
+        #print(type(e))
 
 
 if __name__ == '__main__':
