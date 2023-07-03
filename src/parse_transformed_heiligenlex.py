@@ -35,9 +35,45 @@ def parse_term(term):
     #print(term)
     #print(type(term))
     raw_term = term.text
+    print("Raw:")
     print(raw_term)
-    raw_term_split = raw_term.split(" ")
-    print(raw_term_split)
+
+    saint_name = None
+    canonization_status = None
+    hlex_number = None
+
+    if "," in raw_term:
+        raw_term_split = raw_term.split(",")
+        before_comma = raw_term_split[0]
+        after_comma = raw_term_split[1]
+
+        saint_name = before_comma
+        after_comma = after_comma.strip()
+        after_comma_split = after_comma.split(" ")
+
+        if len(after_comma_split) == 1:
+            hlex_number = after_comma_split[0]
+        if len(after_comma_split) == 2:
+            canonization_status = after_comma_split[0]
+            hlex_number = after_comma_split[1]
+
+    else:
+        #TODO: does not catch the case where it's a saint with a number but no canonization status, also long names with
+        # lots of whitespaces are a problem, try regex for that case
+        raw_term_split = raw_term.split(" ")
+        saint_name = raw_term_split[0]
+
+        if len(raw_term_split) > 1:
+            canonization_status = raw_term_split[1]
+        if len(raw_term_split) > 2:
+            hlex_number = raw_term_split[2]
+
+    print("Parsed:")
+    print(saint_name)
+    if canonization_status:
+        print(canonization_status)
+    if hlex_number:
+        print(hlex_number)
     print("\n")
 
 def parse_entry(entry):

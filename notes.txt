@@ -1,16 +1,17 @@
 Assumptions about terms:
-Going off the simple whitespace split for each term:
+Basically there are three elements in each term, only the name, the first term, is guaranteed to appear.
+Otherwise it can be a combination of all three or 1st+2nd and 1st+3rd
 
+First Element is the name of the saint, some terms only have the name as a single element
 
-First Element is the name of the saint, 
-
-Second Element "level of holiness" S. B. V. or variations thereof, like S.S. and V.V.
+Second Element the "level of holiness" aka the canonization status S. B. V. or variations thereof, like S.S. and V.V.
 
 Third element if it exists: if it's in brackets and contains a number is the n-th saint of the same name
 
+There is some variation how these are separated. If a canonization is present, it is separated by a comma.
 
-
-
-
-#To verify
-Is the name always a single word?
+#To verify/check
+Is the name always a single word? - Nope, see Johannes Vogelsang, Johannes de Palafox, try comma as separator instead
+How many saints are, S, B, V or have no canonization status?
+Is there a strong correlation between canonization status and the amount of text in the entry?
+Try prefering Jupyter Notebook for these trial & error parsing tasks, saves some time because the data is held in memory there
