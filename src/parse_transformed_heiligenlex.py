@@ -42,7 +42,7 @@ def parse_term(term):
 
 def parse_entry(entry):
     term_list = entry.find_all('tei:term')
-    print(term_list)
+    #print(term_list)
     #Assuming only one term per entry, give warning when finding other
     if len(term_list) > 1:
         print("Error, found more than one term in an entry!")

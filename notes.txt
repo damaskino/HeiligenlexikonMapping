@@ -1,0 +1,16 @@
+Assumptions about terms:
+Going off the simple whitespace split for each term:
+
+
+First Element is the name of the saint, 
+
+Second Element "level of holiness" S. B. V. or variations thereof, like S.S. and V.V.
+
+Third element if it exists: if it's in brackets and contains a number is the n-th saint of the same name
+
+
+
+
+
+#To verify
+Is the name always a single word?
