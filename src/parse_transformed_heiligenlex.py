@@ -38,6 +38,7 @@ def parse_term(term):
     saint_name = None
     canonization_status = None
     hlex_number = None
+    footnote = None
 
     import re
 
@@ -45,6 +46,7 @@ def parse_term(term):
     saint_pattern = r"((\w|\s)+\w)\,?\(?"
     canonization_pattern = r"[A-Z]+\."
     number_pattern = r"\(.*\)"
+    footnote_pattern = r"\[.*\]"
 
     saint_match = re.search(saint_pattern, raw_term)
     if saint_match:
@@ -61,12 +63,18 @@ def parse_term(term):
     if num_match:
         hlex_number = num_match.group()
 
+    footnote_match = re.search(footnote_pattern, raw_term)
+    if footnote_match:
+        footnote = footnote_match.group()
+
     print("----------")
     print(saint_name)
     if canonization_status:
         print(canonization_status)
     if hlex_number:
         print(hlex_number)
+    if footnote:
+        print(footnote)
     print("\n")
 def parse_entry(entry):
     term_list = entry.find_all('tei:term')
