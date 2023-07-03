@@ -31,9 +31,6 @@ def timing_wrapper(func, param):
 
 #the term of the entry contains the name of the saint and their title, usually one of: S. (Sanctus, Beati or Veritit
 def parse_term(term):
-    #print("Parsing term: ")
-    #print(term)
-    #print(type(term))
     raw_term = term.text
     print("Raw:")
     print(raw_term)
@@ -42,40 +39,35 @@ def parse_term(term):
     canonization_status = None
     hlex_number = None
 
-    if "," in raw_term:
-        raw_term_split = raw_term.split(",")
-        before_comma = raw_term_split[0]
-        after_comma = raw_term_split[1]
+    import re
 
-        saint_name = before_comma
-        after_comma = after_comma.strip()
-        after_comma_split = after_comma.split(" ")
+    # saint_pattern = r"(^\w.*?)\,?([A-Z]+?\.).*"
+    saint_pattern = r"((\w|\s)+\w)\,?\(?"
+    canonization_pattern = r"[A-Z]+\."
+    number_pattern = r"\(.*\)"
 
-        if len(after_comma_split) == 1:
-            hlex_number = after_comma_split[0]
-        if len(after_comma_split) == 2:
-            canonization_status = after_comma_split[0]
-            hlex_number = after_comma_split[1]
-
+    saint_match = re.search(saint_pattern, raw_term)
+    if saint_match:
+        saint_name = saint_match.group(1)
     else:
-        #TODO: does not catch the case where it's a saint with a number but no canonization status, also long names with
-        # lots of whitespaces are a problem, try regex for that case
-        raw_term_split = raw_term.split(" ")
-        saint_name = raw_term_split[0]
+        print("No match found for ", raw_term)
+        sys.exit()
 
-        if len(raw_term_split) > 1:
-            canonization_status = raw_term_split[1]
-        if len(raw_term_split) > 2:
-            hlex_number = raw_term_split[2]
+    canonization_match = re.search(canonization_pattern, raw_term)
+    if canonization_match:
+        canonization_status = canonization_match.group()
 
-    print("Parsed:")
+    num_match = re.search(number_pattern, raw_term)
+    if num_match:
+        hlex_number = num_match.group()
+
+    print("----------")
     print(saint_name)
     if canonization_status:
         print(canonization_status)
     if hlex_number:
         print(hlex_number)
     print("\n")
-
 def parse_entry(entry):
     term_list = entry.find_all('tei:term')
     #print(term_list)
