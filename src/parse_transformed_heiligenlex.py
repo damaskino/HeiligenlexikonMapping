@@ -3,6 +3,8 @@ import time
 import joblib
 import os
 import sys
+import json
+import re
 
 HLEX_SOUP_PICKLE = 'hlex_soup.pickle'
 
@@ -42,7 +44,6 @@ def parse_term(term):
 
     import re
 
-    # saint_pattern = r"(^\w.*?)\,?([A-Z]+?\.).*"
     saint_pattern = r"((\w|\s)+\w)\,?\(?"
     canonization_pattern = r"[A-Z]+\."
     number_pattern = r"\(.*\)"
@@ -76,22 +77,68 @@ def parse_term(term):
     if footnote:
         print(footnote)
     print("\n")
+    return saint_name, canonization_status, hlex_number, footnote
+
+#The paragraph contains free form text, but often starts with the feast day if it is available
+def parse_paragraph(paragraph):
+    feast_day_pattern = r"\(.?[0-9][0-9].*?\)"
+    raw_paragraph = paragraph.text
+
+    feast_day = None
+
+    feast_day_match = re.search(feast_day_pattern, raw_paragraph)
+    if feast_day_match:
+        feast_day = feast_day_match.group()
+    return feast_day
+
 def parse_entry(entry):
     term_list = entry.find_all('tei:term')
+    entry_id = entry.get('xml:id')
     #print(term_list)
+    entry_dict = {}
+    paragraph_list = entry.find_all('tei:p')
     #Assuming only one term per entry, give warning when finding other
     if len(term_list) > 1:
-        print("Error, found more than one term in an entry!")
+        print(f"Error, found more than one term in entry {entry_id}!")
         sys.exit()
     else:
         term = term_list[0]
-        parse_term(term)
+        saint_name, canonization_status, hlex_number, footnote = parse_term(term)
+        entry_dict['SaintName'] = saint_name
+        entry_dict['CanonizationStatus'] = canonization_status
+        entry_dict['NumberInHlex'] = hlex_number
+        entry_dict['EntryFootnote'] = footnote
+
+        #TODO looking only at first paragraph for now, will have to look at more later
+        if paragraph_list:
+            paragraph = paragraph_list[0]
+            feast_day = parse_paragraph(paragraph)
+            entry_dict['FeastDay'] = feast_day
+        else:
+            entry_dict['FeastDay'] = None
+
+        return entry_id, entry_dict
+
+def write_dict_to_json(data: dict):
+
+    json_data = json.dumps(data)
+    with open('tmp/parsed_heiligenlexikon.json', 'w') as json_file:
+        json_file.write(json_data)
 
 def parse_soup(soup):
     entries = soup.find_all('entry')
+    data = {}
     for e in entries[:]:
-        parse_entry(e)
-        #print(type(e))
+        entry_id, entry_dict = parse_entry(e)
+
+        if entry_id in data.keys():
+            print("ERROR: Duplicate entry id found!", entry_id)
+            sys.exit()
+
+        data[entry_id] = entry_dict
+
+    write_dict_to_json(data)
+
 
 
 if __name__ == '__main__':
