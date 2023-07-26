@@ -10,7 +10,7 @@ HLEX_SOUP_PICKLE = 'hlex_soup.pickle'
 
 def load_transformed_hlex_to_soup():
     hlex_xml_path = '../data/Heiligenlex-1858.xml'
-    with open(hlex_xml_path, 'r') as hlex:
+    with open(hlex_xml_path, 'r', encoding='utf-8') as hlex:
         soup = BeautifulSoup(hlex, features="xml")
         return soup
 
@@ -92,22 +92,27 @@ def parse_paragraph(paragraph):
     return feast_day
 
 def parse_entry(entry):
-    term_list = entry.find_all('tei:term')
+    #term_list = entry.find_all('tei:term')
+    term_list = entry.find_all('term')
     entry_id = entry.get('xml:id')
     #print(term_list)
     entry_dict = {}
     paragraph_list = entry.find_all('tei:p')
     #Assuming only one term per entry, give warning when finding other
+    print("Looking at entry: ", entry_id)
+    print(entry)
     if len(term_list) > 1:
         print(f"Error, found more than one term in entry {entry_id}!")
         sys.exit()
     else:
+        print(term_list)
         term = term_list[0]
         saint_name, canonization_status, hlex_number, footnote = parse_term(term)
         entry_dict['SaintName'] = saint_name
         entry_dict['CanonizationStatus'] = canonization_status
         entry_dict['NumberInHlex'] = hlex_number
         entry_dict['EntryFootnote'] = footnote
+        entry_dict['OriginalText'] = entry.text
 
         #TODO looking only at first paragraph for now, will have to look at more later
         if paragraph_list:
