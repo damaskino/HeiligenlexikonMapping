@@ -92,12 +92,14 @@ def parse_paragraph(paragraph):
     return feast_day
 
 def parse_entry(entry):
+    #namespace is found on linux, not in windows, maybe a module version error?
     #term_list = entry.find_all('tei:term')
     term_list = entry.find_all('term')
     entry_id = entry.get('xml:id')
     #print(term_list)
     entry_dict = {}
-    paragraph_list = entry.find_all('tei:p')
+    #paragraph_list = entry.find_all('tei:p')
+    paragraph_list = entry.find_all('p')
     #Assuming only one term per entry, give warning when finding other
     print("Looking at entry: ", entry_id)
     print(entry)
