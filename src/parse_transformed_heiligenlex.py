@@ -81,7 +81,7 @@ def parse_term(term):
 
 #The paragraph contains free form text, but often starts with the feast day if it is available
 def parse_paragraph(paragraph):
-    feast_day_pattern = r"\(.?[0-9][0-9].*?\)"
+    feast_day_pattern = r"\(.?[0-9][0-9]?.*?\)"
     raw_paragraph = paragraph.text
 
     feast_day = None
