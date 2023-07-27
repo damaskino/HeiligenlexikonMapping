@@ -15,3 +15,9 @@ Is the name always a single word? - Nope, see Johannes Vogelsang, Johannes de Pa
 How many saints are, S, B, V or have no canonization status?
 Is there a strong correlation between canonization status and the amount of text in the entry?
 Try prefering Jupyter Notebook for these trial & error parsing tasks, saves some time because the data is held in memory there
+
+Are these jobs?
+Presb.,
+Erem.->Eremit = Hermit, debatable
+
+max
