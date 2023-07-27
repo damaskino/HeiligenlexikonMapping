@@ -98,6 +98,11 @@ def parse_entry(entry):
     #term_list = entry.find_all('tei:term')
     term_list = entry.find_all('term')
     entry_id = entry.get('xml:id')
+
+    if len(entry.find_all('sense'))>1:
+        print("Error: More than one sense found in entry!")
+        sys.exit()
+
     #print(term_list)
     entry_dict = {}
     #paragraph_list = entry.find_all('tei:p')
