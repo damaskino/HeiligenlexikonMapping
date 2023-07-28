@@ -7,6 +7,7 @@ import json
 import re
 
 HLEX_SOUP_PICKLE = 'hlex_soup.pickle'
+occupation_list = []
 
 def load_transformed_hlex_to_soup():
     hlex_xml_path = '../data/Heiligenlex-1858.xml'
@@ -28,10 +29,22 @@ def timing_wrapper(func, param):
         print("no param found, running function without params")
         value = func()
     end = time.time()
-    print("Finished after ", end-start)
+    print("Finished after ", end - start)
     return value
 
-#the term of the entry contains the name of the saint and their title, usually one of: S. (Sanctus, Beati or Veritit
+
+def extract_occupation(paragraph_text):
+    occupation = None
+
+    for item in occupation_list:
+        if item.lower() in paragraph_text.lower():
+            occupation = item
+            continue
+
+    return occupation
+
+
+# the term of the entry contains the name of the saint and their title, usually one variant of: S., B., V. (Sanctus, Beati or Veritit
 def parse_term(term):
     raw_term = term.text
     print("Raw:")
@@ -39,7 +52,6 @@ def parse_term(term):
 
     saint_name = None
     canonization_status = None
-    occupation = None
     hlex_number = None
     footnote = None
 
@@ -79,9 +91,11 @@ def parse_term(term):
     if footnote:
         print(footnote)
     print("\n")
-    return saint_name, canonization_status, occupation, hlex_number, footnote
+    return saint_name, canonization_status, hlex_number, footnote
 
-#The paragraph contains free form text, but often starts with the feast day if it is available
+
+# The paragraph contains free form text, but often starts with the feast day if it is available,
+# May also contain occupation of saint
 def parse_paragraph(paragraph):
     feast_day_pattern = r"\(.?[0-9][0-9]?.*?\)"
     raw_paragraph = paragraph.text
@@ -91,7 +105,9 @@ def parse_paragraph(paragraph):
     feast_day_match = re.search(feast_day_pattern, raw_paragraph)
     if feast_day_match:
         feast_day = feast_day_match.group()
-    return feast_day
+
+    occupation = extract_occupation(raw_paragraph)
+    return feast_day, occupation
 
 def parse_entry(entry):
     #namespace is found on linux, not in windows, maybe a module version error?
@@ -111,10 +127,9 @@ def parse_entry(entry):
     else:
         print(term_list)
         term = term_list[0]
-        saint_name, canonization_status, occupation, hlex_number, footnote = parse_term(term)
+        saint_name, canonization_status, hlex_number, footnote = parse_term(term)
         entry_dict['SaintName'] = saint_name
         entry_dict['CanonizationStatus'] = canonization_status
-        entry_dict['Occupation'] = occupation
         entry_dict['NumberInHlex'] = hlex_number
         entry_dict['EntryFootnote'] = footnote
         entry_dict['OriginalText'] = entry.text
@@ -122,10 +137,12 @@ def parse_entry(entry):
         #TODO looking only at first paragraph for now, will have to look at more later
         if paragraph_list:
             paragraph = paragraph_list[0]
-            feast_day = parse_paragraph(paragraph)
+            feast_day, occupation = parse_paragraph(paragraph)
             entry_dict['FeastDay'] = feast_day
+            entry_dict['Ocupation'] = occupation
         else:
             entry_dict['FeastDay'] = None
+            entry_dict['Occupation'] = None
 
         return entry_id, entry_dict
 
@@ -150,9 +167,20 @@ def parse_soup(soup):
     write_dict_to_json(data)
 
 
+def load_occupation_list():
+    with open("occupation_list.txt", "r") as occupation_file:
+        tmp_occupation_list = occupation_file.readlines()
+        for item in tmp_occupation_list:
+            if item.startswith('#'):
+                continue
+            occupation_list.append(item.strip())
+
+        print(occupation_list)
+
 
 if __name__ == '__main__':
     hlex_soup = None
+    load_occupation_list()
     #sys.setrecursionlimit(sys.getrecursionlimit()*50)
     #print("Attempting with recursionlimit:", sys.getrecursionlimit())
     #TODO: Add a check to see if pickle file is corrupt
