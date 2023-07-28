@@ -90,8 +90,12 @@ def parse_term(term):
         print(hlex_number)
     if footnote:
         print(footnote)
+        if hlex_number:
+            hlex_number = hlex_number + " " + footnote
+        else:
+            hlex_number = footnote
     print("\n")
-    return saint_name, canonization_status, hlex_number, footnote
+    return saint_name, canonization_status, hlex_number
 
 
 # The paragraph contains free form text, but often starts with the feast day if it is available,
@@ -132,11 +136,10 @@ def parse_entry(entry):
     else:
         print(term_list)
         term = term_list[0]
-        saint_name, canonization_status, hlex_number, footnote = parse_term(term)
+        saint_name, canonization_status, hlex_number = parse_term(term)
         entry_dict['SaintName'] = saint_name
         entry_dict['CanonizationStatus'] = canonization_status
         entry_dict['NumberInHlex'] = hlex_number
-        entry_dict['EntryFootnote'] = footnote
         entry_dict['OriginalText'] = entry.text
 
         #TODO looking only at first paragraph for now, will have to look at more later
