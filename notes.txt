@@ -20,4 +20,11 @@ Are these jobs?
 Presb.,
 Erem.->Eremit = Hermit, debatable
 
-max
+There are some errors where Mai) is Mail most likely an error in the source data
+
+TODO:
+add gender
+add more occupations to the list, potentially from wiki
+limit where we look for the occupation to the first sentence in the first paragraph
+parse with stanford and or spacy
+upload to github - DONE

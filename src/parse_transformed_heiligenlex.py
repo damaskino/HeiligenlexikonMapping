@@ -5,15 +5,20 @@ import os
 import sys
 import json
 import re
+import stanza
 
+stanza.download('de')
+nlp = stanza.Pipeline('de')
 HLEX_SOUP_PICKLE = 'hlex_soup.pickle'
 occupation_list = []
+
 
 def load_transformed_hlex_to_soup():
     hlex_xml_path = '../data/Heiligenlex-1858.xml'
     with open(hlex_xml_path, 'r', encoding='utf-8') as hlex:
         soup = BeautifulSoup(hlex, features="xml")
         return soup
+
 
 def pickle_it(object_to_pickle, path: str):
     print("Attempting to pickle...")
@@ -33,14 +38,47 @@ def timing_wrapper(func, param):
     return value
 
 
-def extract_occupation(paragraph_text):
+def extract_occupation(paragraph_list):
     occupation = None
+    # only look at the first two paragraphs for now
 
-    for item in occupation_list:
-        if item.lower() in paragraph_text.lower():
-            occupation = item
-            continue
+    print("Full paragraph list")
+    print(paragraph_list)
 
+    print("First paragraph")
+    print(paragraph_list[0])
+    first_paragraph_text = paragraph_list[0].text
+
+    print(paragraph_list[1])
+
+    # for item in occupation_list:
+    #     if item.lower() in paragraph_text.lower():
+    #         occupation = item
+    #         continue
+    doc = nlp(first_paragraph_text)
+    print(doc)
+    doc.sentences[0].print_dependencies()
+
+    second_paragraph_text = paragraph_list[1].text
+    print("Second paragraph")
+    print(second_paragraph_text)
+    doc2 = nlp(second_paragraph_text)
+    doc2.sentences[0].print_dependencies()
+    for sentence in doc2.sentences:
+        sentence.print_dependencies()
+    print(doc2.entities)
+
+    third_paragraph_text = paragraph_list[2].text
+    print("Third paragraph")
+    print(third_paragraph_text)
+    # doc3 = nlp(third_paragraph_text)
+    # doc3.sentences[0].print_dependencies()
+
+    fourth_paragraph_text = paragraph_list[3].text
+    print("Fourth paragraph")
+    print(fourth_paragraph_text)
+
+    sys.exit()
     return occupation
 
 
@@ -100,7 +138,8 @@ def parse_term(term):
 
 # The paragraph contains free form text, but often starts with the feast day if it is available,
 # May also contain occupation of saint
-def parse_paragraph(paragraph):
+def parse_paragraph(paragraph_list):
+    paragraph = paragraph_list[0]
     feast_day_pattern = r"\(.?[0-9][0-9]?.*?\)"
     raw_paragraph = paragraph.text
 
@@ -110,7 +149,7 @@ def parse_paragraph(paragraph):
     if feast_day_match:
         feast_day = feast_day_match.group()
 
-    occupation = extract_occupation(raw_paragraph)
+    occupation = extract_occupation(paragraph_list)
     return feast_day, occupation
 
 def parse_entry(entry):
@@ -119,6 +158,7 @@ def parse_entry(entry):
     term_list = entry.find_all('term')
     entry_id = entry.get('xml:id')
 
+    #TODO: This is more of a sanity check to verify an assumption about the data, would be nicer to move this to tests
     if len(entry.find_all('sense'))>1:
         print("Error: More than one sense found in entry!")
         sys.exit()
@@ -144,8 +184,8 @@ def parse_entry(entry):
 
         #TODO looking only at first paragraph for now, will have to look at more later
         if paragraph_list:
-            paragraph = paragraph_list[0]
-            feast_day, occupation = parse_paragraph(paragraph)
+
+            feast_day, occupation = parse_paragraph(paragraph_list)
             entry_dict['FeastDay'] = feast_day
             entry_dict['Ocupation'] = occupation
         else:
