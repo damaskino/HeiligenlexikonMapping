@@ -37,6 +37,24 @@ def timing_wrapper(func, param):
     print("Finished after ", end - start)
     return value
 
+def extract_gender(input_name: str):
+    if " de " in input_name:
+        input_name = input_name.split(" de ")[0]
+    gender_pattern = re.compile(r"Gender=(\w+)")
+    doc = nlp(input_name)
+    extracted_gender = None
+    print(doc)
+    feats = doc.get("feats")
+    if feats[0] == None:
+        return None
+    print(feats)
+    feats_str = feats[0]
+    if "Gender" in feats_str:
+        print("found gender")
+        gender_match = re.search(gender_pattern, feats_str)
+        if gender_match:
+            extracted_gender = gender_match.group(1)
+    return extracted_gender
 
 def extract_occupation(paragraph_list):
     occupation = None
@@ -93,8 +111,7 @@ def parse_term(term):
     hlex_number = None
     footnote = None
 
-
-    import re
+    gender = None
 
     saint_pattern = r"((\w|\s)+\w)\,?\(?"
     canonization_pattern = r"[A-Z]+\."
@@ -104,6 +121,7 @@ def parse_term(term):
     saint_match = re.search(saint_pattern, raw_term)
     if saint_match:
         saint_name = saint_match.group(1)
+        gender = extract_gender(saint_name)
     else:
         print("No match found for ", raw_term)
         sys.exit()
@@ -133,7 +151,7 @@ def parse_term(term):
         else:
             hlex_number = footnote
     print("\n")
-    return saint_name, canonization_status, hlex_number
+    return saint_name, canonization_status, hlex_number, gender
 
 
 # The paragraph contains free form text, but often starts with the feast day if it is available,
@@ -149,7 +167,8 @@ def parse_paragraph(paragraph_list):
     if feast_day_match:
         feast_day = feast_day_match.group()
 
-    occupation = extract_occupation(paragraph_list)
+    # occupation = extract_occupation(paragraph_list)
+    occupation = None
     return feast_day, occupation
 
 def parse_entry(entry):
@@ -176,10 +195,11 @@ def parse_entry(entry):
     else:
         print(term_list)
         term = term_list[0]
-        saint_name, canonization_status, hlex_number = parse_term(term)
+        saint_name, canonization_status, hlex_number, gender = parse_term(term)
         entry_dict['SaintName'] = saint_name
         entry_dict['CanonizationStatus'] = canonization_status
         entry_dict['NumberInHlex'] = hlex_number
+        entry_dict['Gender'] = gender
         entry_dict['OriginalText'] = entry.text
 
         #TODO looking only at first paragraph for now, will have to look at more later
@@ -197,7 +217,7 @@ def parse_entry(entry):
 def write_dict_to_json(data: dict):
 
     json_data = json.dumps(data)
-    with open('tmp/parsed_heiligenlexikon.json', 'w') as json_file:
+    with open('../outputs_to_review/parsed_heiligenlexikon.json', 'w') as json_file:
         json_file.write(json_data)
 
 def parse_soup(soup):
