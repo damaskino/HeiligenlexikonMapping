@@ -1,3 +1,10 @@
+--------
+Stats
+--------
+33481 entries
+
+
+
 Assumptions about terms:
 Basically there are three elements in each term, only the name, the first term, is guaranteed to appear.
 Otherwise it can be a combination of all three or 1st+2nd and 1st+3rd
@@ -28,3 +35,6 @@ add more occupations to the list, potentially from wiki
 limit where we look for the occupation to the first sentence in the first paragraph
 parse with stanford and or spacy - DONE
 upload to github - DONE
+-Feast Day: parse date into readable format, add alternative feast days
+-alternative names, with minimum edit distance where possible, "auch" and hi rend italics could be a possible markers
+

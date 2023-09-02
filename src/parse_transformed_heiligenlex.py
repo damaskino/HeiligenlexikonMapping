@@ -38,16 +38,23 @@ def timing_wrapper(func, param):
     return value
 
 def extract_gender(input_name: str):
-    if " de " in input_name:
-        input_name = input_name.split(" de ")[0]
+    # Assuming that this will always yield the first name
+    input_split = input_name.split(" ")
+    if input_split[0] != "S.":
+        input_name = input_split[0]
+    else:
+        input_name = input_split[1]
+
     gender_pattern = re.compile(r"Gender=(\w+)")
     doc = nlp(input_name)
     extracted_gender = None
-    print(doc)
+    # print(doc)
     feats = doc.get("feats")
+    if len(feats) == 0:
+        return None
     if feats[0] == None:
         return None
-    print(feats)
+    # print(feats)
     feats_str = feats[0]
     if "Gender" in feats_str:
         print("found gender")
@@ -60,43 +67,43 @@ def extract_occupation(paragraph_list):
     occupation = None
     # only look at the first two paragraphs for now
 
-    print("Full paragraph list")
-    print(paragraph_list)
+    # print("Full paragraph list")
+    # print(paragraph_list)
 
-    print("First paragraph")
-    print(paragraph_list[0])
+    # print("First paragraph")
+    # print(paragraph_list[0])
     first_paragraph_text = paragraph_list[0].text
 
-    print(paragraph_list[1])
+    # print(paragraph_list[1])
 
     # for item in occupation_list:
     #     if item.lower() in paragraph_text.lower():
     #         occupation = item
     #         continue
     doc = nlp(first_paragraph_text)
-    print(doc)
+    # print(doc)
     doc.sentences[0].print_dependencies()
 
     second_paragraph_text = paragraph_list[1].text
-    print("Second paragraph")
-    print(second_paragraph_text)
+    # print("Second paragraph")
+    # print(second_paragraph_text)
     doc2 = nlp(second_paragraph_text)
     doc2.sentences[0].print_dependencies()
     for sentence in doc2.sentences:
         sentence.print_dependencies()
-    print(doc2.entities)
+    # print(doc2.entities)
 
     third_paragraph_text = paragraph_list[2].text
-    print("Third paragraph")
-    print(third_paragraph_text)
+    # print("Third paragraph")
+    # print(third_paragraph_text)
     # doc3 = nlp(third_paragraph_text)
     # doc3.sentences[0].print_dependencies()
 
     fourth_paragraph_text = paragraph_list[3].text
-    print("Fourth paragraph")
-    print(fourth_paragraph_text)
+    # print("Fourth paragraph")
+    # print(fourth_paragraph_text)
 
-    sys.exit()
+    # sys.exit()
     return occupation
 
 
@@ -167,6 +174,7 @@ def parse_paragraph(paragraph_list):
     if feast_day_match:
         feast_day = feast_day_match.group()
 
+
     # occupation = extract_occupation(paragraph_list)
     occupation = None
     return feast_day, occupation
@@ -200,9 +208,10 @@ def parse_entry(entry):
         entry_dict['CanonizationStatus'] = canonization_status
         entry_dict['NumberInHlex'] = hlex_number
         entry_dict['Gender'] = gender
-        entry_dict['OriginalText'] = entry.text
+        # Remove during dev TODO: Re-add for reviewing
+        # entry_dict['OriginalText'] = entry.text
 
-        #TODO looking only at first paragraph for now, will have to look at more later
+        # TODO looking only at first paragraph for now, will have to look at more later
         if paragraph_list:
 
             feast_day, occupation = parse_paragraph(paragraph_list)
