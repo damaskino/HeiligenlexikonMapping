@@ -1,6 +1,7 @@
 from typing import List
 
 from bs4 import BeautifulSoup
+from tqdm import tqdm
 import time
 import joblib
 import os
@@ -9,27 +10,23 @@ import json
 import re
 import stanza
 
+from src.regex_matching import match_saint_name, match_canonization, match_second_hlex_number, match_hlex_number
+
 
 class HlexParser:
-    def __init__(self, nlp=None, occupation_list=None, include_raw_text=False):
-        self.nlp = nlp
+    def __init__(self, no_nlp=False, occupation_list=None, include_raw_text=False):
+        self.no_nlp = no_nlp
+        if no_nlp:
+            self.nlp = None
+        else:
+            self.nlp = self.setup_nlp()
         self.occupation_list: List = occupation_list
         self.include_raw_entry = include_raw_text
 
     def setup_nlp(self):
         stanza.download("de")
         nlp = stanza.Pipeline("de")
-        self.nlp = nlp
-
-    def setup_occupation_list(self):
-        with open("occupation_list.txt", "r") as occupation_file:
-            tmp_occupation_list = occupation_file.readlines()
-            for item in tmp_occupation_list:
-                if item.startswith("#"):
-                    continue
-                occupation_list.append(item.strip())
-
-            self.occupation_list = occupation_list
+        return nlp
 
     def load_transformed_hlex_to_soup(self):
         hlex_xml_path = "../data/Heiligenlex-1858.xml"
@@ -89,29 +86,28 @@ class HlexParser:
     # which is usually one variant of: S., B., V. (Sanctus, Beati or Veritit)
     def parse_term(self, term):
         raw_term = term.text
-        print("Raw:")
-        print(raw_term)
+        # print("Raw:")
+        # print(raw_term)
 
         saint_name = match_saint_name(raw_term)
-        gender = extract_gender(saint_name, nlp=self.nlp)
         canonization_status = match_canonization(raw_term)
         hlex_number = match_hlex_number(raw_term)
-        footnote = match_footnote(raw_term)
+        second_hlex_number = match_second_hlex_number(raw_term)
 
-        print("----------")
-        print(saint_name)
-        if canonization_status:
-            print(canonization_status)
-        if hlex_number:
-            print(hlex_number)
-        if footnote:
-            print(footnote)
-            if hlex_number:
-                hlex_number = hlex_number + " " + footnote
-            else:
-                hlex_number = footnote
-        print("\n")
-        return saint_name, canonization_status, hlex_number, gender
+        # print("----------")
+        # print(saint_name)
+        # if canonization_status:
+        #     print(canonization_status)
+        # if hlex_number:
+        #     print(hlex_number)
+        # if second_hlex_number:
+        #     print(second_hlex_number)
+        #     if hlex_number:
+        #         hlex_number = hlex_number + " " + second_hlex_number
+        #     else:
+        #         hlex_number = second_hlex_number
+        # print("\n")
+        return saint_name, canonization_status, hlex_number
 
     # The paragraph contains free form text, but often starts with the feast day if it is available,
     # May also contain occupation of saint
@@ -141,15 +137,20 @@ class HlexParser:
         # paragraph_list = entry.find_all('tei:p')
         paragraph_list = entry.find_all("p")
         # Assuming only one term per entry, give warning when finding other
-        print("Looking at entry: ", entry_id)
-        print(entry)
+        # print("Looking at entry: ", entry_id)
+        # print(entry)
         if len(term_list) > 1:
             print(f"Error, found more than one term in entry {entry_id}!")
             sys.exit()
         else:
-            print(term_list)
+            # print(term_list)
             term = term_list[0]
-            saint_name, canonization_status, hlex_number, gender = self.parse_term(term)
+            saint_name, canonization_status, hlex_number = self.parse_term(term)
+            gender = None
+            if self.no_nlp:
+                gender = None
+            else:
+                gender = predict_gender(saint_name, nlp=self.nlp)
             entry_dict["SaintName"] = saint_name
             entry_dict["CanonizationStatus"] = canonization_status
             entry_dict["NumberInHlex"] = hlex_number
@@ -171,7 +172,7 @@ class HlexParser:
     def parse_soup(self, soup):
         entries = soup.find_all("entry")
         data = {}
-        for e in entries[:]:
+        for e in tqdm(entries[:]):
             entry_id, entry_dict = self.parse_entry(e)
 
             if entry_id in data.keys():
@@ -202,21 +203,7 @@ def timing_wrapper(func, param):
     return value
 
 
-def match_saint_name(raw_term):
-    saint_name = None
-    gender = None
-    saint_pattern = r"((\w|\s|-)+\w)\,?\(?"
-    saint_match = re.search(saint_pattern, raw_term)
-    if saint_match:
-        saint_name = saint_match.group(1)
-
-    else:
-        print("No match found for ", raw_term)
-        sys.exit()
-    return saint_name
-
-
-def extract_gender(input_name: str, nlp):
+def predict_gender(input_name: str, nlp):
     # Assuming that this will always yield the first name
     input_split = input_name.split(" ")
     if input_split[0] != "S.":
@@ -236,49 +223,35 @@ def extract_gender(input_name: str, nlp):
     # print(feats)
     feats_str = feats[0]
     if "Gender" in feats_str:
-        print("found gender")
+        #print("found gender")
         gender_match = re.search(gender_pattern, feats_str)
         if gender_match:
             extracted_gender = gender_match.group(1)
     return extracted_gender
 
 
-def match_canonization(raw_term):
-    canonization_pattern = r"[A-Z]+\."
-    canonization_status = None
-    canonization_match = re.search(canonization_pattern, raw_term)
-    if canonization_match:
-        canonization_status = canonization_match.group()
-    return canonization_status
+def setup_occupation_list():
+    occupation_list = []
 
+    with open("occupation_list.txt", "r") as occupation_file:
+        tmp_occupation_list = occupation_file.readlines()
+        for item in tmp_occupation_list:
+            if item.startswith("#"):
+                continue
+            occupation_list.append(item.strip())
 
-def match_hlex_number(raw_term):
-    number_pattern = r"\(.*\)"
-    hlex_number = None
-    num_match = re.search(number_pattern, raw_term)
-    if num_match:
-        hlex_number = num_match.group()
-    return hlex_number
-
-
-def match_footnote(raw_term):
-    footnote_pattern = r"\[.*\]"
-    footnote = None
-    footnote_match = re.search(footnote_pattern, raw_term)
-    if footnote_match:
-        footnote = footnote_match.group()
-    return footnote
-
+    return occupation_list
 
 if __name__ == "__main__":
     HLEX_SOUP_PICKLE = "hlex_soup.pickle"
-    occupation_list = []
 
-    hlex_parser = HlexParser()
+    occupations = setup_occupation_list()
+
+    hlex_parser = HlexParser(no_nlp=True, occupation_list=occupations)
 
     hlex_soup = None
-    hlex_parser.setup_nlp()
-    hlex_parser.setup_occupation_list()
+
+    hlex_parser
 
     if os.path.isfile("tmp/" + HLEX_SOUP_PICKLE):
         print("Pickle found, loading...")
