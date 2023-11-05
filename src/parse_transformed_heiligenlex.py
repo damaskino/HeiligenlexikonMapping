@@ -10,7 +10,12 @@ import json
 import re
 import stanza
 
-from src.regex_matching import match_saint_name, match_canonization, match_second_hlex_number, match_hlex_number
+from src.regex_matching import (
+    match_saint_name,
+    match_canonization,
+    match_second_hlex_number,
+    match_hlex_number, match_feast_day,
+)
 
 
 class HlexParser:
@@ -113,14 +118,9 @@ class HlexParser:
     # May also contain occupation of saint
     def parse_paragraph(self, paragraph_list):
         paragraph = paragraph_list[0]
-        feast_day_pattern = r"\(.?[0-9][0-9]?.*?\)"
+
         raw_paragraph = paragraph.text
-
-        feast_day = None
-
-        feast_day_match = re.search(feast_day_pattern, raw_paragraph)
-        if feast_day_match:
-            feast_day = feast_day_match.group()
+        feast_day = match_feast_day(raw_paragraph)
 
         # occupation = extract_occupation(paragraph_list)
         occupation = None
@@ -223,7 +223,7 @@ def predict_gender(input_name: str, nlp):
     # print(feats)
     feats_str = feats[0]
     if "Gender" in feats_str:
-        #print("found gender")
+        # print("found gender")
         gender_match = re.search(gender_pattern, feats_str)
         if gender_match:
             extracted_gender = gender_match.group(1)
@@ -233,7 +233,7 @@ def predict_gender(input_name: str, nlp):
 def setup_occupation_list():
     occupation_list = []
 
-    with open("occupation_list.txt", "r") as occupation_file:
+    with open("../resources/occupation_list.txt", "r") as occupation_file:
         tmp_occupation_list = occupation_file.readlines()
         for item in tmp_occupation_list:
             if item.startswith("#"):
@@ -241,6 +241,7 @@ def setup_occupation_list():
             occupation_list.append(item.strip())
 
     return occupation_list
+
 
 if __name__ == "__main__":
     HLEX_SOUP_PICKLE = "hlex_soup.pickle"

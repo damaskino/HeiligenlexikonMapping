@@ -1,7 +1,7 @@
 import re
 
 
-def match_saint_name(raw_term):
+def match_saint_name(raw_term: str) -> str:
     saint_name = None
     gender = None
     saint_pattern = r"((\w|\s|-)+\w)\,?\(?"
@@ -14,7 +14,7 @@ def match_saint_name(raw_term):
     return saint_name
 
 
-def match_canonization(raw_term):
+def match_canonization(raw_term: str) -> str:
     canonization_pattern = r"(((S|V|B)+\.+)+)"
     canonization_status = None
 
@@ -35,7 +35,7 @@ def match_canonization(raw_term):
     return canonization_status
 
 
-def match_hlex_number(raw_term):
+def match_hlex_number(raw_term: str) -> str:
     number_pattern = r"\([0-9\-\s\.]*\)"
     hlex_number = None
     num_match = re.search(number_pattern, raw_term)
@@ -44,10 +44,20 @@ def match_hlex_number(raw_term):
     return hlex_number
 
 
-def match_second_hlex_number(raw_term):
+def match_second_hlex_number(raw_term: str) -> str:
     second_hlex_number_pattern = r"\[.*\]"
     second_hlex_number = None
     second_hlex_number_match = re.search(second_hlex_number_pattern, raw_term)
     if second_hlex_number_match:
         second_hlex_number = second_hlex_number_match.group()
     return second_hlex_number
+
+
+def match_feast_day(raw_paragraph: str) -> str:
+    feast_day_pattern = r"\(.?[0-9][0-9]?.*?\)"
+    feast_day = None
+
+    feast_day_match = re.search(feast_day_pattern, raw_paragraph)
+    if feast_day_match:
+        feast_day = feast_day_match.group()
+    return feast_day

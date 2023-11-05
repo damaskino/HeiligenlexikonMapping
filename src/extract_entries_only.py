@@ -7,5 +7,5 @@ hlex_soup = parser.load_transformed_hlex_to_soup()
 
 entries = [str(entry) for entry in hlex_soup.find_all("entry")]
 
-with open("../outputs_to_review/entries.txt", "w", encoding="utf-8") as entries_file:
-    entries_file.write("\n#\n#\n#".join(entries))
+with open("../data/1_intermediate/entries.txt", "w", encoding="utf-8") as entries_file:
+    entries_file.write("\n#\n#\n#\n".join(entries))

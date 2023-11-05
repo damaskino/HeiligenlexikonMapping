@@ -9,7 +9,7 @@ class DataTestCase(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        hlex_parser = HlexParser()
+        hlex_parser = HlexParser(no_nlp=True)
         cls.soup = hlex_parser.load_transformed_hlex_to_soup()
         print("Loading soup...")
         cls.entries = cls.soup.find_all("entry")
@@ -55,6 +55,17 @@ class DataTestCase(unittest.TestCase):
             entry_ids.append(entry_id)
 
         self.assertFalse(duplicate_ids_found)
+
+    def test_paragraph_contents(self):
+
+        max_paragraph_number = 0
+        for entry in tqdm(self.entries):
+            paragraphs = entry.find_all('p')
+            if paragraphs:
+                non_empty_paragraphs = [p for p in paragraphs if not p.is_empty_element]
+                if len(non_empty_paragraphs) > max_paragraph_number:
+                    max_paragraph_number = len(non_empty_paragraphs)
+        print(max_paragraph_number)
 
 
 if __name__ == '__main__':
