@@ -10,11 +10,12 @@ import json
 import re
 import stanza
 
+from src.parse_dates import convert_date
 from src.regex_matching import (
     match_saint_name,
     match_canonization,
     match_second_hlex_number,
-    match_hlex_number, match_feast_day,
+    match_hlex_number, match_raw_feast_day,
 )
 
 
@@ -98,20 +99,6 @@ class HlexParser:
         canonization_status = match_canonization(raw_term)
         hlex_number = match_hlex_number(raw_term)
         second_hlex_number = match_second_hlex_number(raw_term)
-
-        # print("----------")
-        # print(saint_name)
-        # if canonization_status:
-        #     print(canonization_status)
-        # if hlex_number:
-        #     print(hlex_number)
-        # if second_hlex_number:
-        #     print(second_hlex_number)
-        #     if hlex_number:
-        #         hlex_number = hlex_number + " " + second_hlex_number
-        #     else:
-        #         hlex_number = second_hlex_number
-        # print("\n")
         return saint_name, canonization_status, hlex_number
 
     # The paragraph contains free form text, but often starts with the feast day if it is available,
@@ -119,19 +106,23 @@ class HlexParser:
     def parse_paragraph(self, paragraph_list):
         paragraph = paragraph_list[0]
 
+        parsed_feast_days = None
         raw_paragraph = paragraph.text
-        feast_day = match_feast_day(raw_paragraph)
-
+        raw_feast_day = match_raw_feast_day(raw_paragraph)
+        if raw_feast_day:
+            try:
+                parsed_feast_days = convert_date(raw_feast_day)
+            except:
+                parsed_feast_days = []
         # occupation = extract_occupation(paragraph_list)
         occupation = None
-        return feast_day, occupation
+        return raw_feast_day, parsed_feast_days, occupation
 
     def parse_entry(self, entry):
         # namespace is found on linux, not in windows, maybe a module version error?
         # term_list = entry.find_all('tei:term')
         term_list = entry.find_all("term")
         entry_id = entry.get("xml:id")
-
         # print(term_list)
         entry_dict = {}
         # paragraph_list = entry.find_all('tei:p')
@@ -160,8 +151,11 @@ class HlexParser:
 
             # TODO looking only at first paragraph for now, will have to look at more later
             if paragraph_list:
-                feast_day, occupation = self.parse_paragraph(paragraph_list)
-                entry_dict["FeastDay"] = feast_day
+                raw_feast_day, parsed_feast_days, occupation = self.parse_paragraph(paragraph_list)
+                entry_dict["RawFeastDay"] = raw_feast_day
+                if parsed_feast_days:
+                    for index, feast_day in enumerate(parsed_feast_days):
+                        entry_dict["FeastDay" + str(index)] = feast_day
                 entry_dict["Ocupation"] = occupation
             else:
                 entry_dict["FeastDay"] = None
@@ -173,8 +167,11 @@ class HlexParser:
         entries = soup.find_all("entry")
         data = {}
         for e in tqdm(entries[:]):
-            entry_id, entry_dict = self.parse_entry(e)
-
+            try:
+                entry_id, entry_dict = self.parse_entry(e)
+            except Exception as e:
+                print("Error parsing entry: ", entry_id)
+                e.print(Exception, e)
             if entry_id in data.keys():
                 print("ERROR: Duplicate entry id found!", entry_id)
                 sys.exit()

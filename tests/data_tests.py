@@ -57,7 +57,7 @@ class DataTestCase(unittest.TestCase):
         self.assertFalse(duplicate_ids_found)
 
     def test_paragraph_contents(self):
-
+        # Check how many paragraphs there can be
         max_paragraph_number = 0
         for entry in tqdm(self.entries):
             paragraphs = entry.find_all('p')
@@ -65,6 +65,10 @@ class DataTestCase(unittest.TestCase):
                 non_empty_paragraphs = [p for p in paragraphs if not p.is_empty_element]
                 if len(non_empty_paragraphs) > max_paragraph_number:
                     max_paragraph_number = len(non_empty_paragraphs)
+
+            # check if all paragraphs contain a <tei:hi rend="bold">
+            first_paragraph = non_empty_paragraphs[0]
+
         print(max_paragraph_number)
 
 

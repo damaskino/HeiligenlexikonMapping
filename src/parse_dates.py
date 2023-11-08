@@ -1,4 +1,6 @@
 import json
+import re
+from typing import List
 
 german_date_dict = {
     "Jan.": "01.",
@@ -45,56 +47,80 @@ second_pass_german_date_dict = {
     "Sept": "09.",
     "Oct": "10",
     "Nov": "11.",
-    "Dec": "12."
+    "Dec": "12.",
 }
 
+connectives = ["al", "u.", ",", "et", "und"]
 
-def resolve_multiple_dates():
-    pass
+
+def split_date_into_day_and_month(date_string: str):
+    date_pattern = r"([0-9]+)"
+    date_matches = re.findall(date_pattern, date_string)
+
+    day = date_matches[0]
+    month = None
+
+    if len(date_matches) > 1:
+        month = date_matches[1]
+    return day, month
+
+
+def resolve_multiple_dates(raw_date: str) -> List:
+    for connective in connectives:
+        if connective in raw_date:
+            result = []
+            raw_date_al_split = raw_date.split(connective)
+            first_date = raw_date_al_split[0].strip()
+            first_day, first_month = split_date_into_day_and_month(first_date)
+
+            second_day = None
+            second_month = None
+
+            second_date = raw_date_al_split[1].strip()
+            if len(second_date) > 0:
+                second_day, second_month = split_date_into_day_and_month(second_date)
+
+            if first_month == None and second_month != None:
+                first_month = second_month
+
+            result.append((first_day, first_month))
+
+            if second_day != None and second_month != None:
+                result.append((second_day, second_month))
+
+            if len(raw_date_al_split) > 2:
+                third_date = raw_date_al_split[2].strip()
+                third_day, third_month = split_date_into_day_and_month(third_date)
+                result.append((third_day, third_month))
+
+            return result
 
 
 def convert_date(raw_date: str):
+    result_dates = []
     raw_date = raw_date.replace("(", "")
     raw_date = raw_date.replace(")", "")
+
+    # Replace string representations of months with numbers
     for item in german_date_dict:
         raw_date = raw_date.replace(item, german_date_dict[item])
     for item in second_pass_german_date_dict:
         raw_date = raw_date.replace(item, second_pass_german_date_dict[item])
 
-    if "al" in raw_date:
-        raw_date_al_split = raw_date.split("al")
-        # if len(raw_date_al_split)>1:
-        #    print(raw_date_al_split)
-        #    print(raw_date)
-        #    print(raw_date_al_split[0])
-    elif "u." in raw_date:
-        raw_date_u_split = raw_date.split("u.")
-        print(raw_date_u_split)
-        first = raw_date_u_split[0]
-        rest = raw_date_u_split[1:]
-        print("First: ", first)
-        print("Rest: ", rest)
-        print("\n")
-    elif "et" in raw_date:
-        raw_date_et_split = raw_date.split("et")
-    elif "," in raw_date:
-        raw_date_comma_split = raw_date.split(",")
-    elif "und" in raw_date:
-        raw_date_und_split = raw_date.split("und")
+    if any(connective in raw_date for connective in connectives):
+        result_dates = resolve_multiple_dates(raw_date)
     else:
-        # if none of the other apply, it should be a single date
-        raw_date
-        parsed_single_date = raw_date.replace("..", ".")
-        # print(parsed_single_date)
-        return [parsed_single_date]
+        result_dates.append(split_date_into_day_and_month(raw_date))
+    return result_dates
 
 
 # TODO write test that checks if all dates conform to the same format at the end
 
-with open(r"../outputs_to_review/parsed_heiligenlexikon.json") as json_file:
-    json_data = json.load(json_file)
-    for item in json_data:
-        # print(item)
-        raw_input_date = json_data[item]["FeastDay"]
-        if raw_input_date is not None:
-            convert_date(raw_input_date)
+if __name__ == "__main__":
+    with open(r"../outputs_to_review/parsed_heiligenlexikon.json") as json_file:
+        json_data = json.load(json_file)
+        for item in json_data:
+            # print(item)
+            raw_input_date = json_data[item]["FeastDay"]
+            if raw_input_date is not None:
+                convert_date(raw_input_date)

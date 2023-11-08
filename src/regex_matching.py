@@ -53,7 +53,7 @@ def match_second_hlex_number(raw_term: str) -> str:
     return second_hlex_number
 
 
-def match_feast_day(raw_paragraph: str) -> str:
+def match_raw_feast_day(raw_paragraph: str) -> str:
     feast_day_pattern = r"\(.?[0-9][0-9]?.*?\)"
     feast_day = None
 

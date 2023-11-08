@@ -133,8 +133,5 @@ class RegexExtractionTestCase(unittest.TestCase):
         second_hlex_number = match_second_hlex_number("Zetula, S. [2]")
         self.assertEqual(second_hlex_number, "[2]")
 
-    def test_match_feast_day(self):
-
-
 if __name__ == "__main__":
     unittest.main()
