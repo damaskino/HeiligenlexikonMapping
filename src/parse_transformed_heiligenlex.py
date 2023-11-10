@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 
 from bs4 import BeautifulSoup
 from tqdm import tqdm
@@ -10,23 +10,28 @@ import json
 import re
 import stanza
 
+from src.alternative_spelling_extraction import get_alternative_spellings
+from src.occupation_extraction import extract_occupation, setup_occupation_list, setup_occupation_dict, \
+    get_occupation_category
 from src.parse_dates import convert_date
 from src.regex_matching import (
     match_saint_name,
     match_canonization,
     match_second_hlex_number,
-    match_hlex_number, match_raw_feast_day,
+    match_hlex_number,
+    match_raw_feast_day,
 )
 
 
 class HlexParser:
-    def __init__(self, no_nlp=False, occupation_list=None, include_raw_text=False):
+    def __init__(self, no_nlp=False, occupation_list=None, occupations_dict=None, include_raw_text=False):
         self.no_nlp = no_nlp
         if no_nlp:
             self.nlp = None
         else:
             self.nlp = self.setup_nlp()
         self.occupation_list: List = occupation_list
+        self.occupation_dict: Dict = occupations_dict
         self.include_raw_entry = include_raw_text
 
     def setup_nlp(self):
@@ -34,8 +39,7 @@ class HlexParser:
         nlp = stanza.Pipeline("de")
         return nlp
 
-    def load_transformed_hlex_to_soup(self):
-        hlex_xml_path = "../data/Heiligenlex-1858.xml"
+    def load_transformed_hlex_to_soup(self, hlex_xml_path):
         with open(hlex_xml_path, "r", encoding="utf-8") as hlex:
             soup = BeautifulSoup(hlex, features="xml")
             return soup
@@ -44,49 +48,6 @@ class HlexParser:
         print("Attempting to pickle...")
         with open(path, "wb") as target_file:
             joblib.dump(value=object_to_pickle, filename=target_file)
-
-    def extract_occupation(self, paragraph_list):
-        occupation = None
-        # only look at the first two paragraphs for now
-
-        # print("Full paragraph list")
-        # print(paragraph_list)
-
-        # print("First paragraph")
-        # print(paragraph_list[0])
-        first_paragraph_text = paragraph_list[0].text
-
-        # print(paragraph_list[1])
-
-        # for item in occupation_list:
-        #     if item.lower() in paragraph_text.lower():
-        #         occupation = item
-        #         continue
-        doc = self.nlp(first_paragraph_text)
-        # print(doc)
-        doc.sentences[0].print_dependencies()
-
-        second_paragraph_text = paragraph_list[1].text
-        # print("Second paragraph")
-        # print(second_paragraph_text)
-        doc2 = self.nlp(second_paragraph_text)
-        doc2.sentences[0].print_dependencies()
-        for sentence in doc2.sentences:
-            sentence.print_dependencies()
-        # print(doc2.entities)
-
-        third_paragraph_text = paragraph_list[2].text
-        # print("Third paragraph")
-        # print(third_paragraph_text)
-        # doc3 = nlp(third_paragraph_text)
-        # doc3.sentences[0].print_dependencies()
-
-        fourth_paragraph_text = paragraph_list[3].text
-        # print("Fourth paragraph")
-        # print(fourth_paragraph_text)
-
-        # sys.exit()
-        return occupation
 
     # the term of the entry contains the name of the saint and their canonization status
     # which is usually one variant of: S., B., V. (Sanctus, Beati or Veritit)
@@ -104,19 +65,23 @@ class HlexParser:
     # The paragraph contains free form text, but often starts with the feast day if it is available,
     # May also contain occupation of saint
     def parse_paragraph(self, paragraph_list):
-        paragraph = paragraph_list[0]
 
+        raw_occupation = None
+        occupation_category = None
         parsed_feast_days = None
+        paragraph = paragraph_list[0]
         raw_paragraph = paragraph.text
         raw_feast_day = match_raw_feast_day(raw_paragraph)
         if raw_feast_day:
             try:
                 parsed_feast_days = convert_date(raw_feast_day)
+                parsed_feast_days = [f"{date_dict['Day']}.{date_dict['Month']}." for date_dict in parsed_feast_days]
             except:
                 parsed_feast_days = []
-        # occupation = extract_occupation(paragraph_list)
-        occupation = None
-        return raw_feast_day, parsed_feast_days, occupation
+        occupation = extract_occupation(raw_paragraph, self.occupation_list)
+        occupation_category = get_occupation_category(occupation=occupation, occupation_dict=self.occupation_dict)
+
+        return raw_feast_day, parsed_feast_days, raw_occupation, occupation_category
 
     def parse_entry(self, entry):
         # namespace is found on linux, not in windows, maybe a module version error?
@@ -149,14 +114,21 @@ class HlexParser:
             if self.include_raw_entry:
                 entry_dict["OriginalText"] = entry.text
 
-            # TODO looking only at first paragraph for now, will have to look at more later
+            # looking only at first paragraph for now, may consider looking at more later
             if paragraph_list:
-                raw_feast_day, parsed_feast_days, occupation = self.parse_paragraph(paragraph_list)
+                raw_feast_day, parsed_feast_days, raw_occupation, occupation_category = self.parse_paragraph(
+                    paragraph_list
+                )
                 entry_dict["RawFeastDay"] = raw_feast_day
                 if parsed_feast_days:
                     for index, feast_day in enumerate(parsed_feast_days):
                         entry_dict["FeastDay" + str(index)] = feast_day
-                entry_dict["Ocupation"] = occupation
+                entry_dict["Ocupation"] = occupation_category
+                entry_dict["RawOccupation"] = raw_occupation
+
+                aliases = None
+                aliases = get_alternative_spellings(saint_name, paragraph_list[0].text)
+                entry_dict["Aliases"] = aliases
             else:
                 entry_dict["FeastDay"] = None
                 entry_dict["Occupation"] = None
@@ -227,29 +199,15 @@ def predict_gender(input_name: str, nlp):
     return extracted_gender
 
 
-def setup_occupation_list():
-    occupation_list = []
-
-    with open("../resources/occupation_list.txt", "r") as occupation_file:
-        tmp_occupation_list = occupation_file.readlines()
-        for item in tmp_occupation_list:
-            if item.startswith("#"):
-                continue
-            occupation_list.append(item.strip())
-
-    return occupation_list
-
-
 if __name__ == "__main__":
     HLEX_SOUP_PICKLE = "hlex_soup.pickle"
 
-    occupations = setup_occupation_list()
-
-    hlex_parser = HlexParser(no_nlp=True, occupation_list=occupations)
+    occupations = setup_occupation_list("../resources/occupation_list.txt")
+    occupations_dict = setup_occupation_dict("../resources/occupation_list.txt")
+    hlex_parser = HlexParser(no_nlp=True, occupation_list=occupations, occupations_dict=occupations_dict)
 
     hlex_soup = None
 
-    hlex_parser
 
     if os.path.isfile("tmp/" + HLEX_SOUP_PICKLE):
         print("Pickle found, loading...")

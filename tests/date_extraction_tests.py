@@ -24,33 +24,34 @@ class DateExtractionTestCase(unittest.TestCase):
 
     def test_parse_date(self):
         parsed_date = convert_date("(22. al. 21. Juni)")
-        self.assertEqual(parsed_date, [('22', '06'), ('21', '06')])
+        self.assertEqual(parsed_date, [{'Day': 22, 'Month': 6}, {'Day': 21, 'Month': 6}])
 
         parsed_date = convert_date("(27 al. 28. Febr.)")
-        self.assertEqual(parsed_date, [('27', '02'), ('28', '02')])
+        self.assertEqual(parsed_date, [{'Day': 27, 'Month': 2}, {'Day': 28, 'Month': 2}])
 
         parsed_date = convert_date("(1. Juli)")
-        self.assertEqual(parsed_date, [('1', '07')])
+        self.assertEqual(parsed_date, [{'Day': 1, 'Month': 7}])
 
         parsed_date = convert_date("(24. Aug.,)")
-        self.assertEqual(parsed_date, [('24', '08')])
+        self.assertEqual(parsed_date, [{'Day': 24, 'Month': 8}])
 
         parsed_date = convert_date("(13. Febr. al. 28. Sept.)")
-        self.assertEqual(parsed_date, [('13', '02'), ('28', '09')])
+        self.assertEqual(parsed_date, [{'Day': 13, 'Month': 2}, {'Day': 28, 'Month': 9}])
 
         parsed_date = convert_date("(16. März, al. 29. Okt.)")
-        self.assertEqual(parsed_date, [('16', '03'), ('29', '10')])
+        self.assertEqual(parsed_date, [{'Day': 16, 'Month': 3}, {'Day': 29, 'Month': 10}])
 
         parsed_date = convert_date("(19. Jan. al. 16. Juli, al. 26. Dec.)")
-        self.assertEqual(parsed_date, [('19', '01'), ('16', '07'), ('26', '12')])
+        self.assertEqual(parsed_date, [{'Day': 19, 'Month': 1}, {'Day': 16, 'Month': 7}, {'Day': 26, 'Month': 12}])
 
         # failing cases
         # handle later if there is time, good enough for now
         parsed_date = convert_date("(14. Dec. al. 22. 23. Aug.)")
-        self.assertNotEqual(parsed_date, [('14', '12'), ('22', '08'), ('23', '08')])
+        self.assertNotEqual(parsed_date, [{'Day': 14, 'Month': 12}, {'Day': 22, 'Month': 8}, {'Day': 23, 'Month': 8}])
 
         parsed_date = convert_date("(20. Okt. al. 19. Febr., 28. Apr., 19. Sept.)")
-        self.assertNotEqual(parsed_date, [('20', '10'), ('17', '02'), ('28', '04'), ('19', '09')])
+        self.assertNotEqual(parsed_date, [{'Day': 20, 'Month': 10}, {'Day': 17, 'Month': 2}, {'Day': 28, 'Month': 4},
+                                          {'Day': 19, 'Month': 9}])
 
         parsed_date = convert_date("(15. Juni, al. 11. Sept. 14. Dec.)")
-        self.assertNotEqual(parsed_date, [('15', '06'), ('11', '08'), ('14', '12')])
+        self.assertNotEqual(parsed_date, [{'Day': 15, 'Month': 6}, {'Day': 11, 'Month': 8}, {'Day': 14, 'Month': 12}])
