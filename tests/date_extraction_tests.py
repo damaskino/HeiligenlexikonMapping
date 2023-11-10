@@ -54,4 +54,4 @@ class DateExtractionTestCase(unittest.TestCase):
                                           {'Day': 19, 'Month': 9}])
 
         parsed_date = convert_date("(15. Juni, al. 11. Sept. 14. Dec.)")
-        self.assertNotEqual(parsed_date, [{'Day': 15, 'Month': 6}, {'Day': 11, 'Month': 8}, {'Day': 14, 'Month': 12}])
+        self.assertNotEqual(parsed_date, [{'Day': 15, 'Month': 6}, {'Day': 11, 'Month': 9}, {'Day': 14, 'Month': 12}])

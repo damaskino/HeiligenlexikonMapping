@@ -70,6 +70,9 @@ class HlexParser:
         occupation_category = None
         parsed_feast_days = None
         paragraph = paragraph_list[0]
+        superscripts = paragraph.find_all("hi", rend="superscript")
+        for superscript in superscripts:
+            superscript.decompose()
         raw_paragraph = paragraph.text
         raw_feast_day = match_raw_feast_day(raw_paragraph)
         if raw_feast_day:
@@ -79,6 +82,7 @@ class HlexParser:
             except:
                 parsed_feast_days = []
         occupation = extract_occupation(raw_paragraph, self.occupation_list)
+        raw_occupation = occupation
         occupation_category = get_occupation_category(occupation=occupation, occupation_dict=self.occupation_dict)
 
         return raw_feast_day, parsed_feast_days, raw_occupation, occupation_category
