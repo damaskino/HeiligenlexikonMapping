@@ -39,7 +39,7 @@ upload to github - DONE
 -alternative names, with minimum edit distance where possible, "auch" and hi rend italics could be a possible markers
 
 -stanford nlp tokenizer to tokenize properly
--remove superscript numbers
+-remove superscript numbers - DONE
 -check how fuzzy ratio is determined
 -when done, stratified random sampling for 100 entries
     - length of article
