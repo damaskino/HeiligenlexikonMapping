@@ -38,8 +38,9 @@ upload to github - DONE
 -Feast Day: parse date into readable format, add alternative feast days
 -alternative names, with minimum edit distance where possible, "auch" and hi rend italics could be a possible markers
 
--stanford nlp tokenizer to tokenize properly
+-stanford nlp tokenizer to tokenize properly - DONE
 -remove superscript numbers - DONE
+- Look for potential alternative for determining gender, stanza is very resource hungry
 -check how fuzzy ratio is determined
 -when done, stratified random sampling for 100 entries
     - length of article

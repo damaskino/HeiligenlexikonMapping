@@ -11,8 +11,12 @@ import re
 import stanza
 
 from src.alternative_spelling_extraction import get_alternative_spellings
-from src.occupation_extraction import extract_occupation, setup_occupation_list, setup_occupation_dict, \
-    get_occupation_category
+from src.occupation_extraction import (
+    extract_occupation,
+    setup_occupation_list,
+    setup_occupation_dict,
+    get_occupation_category,
+)
 from src.parse_dates import convert_date
 from src.regex_matching import (
     match_saint_name,
@@ -24,19 +28,32 @@ from src.regex_matching import (
 
 
 class HlexParser:
-    def __init__(self, no_nlp=False, occupation_list=None, occupations_dict=None, include_raw_text=False):
+    def __init__(
+            self,
+            no_nlp=False,
+            occupation_list=None,
+            occupations_dict=None,
+            include_raw_text=False,
+    ):
         self.no_nlp = no_nlp
         if no_nlp:
             self.nlp = None
+            self.gender_nlp = None
         else:
-            self.nlp = self.setup_nlp()
+            self.nlp = self.setup_tokenizer_nlp()
+            self.gender_nlp = self.setup_gender_nlp()
         self.occupation_list: List = occupation_list
         self.occupation_dict: Dict = occupations_dict
         self.include_raw_entry = include_raw_text
 
-    def setup_nlp(self):
+    def setup_tokenizer_nlp(self):
         stanza.download("de")
-        nlp = stanza.Pipeline("de")
+        nlp = stanza.Pipeline(lang="de", processors="tokenize")
+        return nlp
+
+    def setup_gender_nlp(self):
+        stanza.download("de")
+        nlp = stanza.Pipeline(lang="de", processors="tokenize,mwt,pos")
         return nlp
 
     def load_transformed_hlex_to_soup(self, hlex_xml_path):
@@ -65,7 +82,6 @@ class HlexParser:
     # The paragraph contains free form text, but often starts with the feast day if it is available,
     # May also contain occupation of saint
     def parse_paragraph(self, paragraph_list):
-
         raw_occupation = None
         occupation_category = None
         parsed_feast_days = None
@@ -78,12 +94,17 @@ class HlexParser:
         if raw_feast_day:
             try:
                 parsed_feast_days = convert_date(raw_feast_day)
-                parsed_feast_days = [f"{date_dict['Day']}.{date_dict['Month']}." for date_dict in parsed_feast_days]
+                parsed_feast_days = [
+                    f"{date_dict['Day']}.{date_dict['Month']}."
+                    for date_dict in parsed_feast_days
+                ]
             except:
                 parsed_feast_days = []
         occupation = extract_occupation(raw_paragraph, self.occupation_list)
         raw_occupation = occupation
-        occupation_category = get_occupation_category(occupation=occupation, occupation_dict=self.occupation_dict)
+        occupation_category = get_occupation_category(
+            occupation=occupation, occupation_dict=self.occupation_dict
+        )
 
         return raw_feast_day, parsed_feast_days, raw_occupation, occupation_category
 
@@ -110,7 +131,7 @@ class HlexParser:
             if self.no_nlp:
                 gender = None
             else:
-                gender = predict_gender(saint_name, nlp=self.nlp)
+                gender = predict_gender(saint_name, nlp=self.gender_nlp)
             entry_dict["SaintName"] = saint_name
             entry_dict["CanonizationStatus"] = canonization_status
             entry_dict["NumberInHlex"] = hlex_number
@@ -120,9 +141,12 @@ class HlexParser:
 
             # looking only at first paragraph for now, may consider looking at more later
             if paragraph_list:
-                raw_feast_day, parsed_feast_days, raw_occupation, occupation_category = self.parse_paragraph(
-                    paragraph_list
-                )
+                (
+                    raw_feast_day,
+                    parsed_feast_days,
+                    raw_occupation,
+                    occupation_category,
+                ) = self.parse_paragraph(paragraph_list)
                 entry_dict["RawFeastDay"] = raw_feast_day
                 if parsed_feast_days:
                     for index, feast_day in enumerate(parsed_feast_days):
@@ -130,8 +154,19 @@ class HlexParser:
                 entry_dict["Ocupation"] = occupation_category
                 entry_dict["RawOccupation"] = raw_occupation
 
+                text_to_parse = ""
+                if self.no_nlp:
+                    text_to_parse = paragraph_list[0].text
+
+                else:
+                    doc = self.nlp(paragraph_list[0].text)
+                    first_sentence = doc.sentences[0]
+                    tokenized_sentence = [token.text for token in first_sentence.tokens]
+                    tokenized_sentence_text = " ".join(tokenized_sentence)
+                    text_to_parse = tokenized_sentence_text
                 aliases = None
-                aliases = get_alternative_spellings(saint_name, paragraph_list[0].text)
+
+                aliases = get_alternative_spellings(saint_name, text_to_parse)
                 entry_dict["Aliases"] = aliases
             else:
                 entry_dict["FeastDay"] = None
@@ -208,10 +243,14 @@ if __name__ == "__main__":
 
     occupations = setup_occupation_list("../resources/occupation_list.txt")
     occupations_dict = setup_occupation_dict("../resources/occupation_list.txt")
-    hlex_parser = HlexParser(no_nlp=True, occupation_list=occupations, occupations_dict=occupations_dict)
+    # hlex_parser = HlexParser(
+    #     no_nlp=True, occupation_list=occupations, occupations_dict=occupations_dict
+    # )
+    hlex_parser = HlexParser(
+        no_nlp=False, occupation_list=occupations, occupations_dict=occupations_dict
+    )
 
     hlex_soup = None
-
 
     if os.path.isfile("tmp/" + HLEX_SOUP_PICKLE):
         print("Pickle found, loading...")
