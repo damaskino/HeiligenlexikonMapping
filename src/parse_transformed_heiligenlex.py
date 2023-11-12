@@ -10,7 +10,7 @@ import json
 import re
 import stanza
 
-from src.alternative_spelling_extraction import get_alternative_spellings
+from src.saint_alias_extraction import get_saint_aliases
 from src.occupation_extraction import (
     extract_occupation,
     setup_occupation_list,
@@ -166,7 +166,7 @@ class HlexParser:
                     text_to_parse = tokenized_sentence_text
                 aliases = None
 
-                aliases = get_alternative_spellings(saint_name, text_to_parse)
+                aliases = get_saint_aliases(saint_name, text_to_parse)
                 entry_dict["Aliases"] = aliases
             else:
                 entry_dict["FeastDay"] = None

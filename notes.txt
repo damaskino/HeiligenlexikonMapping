@@ -35,12 +35,13 @@ add more occupations to the list, potentially from wiki
 limit where we look for the occupation to the first sentence in the first paragraph
 parse with stanford and or spacy - DONE
 upload to github - DONE
--Feast Day: parse date into readable format, add alternative feast days
--alternative names, with minimum edit distance where possible, "auch" and hi rend italics could be a possible markers
-
+-Feast Day: parse date into readable format, add alternative feast days - DONE
+-alternative names, with minimum edit distance where possible, - DONE
 -stanford nlp tokenizer to tokenize properly - DONE
 -remove superscript numbers - DONE
-- Look for potential alternative for determining gender, stanza is very resource hungry
+- Optional: Look for potential alternative for determining gender, stanza is very resource hungry for something that should only amount to a dict lookup
+-"auch" and hi rend italics could be a possible markers - DONE
+
 -check how fuzzy ratio is determined
 -when done, stratified random sampling for 100 entries
     - length of article
