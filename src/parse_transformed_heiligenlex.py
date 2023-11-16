@@ -136,6 +136,7 @@ class HlexParser:
             entry_dict["CanonizationStatus"] = canonization_status
             entry_dict["NumberInHlex"] = hlex_number
             entry_dict["Gender"] = gender
+            entry_dict["EntryLength"] = get_entry_length(paragraph_list)
             if self.include_raw_entry:
                 entry_dict["OriginalText"] = entry.text
 
@@ -236,6 +237,13 @@ def predict_gender(input_name: str, nlp):
         if gender_match:
             extracted_gender = gender_match.group(1)
     return extracted_gender
+
+
+def get_entry_length(paragraph_list):
+    full_text = ""
+    for paragraph in paragraph_list:
+        full_text += paragraph.text
+    return len(full_text)
 
 
 if __name__ == "__main__":

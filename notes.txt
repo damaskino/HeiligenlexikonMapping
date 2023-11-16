@@ -45,4 +45,6 @@ upload to github - DONE
 -check how fuzzy ratio is determined
 -when done, stratified random sampling for 100 entries
     - length of article
+    --> need to add length of article
     - saints only
+-draft for status presentation
