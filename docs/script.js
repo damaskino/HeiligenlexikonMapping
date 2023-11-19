@@ -1,17 +1,24 @@
 document.addEventListener('DOMContentLoaded', function () {
-  fetch('test.csv') // Replace 'data.csv' with your CSV file path
-    .then(response => response.text())
+  fetch('test.json') // Replace 'data.json' with your JSON file path
+    .then(response => response.json())
     .then(data => {
       const table = document.getElementById('dataTable');
-      const rows = data.trim().split('\n');
 
-      rows.forEach(row => {
-        const cells = row.split(',');
-        const newRow = table.insertRow();
+      // Create table headers from the keys in the first object
+      const headers = Object.keys(data[0]);
+      const headerRow = table.insertRow();
+      headers.forEach(header => {
+        const th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+      });
 
-        cells.forEach(cellData => {
-          const newCell = newRow.insertCell();
-          newCell.textContent = cellData;
+      // Populate table with data
+      data.forEach(obj => {
+        const row = table.insertRow();
+        headers.forEach(header => {
+          const cell = row.insertCell();
+          cell.textContent = obj[header];
         });
       });
     })
