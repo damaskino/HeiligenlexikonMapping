@@ -3,15 +3,17 @@ $(document).ready(function() {
     url: 'test.json',
     dataType: 'json',
     success: function(data) {
-      const dataArray = Object.values(data);
+      const dataArray = Object.entries(data).map(([key, value]) => ({ key, ...value }));
 
       $('#dataTable').DataTable({
         data: dataArray,
         columns: [
+          { data: 'key', title: 'Key' },
           { data: 'SaintName' },
           { data: 'CanonizationStatus' },
           { data: 'NumberInHlex' },
           { data: 'RawFeastDay' },
+          { data: 'OriginalText'}
           // Add more columns as needed
         ]
       });
