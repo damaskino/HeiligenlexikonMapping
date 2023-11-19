@@ -1,14 +1,23 @@
 $(document).ready(function() {
-  $('#dataTable').DataTable({
-    ajax: {
-      url: 'test.json', // Replace 'data.json' with your JSON file path
-      dataSrc: ''
+  $.ajax({
+    url: 'test.json',
+    dataType: 'json',
+    success: function(data) {
+      const dataArray = Object.values(data);
+
+      $('#dataTable').DataTable({
+        data: dataArray,
+        columns: [
+          { data: 'SaintName' },
+          { data: 'CanonizationStatus' },
+          { data: 'NumberInHlex' },
+          { data: 'RawFeastDay' },
+          // Add more columns as needed
+        ]
+      });
     },
-    columns: [
-      { data: 'SaintName' },
-      { data: 'CanonizationStatus' },
-      { data: 'EntryLength' }
-      // Define more columns as needed
-    ]
+    error: function(xhr, status, error) {
+      console.error('Error loading JSON file:', error);
+    }
   });
 });
