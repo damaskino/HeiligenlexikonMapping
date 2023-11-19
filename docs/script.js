@@ -6,7 +6,7 @@ $(document).ready(function() {
     },
     columns: [
       { data: 'SaintName' },
-      { data: 'CanonizationStatus' }
+      { data: 'CanonizationStatus' },
       { data: 'EntryLength' }
       // Define more columns as needed
     ]
