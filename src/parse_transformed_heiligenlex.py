@@ -255,7 +255,10 @@ if __name__ == "__main__":
     #     no_nlp=True, occupation_list=occupations, occupations_dict=occupations_dict
     # )
     hlex_parser = HlexParser(
-        no_nlp=False, occupation_list=occupations, occupations_dict=occupations_dict
+        no_nlp=False,
+        occupation_list=occupations,
+        occupations_dict=occupations_dict,
+        include_raw_text=True,
     )
 
     hlex_soup = None

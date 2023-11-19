@@ -47,6 +47,6 @@ it boils down to 1-(Levenshtein/(len(string1)+len(string2))) and making a rounde
 
 -when done, stratified random sampling for 100 entries
     - length of article
-    --> need to add length of article
+    --> need to add length of article - DONE
     - saints only
 -draft for status presentation
