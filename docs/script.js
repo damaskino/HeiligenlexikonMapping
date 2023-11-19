@@ -10,6 +10,8 @@ $(document).ready(function() {
         columns: [
           { data: 'key', title: 'Key' },
           { data: 'SaintName' },
+          { data: 'Gender' },
+          { data: 'EntryLength' },
           { data: 'CanonizationStatus' },
           { data: 'NumberInHlex' },
           { data: 'RawFeastDay' },
