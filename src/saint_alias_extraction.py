@@ -1,4 +1,11 @@
-from fuzzywuzzy import fuzz
+from thefuzz import fuzz
+
+
+# Wraps around rapidfuzz, which calculates indel distance, which is equivalent to Levenshtein
+# with substitution cost 2
+# https://maxbachmann.github.io/RapidFuzz/Usage/distance/Indel.html#normalized-distance
+# the ratio provides a normalized value using: 1 - (distance / (len1 + len2))
+#
 
 
 def get_saint_aliases(name, input_text):

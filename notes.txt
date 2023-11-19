@@ -42,7 +42,9 @@ upload to github - DONE
 - Optional: Look for potential alternative for determining gender, stanza is very resource hungry for something that should only amount to a dict lookup
 -"auch" and hi rend italics could be a possible markers - DONE
 
--check how fuzzy ratio is determined
+-check how fuzzy ratio is determined -DONE
+it boils down to 1-(Levenshtein/(len(string1)+len(string2))) and making a rounded percentage of that
+
 -when done, stratified random sampling for 100 entries
     - length of article
     --> need to add length of article
