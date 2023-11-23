@@ -11,6 +11,8 @@ $(document).ready(function() {
           { data: 'key', title: 'Key' },
           { data: 'SaintName' },
           { data: 'Gender' },
+          { data: 'Occupation' },
+          { data: 'OccupationRaw' },
           { data: 'EntryLength' },
           { data: 'CanonizationStatus' },
           { data: 'NumberInHlex' },
