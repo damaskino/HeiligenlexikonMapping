@@ -9,14 +9,17 @@ $(document).ready(function() {
         data: dataArray,
         columns: [
           { data: 'key', title: 'Key' },
-          { data: 'SaintName' },
-          { data: 'Gender' },
-          { data: 'Occupation' },
-          { data: 'OccupationRaw' },
-          { data: 'EntryLength' },
-          { data: 'CanonizationStatus' },
-          { data: 'NumberInHlex' },
-          { data: 'RawFeastDay' },
+          { data: 'SaintName', title: 'Saint Name' },
+          { data: 'Gender',  title: 'Gender' },
+          { data: 'Occupation', title: 'Occupation' },
+          { data: 'RawOccupation', title: 'Raw Occupation' },
+          { data: 'EntryLength', title: 'Character Length of Entry' },
+          { data: 'CanonizationStatus', title: 'Canonization' },
+          { data: 'NumberInHlex', title: 'Number in Lexicon' },
+          { data: 'FeastDay0', title: 'FeastDay0' },
+          { data: 'FeastDay1', title: 'FeastDay1' },
+          { data: 'FeastDay2', title: 'FeastDay2' },
+          { data: 'RawFeastDay', title: 'Raw Feast Day' },
           { data: 'OriginalText'}
           // Add more columns as needed
         ]
