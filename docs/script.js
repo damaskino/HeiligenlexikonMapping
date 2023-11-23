@@ -20,7 +20,7 @@ $(document).ready(function() {
           { data: 'FeastDay1', title: 'FeastDay1' },
           { data: 'FeastDay2', title: 'FeastDay2' },
           { data: 'RawFeastDay', title: 'Raw Feast Day' },
-          { data: 'OriginalText'}
+          { data: 'OriginalText',  title: 'Raw Text from Saints Lexicon'}
           // Add more columns as needed
         ]
       });
