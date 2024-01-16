@@ -50,3 +50,90 @@ it boils down to 1-(Levenshtein/(len(string1)+len(string2))) and making a rounde
     --> need to add length of article - DONE
     - saints only
 -draft for status presentation
+
+
+- compile list of issues when manually mapping entries from gold standard to wikipedia
+- birth and death date if available, associated locations, potentially family relations
+- accuracy for processing of gold standard
+- character position for extractions like feast day, occupation
+    wikidata, vs. pages of different languages,
+    latin vs. local name
+- presentation draft before December
+- mail second assessor - DONE
+- till 19.1. parse wikidata
+- Gold standard presentation:
+    - Id Entry
+    links erste paragraph von heiligenlexikon
+    rechts erste paragraph der wikipediaseite
+    - Separate Entries that could not be found
+- limit search to full wikipedia entry pages/data only no mentions on
+- Use Wikidata with canonization status only
+- Rulebased baseline and gold standard by mid february
+
+
+
+Manual mapping attempts
+d3e100677Heiligenlexikon-1858 Basilius
+First result is another Basilius (feast days don't match up)
+https://de.wikipedia.org/wiki/Basilius_der_Gro%C3%9Fe
+
+Googling 23rd may
+brings up this:
+https://web.archive.org/web/20111012033504/http://breviary.net/martyrology/mart05/mart0523.htm
+it also mentions  S. Epictitus (Epitacius), though it's not clear from the lex entry what their relation was, the web page states
+
+https://en.wikipedia.org/wiki/May_23_(Eastern_Orthodox_liturgics)#cite_note-ROMAN-12
+Here it mentions Basileus as the Bishop of Braga, who seems to have lived 60-95
+https://en.wikipedia.org/wiki/Roman_Catholic_Archdiocese_of_Braga#List_of_Bishops_of_Braga
+He doesn't have his own page but he is listed in the list of bishops of Braga
+Under the name Basilo(!), the date matches, but it is Portugal and not Spain as mentioned in the article
+--> Saint doesn't even seem to have his own page in German wikipedia
+--> Didn't find him under Basilius, but the regional equivalent Basilo
+--> Different country, possible mixup?
+https://www.wikiwand.com/pt/Bas%C3%ADlio_de_Braga Death date matches, but birth date is earlier?
+https://pt.wikipedia.org/wiki/Bas%C3%ADlio_de_Braga
+Portuguese Wiki has some more info
+
+
+d3e112649Heiligenlexikon-1858 - Bernardus
+https://www.catholic-hierarchy.org/diocese/dv513.html
+https://www.catholic-hierarchy.org/bishop/bbernardv.html
+https://de.wikipedia.org/wiki/Liste_der_Erzbisch%C3%B6fe_von_Vienne
+--> Country of origin is more likely to have a page on them
+https://fr.wikipedia.org/wiki/Liste_des_%C3%A9v%C3%AAques_et_archev%C3%AAques_de_Vienne_(France)
+https://fr.wikipedia.org/wiki/Barnard_de_Romans
+-->Feast day is off by one day, 22nd instaed of 23rd on wikipedia, birthplace doesnt match, Wiki says Izernore, Lex says Lyon
+Death date matches, both mention 32 years as archbishop,
+Lex: father also bernard, mother Helirda
+Wiki: Father is Heliarde
+
+
+d3e131933Heiligenlexikon-1858 Cajus
+http://www.orthodoxengland.org.uk/stdjun.htm
+https://en.wikipedia.org/wiki/June_30_(Eastern_Orthodox_liturgics)#cite_note-LATIN-17
+https://archive.org/stream/romanmartyrology00cathuoft/romanmartyrology00cathuoft_djvu.txt
+
+d3e175831Heiligenlexikon-1858 Crecens
+https://en.wikipedia.org/wiki/November_28_(Eastern_Orthodox_liturgics)#cite_note-LATIN-24
+https://catholicsaints.info/saint-crescens-of-north-africa/
+https://de.wikipedia.org/wiki/Geiserich
+Differing feast days depending on Orthodoxy or Catholicism
+July 30 (Orthodoxy)
+June 27 (Catholicism)
+
+
+d3e185972Heiligenlexikon Cyvranus
+https://en.wikipedia.org/wiki/December_9_(Eastern_Orthodox_liturgics)#cite_note-LATIN-19
+Had another feast day for 25th of june, but couldn't find anything under that one
+
+d3e194115Heiligenlexikon-1858	Demetrius
+https://en.wikipedia.org/wiki/November_15_(Eastern_Orthodox_liturgics)#cite_note-7
+https://en.wikipedia.org/wiki/Hippo_Regius
+https://www.heiligenlexikon.de/BiographienZ/20_Maertyrer_Hippo_Regius.html
+
+
+d3e218454Heiligenlexikon-1858	Ealredus
+https://en.wikipedia.org/wiki/Aelred_of_Rievaulx
+Patronage	bladder stone sufferers lol
+S. Aelredus . (Bd. I. S. 53.)
+Okay in this case the entry refers to another entry which is also the same person, huh
