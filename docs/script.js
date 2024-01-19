@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $.ajax({
-    url: 'test.json',
+    url: 'gold_standard.json',
     dataType: 'json',
     success: function(data) {
       const dataArray = Object.entries(data).map(([key, value]) => ({ key, ...value }));
