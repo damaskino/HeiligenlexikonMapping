@@ -1,102 +1,127 @@
 #part1
-d5e349815Heiligenlexikon-1858,,
-d3e522526Heiligenlexikon-1858,,
-d3e311653Heiligenlexikon-1858,,Q315312
-d3e25297Heiligenlexikon-1858,,
-d3e110973Heiligenlexikon-1858,,
-d3e139625Heiligenlexikon-1858,,
-d5e301884Heiligenlexikon-1858,,
-d3e239468Heiligenlexikon-1858,,#NA, potentially this guy? https://www.wikidata.org/wiki/Q2846459
-d5e306463Heiligenlexikon-1858,,
-d5e95141Heiligenlexikon-1858,,Q6819933#NOTE: DOES NOT HAVE canonization status or saint property, sainthood and martyrdom only mentioned in description!!
-d5e346893Heiligenlexikon-1858,,Q2183266 #NOTE place of death matches, feast day differs in wikidata but actually belongs to the group https://www.wikidata.org/wiki/Q1491135
-d5e158395Heiligenlexikon-1858,,Q84552620#No hits for Paquier, but Pasquier found the wiki page and Pascharius, https://fr.wikipedia.org/wiki/Pasquier_de_Nantes
-d5e145552Heiligenlexikon-1858,,Q1989038
-d3e49619Heiligenlexikon-1858,,
-d5e205231Heiligenlexikon-1858,,
-d3e389085Heiligenlexikon-1858,,
-d5e33411Heiligenlexikon-1858,,
-d3e137989Heiligenlexikon-1858,,
-d3e10136Heiligenlexikon-1858,,
-d5e315087Heiligenlexikon-1858,,
-d5e159194Heiligenlexikon-1858,,
-d3e41473Heiligenlexikon-1858,,
-d3e165608Heiligenlexikon-1858,,
-d5e302380Heiligenlexikon-1858,,
-d3e68329Heiligenlexikon-1858,,
-d3e371904Heiligenlexikon-1858,,
-d3e539324Heiligenlexikon-1858,,
-d3e102925Heiligenlexikon-1858,,
-d5e115514Heiligenlexikon-1858,,
-d3e349025Heiligenlexikon-1858,,
-d3e123695Heiligenlexikon-1858,,Q216946
-d3e89626Heiligenlexikon-1858,,Q4828162
-d5e122241Heiligenlexikon-1858,,Q3335424 #Feast day Date differs
-d3e56488Heiligenlexikon-1858,,
-d3e536341Heiligenlexikon-1858,,Q3217111
-d3e86709Heiligenlexikon-1858,,Q775906
-d3e305601Heiligenlexikon-1858,,Q745899
-d3e343025Heiligenlexikon-1858,,
-d5e317572Heiligenlexikon-1858,,
-d3e232852Heiligenlexikon-1858,,
-d3e489912Heiligenlexikon-1858,,
-d5e263160Heiligenlexikon-1858,,
-d3e43423Heiligenlexikon-1858,,Q3614655 # feast day doesnt matc, but there is a reference to Genua, other linked pages have the same feast day in May 
-d3e193650Heiligenlexikon-1858,,Q310633 # Differing feast day, but is a martyr
-d3e31275Heiligenlexikon-1858,,
-d5e347300Heiligenlexikon-1858,,
-d5e261072Heiligenlexikon-1858,,Q316440#Feast day doesn't match, but The information that the natonal college in bucharest carries his name leads to this entry: https://en.wikipedia.org/wiki/Saint_Sava
-d3e276933Heiligenlexikon-1858,,Q509569
-d5e53786Heiligenlexikon-1858,,Q1083918
-d3e233844Heiligenlexikon-1858,,
-d3e565650Heiligenlexikon-1858,,#Shows up in many other resources, but no wikidata or wikipedia entry
-d5e122935Heiligenlexikon-1858,,Q2100489#No feast day in wikidata, but wikipedia page mentions husband calminius, https://en.wikipedia.org/wiki/Saint_Namadia
-d5e287796Heiligenlexikon-1858,,#Does not have own wikidata page, but her martyr group does https://www.wikidata.org/wiki/Q20058182
+#comments always refer to entry above!
+d5e349815Heiligenlexikon-1858;;
+d3e522526Heiligenlexikon-1858;;
+d3e311653Heiligenlexikon-1858;;Q315312
+d3e25297Heiligenlexikon-1858;;
+d3e110973Heiligenlexikon-1858;;
+d3e139625Heiligenlexikon-1858;;
+d5e301884Heiligenlexikon-1858;;
+d3e239468Heiligenlexikon-1858;;
+#NA; potentially this guy? https://www.wikidata.org/wiki/Q2846459
+
+d5e306463Heiligenlexikon-1858;;
+d5e95141Heiligenlexikon-1858;;Q6819933
+#NOTE: DOES NOT HAVE canonization status or saint property; sainthood and martyrdom only mentioned in description!!
+
+d5e346893Heiligenlexikon-1858;;Q2183266
+#NOTE place of death matches; feast day differs in wikidata but actually belongs to the group https://www.wikidata.org/wiki/Q1491135
+
+d5e158395Heiligenlexikon-1858;;Q84552620
+#No hits for Paquier; but Pasquier found the wiki page and Pascharius; https://fr.wikipedia.org/wiki/Pasquier_de_Nantes
+
+d5e145552Heiligenlexikon-1858;;Q1989038
+d3e49619Heiligenlexikon-1858;;
+d5e205231Heiligenlexikon-1858;;
+d3e389085Heiligenlexikon-1858;;
+d5e33411Heiligenlexikon-1858;;
+d3e137989Heiligenlexikon-1858;;
+d3e10136Heiligenlexikon-1858;;
+d5e315087Heiligenlexikon-1858;;
+d5e159194Heiligenlexikon-1858;;
+d3e41473Heiligenlexikon-1858;;
+d3e165608Heiligenlexikon-1858;;
+d5e302380Heiligenlexikon-1858;;
+d3e68329Heiligenlexikon-1858;;
+d3e371904Heiligenlexikon-1858;;
+d3e539324Heiligenlexikon-1858;;
+d3e102925Heiligenlexikon-1858;;
+d5e115514Heiligenlexikon-1858;;
+d3e349025Heiligenlexikon-1858;;
+d3e123695Heiligenlexikon-1858;;Q216946
+d3e89626Heiligenlexikon-1858;;Q4828162
+d5e122241Heiligenlexikon-1858;;Q3335424
+#Feast day Date differs
+
+d3e56488Heiligenlexikon-1858;;
+d3e536341Heiligenlexikon-1858;;Q3217111
+d3e86709Heiligenlexikon-1858;;Q775906
+d3e305601Heiligenlexikon-1858;;Q745899
+d3e343025Heiligenlexikon-1858;;
+d5e317572Heiligenlexikon-1858;;
+d3e232852Heiligenlexikon-1858;;
+d3e489912Heiligenlexikon-1858;;
+d5e263160Heiligenlexikon-1858;;
+d3e43423Heiligenlexikon-1858;;Q3614655
+#feast day doesnt matc; but there is a reference to Genua; other linked pages have the same feast day in May
+
+d3e193650Heiligenlexikon-1858;;Q310633
+#Differing feast day; but is a martyr
+
+d3e31275Heiligenlexikon-1858;;
+d5e347300Heiligenlexikon-1858;;
+d5e261072Heiligenlexikon-1858;;Q316440
+#Feast day doesn't match; but The information that the natonal college in bucharest carries his name leads to this entry: https://en.wikipedia.org/wiki/Saint_Sava
+
+d3e276933Heiligenlexikon-1858;;Q509569
+d5e53786Heiligenlexikon-1858;;Q1083918
+d3e233844Heiligenlexikon-1858;;
+d3e565650Heiligenlexikon-1858;;
+#Shows up in many other resources; but no wikidata or wikipedia entry
+
+d5e122935Heiligenlexikon-1858;;Q2100489
+#No feast day in wikidata; but wikipedia page mentions husband calminius; https://en.wikipedia.org/wiki/Saint_Namadia
+
+d5e287796Heiligenlexikon-1858;;
+#Does not have own wikidata page; but her martyr group does https://www.wikidata.org/wiki/Q20058182
+
 #part2
-d3e521565Heiligenlexikon-1858,,
-d5e385107Heiligenlexikon-1858,,
-d5e320315Heiligenlexikon-1858,,
-d5e282272Heiligenlexikon-1858,https://en.wikipedia.org/wiki/Sigo,Q22212885
-d3e56015Heiligenlexikon-1858,,
-d5e100189Heiligenlexikon-1858,,
-d3e413214Heiligenlexikon-1858,,
-d5e203445Heiligenlexikon-1858,https://de.wikipedia.org/wiki/Placidia,Q174323 #Verweis auf "die gleichnamige Kaiserin" S. Galla' Placidia, welche definitiv der Wikipedia Person entspricht. Autor lässt unklar, ob es die gleiche Person ist
-d3e250410Heiligenlexikon-1858,https://en.wikipedia.org/wiki/Euthalia,_Virgin_Martyr,Q2331447
-d3e309420Heiligenlexikon-1858,,
-d3e93441Heiligenlexikon-1858,,
-d3e117719Heiligenlexikon-1858,,
-d3e566996Heiligenlexikon-1858,,
-d3e349834Heiligenlexikon-1858,https://de.wikipedia.org/wiki/Quiteria,Q1236844
-d3e9109Heiligenlexikon-1858,,
-d3e118395Heiligenlexikon-1858,https://de.wikipedia.org/wiki/Birgitta_von_Schweden,Q204996
-d3e548499Heiligenlexikon-1858,https://de.wikipedia.org/wiki/Leocadia_(Heilige),Q442235
-d5e323642Heiligenlexikon-1858,,
-d3e228395Heiligenlexikon-1858,https://de.wikipedia.org/wiki/Emerentiana,Q2389729
-d3e557167Heiligenlexikon-1858,https://fr.wikipedia.org/wiki/Libaire_de_Grand,Q3237693
-d5e267522Heiligenlexikon-1858,,
-d5e258646Heiligenlexikon-1858,,
-d3e189144Heiligenlexikon-1858,,
-d5e124567Heiligenlexikon-1858,https://en.wikipedia.org/wiki/Adrian_and_Natalia_of_Nicomedia,Q14634630
-d3e120779Heiligenlexikon-1858,,
-d5e324518Heiligenlexikon-1858,,
-d3e19899Heiligenlexikon-1858,https://de.wikipedia.org/wiki/Agnes_von_Montepulciano,Q2720655
-d5e140505Heiligenlexikon-1858,https://en.wikipedia.org/wiki/Tryphon,_Respicius,_and_Nympha,Q109859523
-d5e65705Heiligenlexikon-1858,,
-d5e48525Heiligenlexikon-1858,,
-d3e24103Heiligenlexikon-1858,,
-d3e229820Heiligenlexikon-1858,https://de.wikipedia.org/wiki/Basilius_der_%C3%84ltere_und_Emmelia,Q2186180
-d5e86400Heiligenlexikon-1858,,
-d5e159261Heiligenlexikon-1858,,
-d3e13492Heiligenlexikon-1858,,
-d3e205609Heiligenlexikon-1858,,
-d5e225999Heiligenlexikon-1858,,
-d3e210984Heiligenlexikon-1858,,
-d3e508350Heiligenlexikon-1858,,
-d3e130431Heiligenlexikon-1858,,
-d3e32350Heiligenlexikon-1858,https://en.wikipedia.org/wiki/Alexandra_of_Rome,Q392097
-d3e326146Heiligenlexikon-1858,,
-d3e69890Heiligenlexikon-1858,,
-d5e391029Heiligenlexikon-1858,https://de.wikipedia.org/wiki/Walburga,Q160686
-d5e77559Heiligenlexikon-1858,https://de.wikipedia.org/wiki/Maxima_von_Rom,Q6795631
-d3e20044Heiligenlexikon-1858,,
-d3e571901Heiligenlexikon-1858,,
+d3e521565Heiligenlexikon-1858;;
+d5e385107Heiligenlexikon-1858;;
+d5e320315Heiligenlexikon-1858;;
+d5e282272Heiligenlexikon-1858;https://en.wikipedia.org/wiki/Sigo;Q22212885
+d3e56015Heiligenlexikon-1858;;
+d5e100189Heiligenlexikon-1858;;
+d3e413214Heiligenlexikon-1858;;
+d5e203445Heiligenlexikon-1858;https://de.wikipedia.org/wiki/Placidia;Q174323
+#Verweis auf "die gleichnamige Kaiserin" S. Galla' Placidia; welche definitiv der Wikipedia Person entspricht. Autor lässt unklar; ob es die gleiche Person ist
+
+d3e250410Heiligenlexikon-1858;https://en.wikipedia.org/wiki/Euthalia,_Virgin_Martyr;Q2331447
+d3e309420Heiligenlexikon-1858;;
+d3e93441Heiligenlexikon-1858;;
+d3e117719Heiligenlexikon-1858;;
+d3e566996Heiligenlexikon-1858;;
+d3e349834Heiligenlexikon-1858;https://de.wikipedia.org/wiki/Quiteria;Q1236844
+d3e9109Heiligenlexikon-1858;;
+d3e118395Heiligenlexikon-1858;https://de.wikipedia.org/wiki/Birgitta_von_Schweden;Q204996
+d3e548499Heiligenlexikon-1858;https://de.wikipedia.org/wiki/Leocadia_(Heilige);Q442235
+d5e323642Heiligenlexikon-1858;;
+d3e228395Heiligenlexikon-1858;https://de.wikipedia.org/wiki/Emerentiana;Q2389729
+d3e557167Heiligenlexikon-1858;https://fr.wikipedia.org/wiki/Libaire_de_Grand;Q3237693
+d5e267522Heiligenlexikon-1858;;
+d5e258646Heiligenlexikon-1858;;
+d3e189144Heiligenlexikon-1858;;
+d5e124567Heiligenlexikon-1858;https://en.wikipedia.org/wiki/Adrian_and_Natalia_of_Nicomedia;Q14634630
+d3e120779Heiligenlexikon-1858;;
+d5e324518Heiligenlexikon-1858;;
+d3e19899Heiligenlexikon-1858;https://de.wikipedia.org/wiki/Agnes_von_Montepulciano;Q2720655
+d5e140505Heiligenlexikon-1858;https://en.wikipedia.org/wiki/Tryphon,_Respicius,_and_Nympha;Q109859523
+d5e65705Heiligenlexikon-1858;;
+d5e48525Heiligenlexikon-1858;;
+d3e24103Heiligenlexikon-1858;;
+d3e229820Heiligenlexikon-1858;https://de.wikipedia.org/wiki/Basilius_der_%C3%84ltere_und_Emmelia;Q2186180
+d5e86400Heiligenlexikon-1858;;
+d5e159261Heiligenlexikon-1858;;
+d3e13492Heiligenlexikon-1858;;
+d3e205609Heiligenlexikon-1858;;
+d5e225999Heiligenlexikon-1858;;
+d3e210984Heiligenlexikon-1858;;
+d3e508350Heiligenlexikon-1858;;
+d3e130431Heiligenlexikon-1858;;
+d3e32350Heiligenlexikon-1858;https://en.wikipedia.org/wiki/Alexandra_of_Rome;Q392097
+d3e326146Heiligenlexikon-1858;;
+d3e69890Heiligenlexikon-1858;;
+d5e391029Heiligenlexikon-1858;https://de.wikipedia.org/wiki/Walburga;Q160686
+d5e77559Heiligenlexikon-1858;https://de.wikipedia.org/wiki/Maxima_von_Rom;Q6795631
+d3e20044Heiligenlexikon-1858;;
+d3e571901Heiligenlexikon-1858;;
