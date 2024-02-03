@@ -69,7 +69,9 @@ it boils down to 1-(Levenshtein/(len(string1)+len(string2))) and making a rounde
 - limit search to full wikipedia entry pages/data only no mentions on
 - Use Wikidata with canonization status only
 - Rulebased baseline and gold standard by mid february
-
+- Formally write down search method for finding saints manually and creation of gold standard
+- Double size of goldstandard to include more
+- Create subset of dump
 
 
 Manual mapping attempts
