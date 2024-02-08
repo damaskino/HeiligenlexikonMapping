@@ -60,8 +60,4 @@ out_fname = "filtered_entities.json"
 print("Dumping to Json...")
 dump_entities_to_json(saints, out_fname)
 
-# wjd_filtered = WikidataJsonDump(out_fname)
 
-# load filtered entities and create instances of WikidataItem
-# for ii, entity_dict in enumerate(wjd_filtered):
-#    item = WikidataItem(entity_dict)

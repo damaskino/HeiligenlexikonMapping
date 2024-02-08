@@ -1,0 +1,25 @@
+Manual annotation process:
+
+- Search Name of Saint in Search engine
+- Check if Wikipedia/Wikidata pages are among the results
+- If no immediate results, add more information to search query:
+    alias, other entities mentioned in description ( mostly locations)
+
+When we have found a page, we try to confirm whether that page actually refers to the saint in question.
+
+Checking Wikipedia/Wikidata page
+- Check if either of the extracted feast day matches
+    -If not, check in description if other data matches:
+        - birth/death dates
+        - mentioned relatives or other related entities
+        - significant places
+        - Other information: e.g. a college was named after saint
+
+
+Gold standard creation:
+
+- Filter out all saints that don't have either of the following canonization status: S., SS., S.S.
+- separate the saints that have duplicate names
+- for males and females each:
+    -randomly sample 40 entries from the set of names with no duplicates
+    -randomly sample 10 entries from the set of names with duplicates
