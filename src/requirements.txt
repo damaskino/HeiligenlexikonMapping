@@ -3,3 +3,4 @@ spacy
 stanza
 joblib
 thefuzz
+lxml

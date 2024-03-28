@@ -271,7 +271,7 @@ if __name__ == "__main__":
             # print(hlex_soup)
     else:
         print("No pickle found, loading from XML...")
-        hlex_soup = timing_wrapper(hlex_parser.load_transformed_hlex_to_soup, None)
+        hlex_soup = timing_wrapper(hlex_parser.load_transformed_hlex_to_soup, "../data/Heiligenlex-1858.xml")
         print("Size of Hlex Object: ", sys.getsizeof(hlex_soup))
         hlex_parser.pickle_it(hlex_soup, "tmp/" + HLEX_SOUP_PICKLE)
     print("Loaded", hlex_soup.title.text)
