@@ -4,3 +4,4 @@ stanza
 joblib
 thefuzz
 lxml
+qwikidata
