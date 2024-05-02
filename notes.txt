@@ -139,3 +139,8 @@ https://en.wikipedia.org/wiki/Aelred_of_Rievaulx
 Patronage	bladder stone sufferers lol
 S. Aelredus . (Bd. I. S. 53.)
 Okay in this case the entry refers to another entry which is also the same person, huh
+
+limit Birthdate cutoff after end of publishing date of lexicon
+2 versions: 1 with humans, 1 with saints (has canonization status)
+primitive baseline (feast day + name(edit distance, cutoff proportional to length of string, on devset))
+document statistics of the datasets
