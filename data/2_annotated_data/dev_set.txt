@@ -11,7 +11,7 @@ d5e18584Heiligenlexikon-1858;;
 d3e205046Heiligenlexikon-1858;;
 d5e96404Heiligenlexikon-1858;;
 d5e404388Heiligenlexikon-1858;https://fr.wikipedia.org/wiki/Etton_de_Dompierre_sur_Helpe;Q2693006
-d5e151127Heiligenlexikon-1858;https: //en.wikipedia.org/wiki/Jutta_of_Kulmsee;Q273705
+d5e151127Heiligenlexikon-1858;https://en.wikipedia.org/wiki/Jutta_of_Kulmsee;Q273705
 d3e177449Heiligenlexikon-1858;;
 d3e196703Heiligenlexikon-1858;;
 d3e401079Heiligenlexikon-1858;https://en.wikipedia.org/wiki/Saint_Humility;Q1171057
@@ -45,6 +45,6 @@ d3e245535Heiligenlexikon-1858;;
 d3e551467Heiligenlexikon-1858;;
 d3e138529Heiligenlexikon-1858;;
 d5e96722Heiligenlexikon-1858;;
-d5e225483Heiligenlexikon-1858;https://en.wikipedia.org/wiki/Cwenburh;https://www.wikidata.org/wiki/Q16208335
+d5e225483Heiligenlexikon-1858;https://en.wikipedia.org/wiki/Cwenburh;Q16208335
 d5e177875Heiligenlexikon-1858;;
 d5e352592Heiligenlexikon-1858;;
