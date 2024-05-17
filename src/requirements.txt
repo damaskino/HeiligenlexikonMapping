@@ -5,3 +5,4 @@ joblib
 thefuzz
 lxml
 qwikidata
+rank_bm25
