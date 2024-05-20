@@ -2,6 +2,8 @@ import sqlite3
 import json
 import os
 
+from wikidata_day_dict import wikidata_day_dict
+
 conn = sqlite3.connect('hundred_saints.db')
 cursor = conn.cursor()
 saints = cursor.execute('SELECT * from hundred_saints')
@@ -23,6 +25,29 @@ saints = cursor.execute('SELECT * from hundred_saints')
 #sitelinks: links to other sites describing the objects, usually wikipedia-sites only it seems
 
 
+def parse_date(date_string: str):
+    date_string = date_string.split()
+    month = date_string[0]
+    day = date_string[1]
+
+
+def get_feast_days(claims_dict: dict):
+    if 'P841' in claims_dict:
+        feast_day_list = claims_dict['P841']
+        for feast_day_item in feast_day_list:
+            feast_day_wikidata_id = feast_day_item['mainsnak']['datavalue']['value']['id']
+            date_split = wikidata_day_dict[feast_day_wikidata_id].split(',')
+            day = date_split[0]
+            month = date_split[1]
+            print(day)
+            print(month)
+
+            #TODO account for eastern orthodox calendar dates like
+            #Q16851085
+            #map the date id to an actual date
+        #could be multiple feast days, so would have to unpack those separately
+
+
 def parse_json_content(json_saint: dict):
     print(json_saint)
     wikidata_id = json_saint['id']
@@ -30,6 +55,8 @@ def parse_json_content(json_saint: dict):
     descriptions = json_saint['descriptions']
     aliases = json_saint['aliases']
     claims = json_saint['claims']
+    feast_day = get_feast_days(claims)
+
     sitelinks = json_saint['sitelinks']
 
     json_saint.keys()
@@ -37,7 +64,7 @@ def parse_json_content(json_saint: dict):
 #TODO: check how many have a birthdate available, and sort accordingly, could help in processing time
 
 #Loads the entries from the heiligenlexikon for comparison with the wikidata entries from the database
-def load_hlex_entries:
+def load_hlex_entries():
     pass
 
 
