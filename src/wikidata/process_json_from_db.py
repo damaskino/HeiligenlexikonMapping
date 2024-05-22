@@ -1,12 +1,16 @@
 import sqlite3
 import json
 import os
+import sys
 
-from wikidata_day_dict import wikidata_day_dict
+from wikidata_day_dict import wikidata_gregorian_day_dict, wikidata_orthodox_day_dict
 
-conn = sqlite3.connect('hundred_saints.db')
+# conn = sqlite3.connect('hundred_saints.db')
+# cursor = conn.cursor()
+# saints = cursor.execute('SELECT * from hundred_saints')
+conn = sqlite3.connect('wikidata_saints.db')
 cursor = conn.cursor()
-saints = cursor.execute('SELECT * from hundred_saints')
+saints = cursor.execute('SELECT * from saints')
 
 
 #keys in the json:
@@ -36,7 +40,22 @@ def get_feast_days(claims_dict: dict):
         feast_day_list = claims_dict['P841']
         for feast_day_item in feast_day_list:
             feast_day_wikidata_id = feast_day_item['mainsnak']['datavalue']['value']['id']
-            date_split = wikidata_day_dict[feast_day_wikidata_id].split(',')
+
+            date_split = []
+
+            # TODO: this ID is causing problems
+            if feast_day_wikidata_id == "Q1841":
+                print(claims_dict)
+
+            if feast_day_wikidata_id in wikidata_gregorian_day_dict:
+                date_split = wikidata_gregorian_day_dict[feast_day_wikidata_id].split(',')
+            if feast_day_wikidata_id in wikidata_orthodox_day_dict:
+                date_split = wikidata_orthodox_day_dict[feast_day_wikidata_id].split(',')
+
+            if len(date_split) == 0:
+                print("Date not found in gregorian or julian calendar")
+                print(feast_day_wikidata_id)
+                sys.exit()
             day = date_split[0]
             month = date_split[1]
             print(day)
@@ -49,7 +68,8 @@ def get_feast_days(claims_dict: dict):
 
 
 def parse_json_content(json_saint: dict):
-    print(json_saint)
+    # print(json_saint)
+    print(json_saint['labels'])
     wikidata_id = json_saint['id']
     labels = json_saint['labels']
     descriptions = json_saint['descriptions']
@@ -68,8 +88,9 @@ def load_hlex_entries():
     pass
 
 
-for id,content in saints:
-    print(id)
-    print(content)
+for index, (id, content) in enumerate(saints):
+    # print(id)
+    # print(content)
+    print("Entry: ", index)
     json_saint = json.loads(content)
     parse_json_content(json_saint)
