@@ -17,16 +17,16 @@ def map_wikidata_calender(first_day_of_year_id: str) -> dict[str:str]:
         string_representation = date_dict['labels']['en']['value']
         print(current_date_id, ' : ', string_representation)
 
-        # P31 is "instance of" property, first element of that is assumed to be "point in time with respect to recurrent timeframe"
-        #P156 is "followed by" property, which we use to get to the next date
-        current_date_id = date_dict['claims']['P31'][0]['qualifiers']['P156'][0]['datavalue']['value']['id']
-
         date_split = string_representation.split()
         month = date_split[0]
         month_number = str(month_name_list.index(month))
         day = date_split[1]
         month_and_day = month_number + ";" + day
         wiki_id_date_dict[current_date_id] = month_and_day
+
+        # P31 is "instance of" property, first element of that is assumed to be "point in time with respect to recurrent timeframe"
+        # P156 is "followed by" property, which we use to get to the next date
+        current_date_id = date_dict['claims']['P31'][0]['qualifiers']['P156'][0]['datavalue']['value']['id']
 
         if current_date_id == first_day_of_year_id:
             break
