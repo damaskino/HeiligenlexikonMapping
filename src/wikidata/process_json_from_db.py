@@ -56,6 +56,8 @@ def get_feast_days(claims_dict: dict):
     feast_day_ids_to_skip = ["Q1841", "Q35032", "Q9592", "Q3464625", "Q2387117", "Q18726", "Q3333484", "Q11184",
                              "Q17414321", "Q115801525", "Q12966185", "Q20830799", "Q123", "Q731505"]
 
+    result_feast_days = []
+
     if 'P841' in claims_dict:
         feast_day_list = claims_dict['P841']
         for feast_day_item in feast_day_list:
@@ -84,15 +86,11 @@ def get_feast_days(claims_dict: dict):
                 print("Date not found in gregorian or julian calendar")
                 print(feast_day_wikidata_id)
                 sys.exit()
-            day = date_split[0]
-            month = date_split[1]
-            print(day)
-            print(month)
+            month = date_split[0]
+            day = date_split[1]
 
-            # TODO account for eastern orthodox calendar dates like
-            # Q16851085
-            # map the date id to an actual date
-        # could be multiple feast days, so would have to unpack those separately
+            result_feast_days.append((month,day))
+        return result_feast_days
 
 
 def parse_json_content(json_saint: dict):
@@ -103,8 +101,8 @@ def parse_json_content(json_saint: dict):
     descriptions = json_saint['descriptions']
     aliases = json_saint['aliases']
     claims = json_saint['claims']
-    feast_day = get_feast_days(claims)
-
+    feast_days = get_feast_days(claims)
+    print(feast_days)
     sitelinks = json_saint['sitelinks']
 
     json_saint.keys()
