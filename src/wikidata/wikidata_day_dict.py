@@ -1,5 +1,5 @@
 #wikidataID, month, day
-wikidata_gregorian_day_dict = {
+wikidata_general_day_dict = {
 "Q2151":"1,1",
 "Q2156":"1,2",
 "Q2168":"1,3",
@@ -735,4 +735,12 @@ wikidata_orthodox_day_dict = {
     "Q5249037": "12,29",
     "Q33034": "12,30",
     "Q13376314": "12,31",
+}
+
+#dates that are potentially noise/redundant
+wikidata_misc_day_dict = {
+
+"Q12713841": "2,3", #Day of Blasius Mass commemorating saint Blaise
+"Q111738881": "6,3", #Ugandan Martyr's Day
+"Q19081583": "7,9",
 }
