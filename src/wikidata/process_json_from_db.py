@@ -30,6 +30,8 @@ def parse_date(date_string: str):
     day = date_string[1]
 
 
+# Maps all feast days to a day and month if possible
+# NOTE the information whether the day stems from the gregorian or orthodox calendar gets removed but may prove useful
 def get_feast_days(claims_dict: dict):
 
     result_feast_days = []
@@ -63,33 +65,64 @@ def get_feast_days(claims_dict: dict):
             month = date_split[0]
             day = date_split[1]
 
-            result_feast_days.append((month,day))
+            result_feast_days.append({'Month': int(month), 'Day': int(day)})
         return result_feast_days
 
 
-def parse_json_content(json_saint: dict):
+# NOTE: Just put names in a flat list, might be improved by assigning stronger weighting to language that matches
+# the saint's geographic origin or where they achieved most renown
+def get_aliases(aliases_dict: dict):
+    aliases_list = []
+    print(aliases_dict)
+    for language in aliases_dict:
+        for entry in aliases_dict[language]:
+            name = entry['value']
+            aliases_list.append(name)
+    return list(set(aliases_list))
+
+
+def get_labels(labels_dict: dict):
+    labels_list = []
+    for language in labels_dict:
+        labels_list.append(labels_dict[language]['value'])
+    return list(set(labels_list))
+
+
+def parse_json_content(json_saint: dict) -> dict:
+    saint_dict = {}
     # print(json_saint)
     # print(json_saint['labels'])
     wikidata_id = json_saint['id']
-    labels = json_saint['labels']
+    saint_dict['wikidata_id'] = wikidata_id
+
+    labels_dict = json_saint['labels']
+    saint_dict['labels'] = get_labels(labels_dict)
     descriptions = json_saint['descriptions']
-    aliases = json_saint['aliases']
+    aliases_dict = json_saint['aliases']
+
+    saint_dict['aliases'] = get_aliases(aliases_dict)
+
     claims = json_saint['claims']
     feast_days = get_feast_days(claims)
-    print(feast_days)
+    # print(feast_days)
+    saint_dict['feast_days'] = feast_days
+
     sitelinks = json_saint['sitelinks']
+    return saint_dict
 
-    json_saint.keys()
 
-
-# TODO: check how many have a birthdate available, and sort accordingly, could help in processing time
+# NOTE: if further performance improvement is necessary:
+# check how many have a birthdate available, and sort accordingly, could help in processing time
 
 # Loads the entries from the heiligenlexikon for comparison with the wikidata entries from the database
-def load_hlex_entries():
+def load_hlex_entries(path_to_hlex: str):
     pass
 
 
-if '__name__' == '__main__':
+if __name__ == '__main__':
+
+
+
 
     # conn = sqlite3.connect('hundred_saints.db')
     # cursor = conn.cursor()
@@ -98,10 +131,17 @@ if '__name__' == '__main__':
     cursor = conn.cursor()
     saints = cursor.execute('SELECT * from saints')
 
+    processed_conn = sqlite3.connect('processed_saints.db')
+    processed_cursor = processed_conn.cursor()
+    processed_cursor = processed_cursor.executescript(
+        '''DROP TABLE IF EXISTS saints; CREATE TABLE saints (id varchar(20), namelist varchar(200), feastlist varchar(200))''')
+
+    #TODO: write to database
     for index, (id, content) in enumerate(saints):
         # print(id)
         # print(content)
         print("Entry: ", index)
         print("EntryID: ", id)
         json_saint = json.loads(content)
-        parse_json_content(json_saint)
+        saint_dict = parse_json_content(json_saint)
+        print(saint_dict)

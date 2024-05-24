@@ -745,13 +745,14 @@ wikidata_misc_day_dict = {
     "Q19081583": "7,9",
 }
 
-# we skip these ids because they appear in the feast days section but don't actually refer to a date
-# They're also marked as potentially having issues in wikidata, so most likely an annoation error
+# We skip the following ids because they appear in the feast days section of the wikidata entry,
+# but don't actually refer to a date.
+# They're also marked as potentially having issues in wikidata, so are most likely an annotation error
 # Q1841: Catholicism
 # Q35032: Eastern Orthodox Church
 # Q9592: Catholic Church
 # Q365695: Holy Translators
-# Q2387117: Bright Week --> Potentially mappable to days?
+# Q2387117: Bright Week --> mappable/usable?
 # Q18726: 1933
 # Q3333484: Eastern Orthodoxy
 # Q11184: Julian Calendar
