@@ -134,7 +134,7 @@ if __name__ == '__main__':
     processed_conn = sqlite3.connect('processed_saints.db')
     processed_cursor = processed_conn.cursor()
     processed_cursor = processed_cursor.executescript(
-        '''DROP TABLE IF EXISTS saints; CREATE TABLE saints (id varchar(20), namelist varchar(200), feastlist varchar(200))''')
+        '''DROP TABLE IF EXISTS saints; CREATE TABLE saints (id varchar(20), namelist varchar(500), feastlist varchar(500))''')
 
     #TODO: write to database
     for index, (id, content) in enumerate(saints):
@@ -145,3 +145,15 @@ if __name__ == '__main__':
         json_saint = json.loads(content)
         saint_dict = parse_json_content(json_saint)
         print(saint_dict)
+        feast_day_string = ""
+        if saint_dict['feast_days'] is not None:
+            for feast_day in saint_dict['feast_days']:
+                feast_day_string += str(feast_day['Month'])+","+str(feast_day['Day'])+";"
+        names_string = ";".join(saint_dict['labels'])+";"
+        names_string += ";".join(saint_dict['aliases'])
+
+        processed_cursor.execute("insert into saints values (?, ?, ?)", [saint_dict['wikidata_id'], names_string, feast_day_string])
+
+    processed_conn.commit()
+    processed_cursor.close()
+    processed_conn.close()

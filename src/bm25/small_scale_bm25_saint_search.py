@@ -73,22 +73,25 @@ for entry_to_map in dev_set_list:
 
     # needs to be done everytime unfortunately because the cursor needs to be reset everytime
     wikidata_saints = load_wikidata_data(
-        "../wikidata/hundred_saints.db", "hundred_saints"
+        "../wikidata/processed_saints.db", "saints"
     )
-    for entry_id, content in wikidata_saints:
-        json_saint = json.loads(content)
-
-        # Matching names/aliases
-        wikidata_aliases_dict = json_saint['aliases']
-        name_matching(saint_names, wikidata_aliases_dict)
-
-        # Matching Feast day(s)
-        feast_day_wiki_data_id = ""
-        if 'P841' in json_saint['claims']:
-            feast_day_wiki_data_id = json_saint['claims']['P841'][0]['mainsnak']['datavalue']['value']['id']
-            # TODO this assumes that the mainsnak is always first and that it contains the feast day, need to account for multiple snaks
-
-        # TODO need to convert the wikidata_id of the day to an actual date
-        feast_day_wiki_date = ""
+    for entry_id, namelist, feastlist in wikidata_saints:
+        print(entry_id)
+        print(namelist)
+        print(feastlist)
+        # json_saint = json.loads(content)
+        #
+        # # Matching names/aliases
+        # wikidata_aliases_dict = json_saint['aliases']
+        # name_matching(saint_names, wikidata_aliases_dict)
+        #
+        # # Matching Feast day(s)
+        # feast_day_wiki_data_id = ""
+        # if 'P841' in json_saint['claims']:
+        #     feast_day_wiki_data_id = json_saint['claims']['P841'][0]['mainsnak']['datavalue']['value']['id']
+        #     # TODO this assumes that the mainsnak is always first and that it contains the feast day, need to account for multiple snaks
+        #
+        # # TODO need to convert the wikidata_id of the day to an actual date
+        # feast_day_wiki_date = ""
 print(hlex_df)
 # corpus
