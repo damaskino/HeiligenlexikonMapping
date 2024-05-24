@@ -156,3 +156,21 @@ Name matching/alias 2 versions
     -strict match, potentially without function/stop words, potentially only first name
     -minimum edit distance
 Until next time: Table with matched entries
+
+
+#Keep count of name matches
+#add edit distance
+for name in hlex_names (name+aliase)
+	for wiki_name in wiki_names (label+alias)
+		if name == wiki_name:
+			return name_match
+#Only check feast day if multiple name_matches
+for feast_day in hlex_feast
+
+
+
+if no match calculate into accuracy
+Later: precision + recall
+how many non-null matches are correct
+try substituting names with accents to letters without accents
+#table with: goldstandard-match, algorithmus-match
