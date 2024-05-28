@@ -1,7 +1,7 @@
 # generator
 import json
 import sqlite3
-
+import math
 import pandas as pd
 import sys
 
@@ -37,18 +37,20 @@ def match_name(hlex_names: list, wikidata_names: list):
 
     return False, "NA"
 
+
 def match_feast_day(hlex_feast_days: list, wikidata_feast_days: list):
     for hlex_feast_day in hlex_feast_days:
-        if hlex_feast_day == None:
-            continue
+        if not isinstance(hlex_feast_day, str):
+            if math.isnan(hlex_feast_day):
+                continue
         hlex_feast_day = str(hlex_feast_day)
-        hlex_feast_day_split = hlex_feast_day.split('.')
+        hlex_feast_day_split = hlex_feast_day.split(".")
         day = hlex_feast_day_split[0]
         month = hlex_feast_day_split[1]
         for wiki_feast_day in wikidata_feast_days:
-            if len(wiki_feast_day)==0:
+            if len(wiki_feast_day) == 0:
                 continue
-            wiki_feast_day_split = wiki_feast_day.split(',')
+            wiki_feast_day_split = wiki_feast_day.split(",")
             wiki_day = wiki_feast_day_split[1]
             wiki_month = wiki_feast_day_split[0]
             if day == wiki_day and month == wiki_month:
@@ -56,16 +58,37 @@ def match_feast_day(hlex_feast_days: list, wikidata_feast_days: list):
                 break
     return False
 
+
+def write_matches_to_file(matches: list):
+    output_string = ""
+    for entry_dict in matches:
+        output_string += (
+                ";".join(
+                    [
+                        entry_dict["HlexEntry"],
+                        entry_dict["GoldStandardMatch"],
+                        entry_dict["SystemMatch"],
+                    ]
+                )
+                + "\n"
+        )
+    with open("match_results.txt", "w") as match_results_file:
+        match_results_file.write(output_string)
+
+
 dev_set_list = load_hlex_dev_set_entries()
 print("Loading hlex data...")
 hlex_df = load_hlex_data()
 print("Hlex loaded!")
+
+entry_matches = []
 for entry_to_map in dev_set_list:
     entry_split = entry_to_map.split(";")
-    entry_id = entry_split[0]
+    hlex_entry_id = entry_split[0]
+    entry_gold_standard_wiki_match = entry_split[2].rstrip()
 
     # retrieve the info we have from hlex
-    hlex_entry = hlex_df[entry_id]
+    hlex_entry = hlex_df[hlex_entry_id]
 
     hlex_saint_names = []
     hlex_saint_name = hlex_entry["SaintName"]
@@ -94,33 +117,44 @@ for entry_to_map in dev_set_list:
     # match the info from hlex to wikidata
 
     # needs to be done everytime unfortunately because the cursor needs to be reset everytime
-    wikidata_saints = load_wikidata_data(
-        "../wikidata/processed_saints.db", "saints"
-    )
-    for entry_id, wiki_namelist, wiki_feastlist in wikidata_saints:
-        print(entry_id)
+    wikidata_saints = load_wikidata_data("../wikidata/processed_saints.db", "saints")
+    for wiki_entry_id, wiki_namelist, wiki_feastlist in wikidata_saints:
+        wiki_entry_id = wiki_entry_id.rstrip()
+        print(wiki_entry_id)
         print(wiki_namelist)
-        wiki_namelist = wiki_namelist.split(';')
+        wiki_namelist = wiki_namelist.split(";")
         print(wiki_feastlist)
-        wiki_feastlist = wiki_feastlist.split(';')
+        wiki_feastlist = wiki_feastlist.split(";")
 
-        #match names
-        name_match_found, result = match_name(hlex_names=hlex_saint_names, wikidata_names=wiki_namelist)
+        # match names
+        name_match_found, result = match_name(
+            hlex_names=hlex_saint_names, wikidata_names=wiki_namelist
+        )
         if name_match_found:
             print("Found name match!")
-            print("Entry: ", entry_id)
+            print("Entry: ", hlex_entry_id, "->", wiki_entry_id)
 
-        feast_match_found = match_feast_day(hlex_feast_days=hlex_feast_days, wikidata_feast_days=wiki_feastlist)
+        feast_match_found = match_feast_day(
+            hlex_feast_days=hlex_feast_days, wikidata_feast_days=wiki_feastlist
+        )
         if feast_match_found:
             print("Feast day match found!")
-            print("Entry: ", entry_id)
+            print("Entry: ", hlex_entry_id, "->", wiki_entry_id)
 
         if feast_match_found and name_match_found:
             print("Found matching entry!")
-            sys.exit()
-        #match_feast_day(hlex_feast_days=hlex_feast_day, wikidata_feast_days=wiki_feastlist)
-        #match feast day(s)
+            entry_matches.append(
+                {
+                    "HlexEntry": hlex_entry_id,
+                    "GoldStandardMatch": entry_gold_standard_wiki_match,
+                    "SystemMatch": wiki_entry_id,
+                }
+            )
+            # sys.exit()
+        # match_feast_day(hlex_feast_days=hlex_feast_day, wikidata_feast_days=wiki_feastlist)
+        # match feast day(s)
 
-
-print(hlex_df)
+print(entry_matches)
+write_matches_to_file(entry_matches)
+# print(hlex_df)
 # corpus
