@@ -1,3 +1,2 @@
-#entry;gold_standard_match;system_match
 d5e131894Heiligenlexikon-1858;Q170503;Q170503
 d3e401079Heiligenlexikon-1858;Q1171057;Q1171057

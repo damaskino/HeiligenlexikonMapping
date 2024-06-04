@@ -3,6 +3,8 @@ import json
 import sqlite3
 import math
 import pandas as pd
+from thefuzz import fuzz
+
 
 import sys
 
@@ -29,38 +31,41 @@ def load_wikidata_data(path_to_db: str, saints_table: str):
     return saints_cursor
 
 
-def match_name(hlex_names: list, wikidata_names: list):
+def match_name(hlex_names: list, wikidata_names: list, edit_distance_threshold: int = 0):
+
     for name in hlex_names:
         for wiki_name in wikidata_names:
-            if name == wiki_name:
+            if name == wiki_name or fuzz.ratio(name, wiki_name) > edit_distance_threshold:
                 return True, name
                 break
 
     return False, "NA"
 
 
-def match_feast_day(hlex_feast_days: list, wikidata_feast_days: list):
+
+def match_feast_day(hlex_feast_days: list, wikidata_feast_days: list, feast_day_tolerance:int = 0):
     for hlex_feast_day in hlex_feast_days:
         if not isinstance(hlex_feast_day, str):
             if math.isnan(hlex_feast_day):
                 continue
         hlex_feast_day = str(hlex_feast_day)
         hlex_feast_day_split = hlex_feast_day.split(".")
-        day = hlex_feast_day_split[0]
-        month = hlex_feast_day_split[1]
+        day = int(hlex_feast_day_split[0])
+        month = int(hlex_feast_day_split[1])
         for wiki_feast_day in wikidata_feast_days:
             if len(wiki_feast_day) == 0:
                 continue
             wiki_feast_day_split = wiki_feast_day.split(",")
-            wiki_day = wiki_feast_day_split[1]
-            wiki_month = wiki_feast_day_split[0]
-            if day == wiki_day and month == wiki_month:
-                return True
-                break
+            wiki_day = int(wiki_feast_day_split[1])
+            wiki_month = int(wiki_feast_day_split[0])
+            if month == wiki_month:
+                if abs(day - wiki_day)<= feast_day_tolerance:
+                    return True
+                    break
     return False
 
 
-def write_matches_to_file(matches: list):
+def write_matches_to_file(matches: list, edit_distance_threshold = 100, feast_day_tolerance = 0):
     output_string = ""
     for entry_dict in matches:
         output_string += (
@@ -73,7 +78,14 @@ def write_matches_to_file(matches: list):
                 )
                 + "\n"
         )
-    with open("match_results.txt", "w") as match_results_file:
+
+    file_name_base = "match_results"
+    edit_distance_string = "edit_dist_thresh_"+ str(edit_distance_threshold)
+    feast_day_tolerance = "feast_tolerance_"+ str(feast_day_tolerance)
+    file_ending = ".txt"
+    file_name_full = "_".join([file_name_base, edit_distance_string, feast_day_tolerance]) + file_ending
+
+    with open(file_name_full, "w") as match_results_file:
         match_results_file.write(output_string)
 
 def load_data()-> (list, pd.DataFrame):
@@ -84,7 +96,8 @@ def load_data()-> (list, pd.DataFrame):
     return dev_set_list, hlex_df
 
 #TODO: make use of parameters
-def match_entries(dev_set_list, hlex_df, name_edit_distance_threshold=0, feast_day_tolerance=0):
+#TODO: if only one name matches don't consider feast days, if multiple name matches found, look at feast days
+def match_entries(dev_set_list, hlex_df, name_edit_distance_threshold=100, feast_day_tolerance=0):
     entry_matches = []
     for entry_to_map in dev_set_list:
         entry_split = entry_to_map.split(";")
@@ -132,7 +145,7 @@ def match_entries(dev_set_list, hlex_df, name_edit_distance_threshold=0, feast_d
 
             # match names
             name_match_found, result = match_name(
-                hlex_names=hlex_saint_names, wikidata_names=wiki_namelist
+                hlex_names=hlex_saint_names, wikidata_names=wiki_namelist, edit_distance_threshold=name_edit_distance_threshold
             )
             if name_match_found:
                 print("Found name match!")
@@ -159,7 +172,7 @@ def match_entries(dev_set_list, hlex_df, name_edit_distance_threshold=0, feast_d
             # match feast day(s)
 
     print(entry_matches)
-    write_matches_to_file(entry_matches)
+    write_matches_to_file(entry_matches, name_edit_distance_threshold, feast_day_tolerance)
     # print(hlex_df)
     # corpus
 
@@ -168,5 +181,9 @@ if __name__ == '__main__':
     #the naivest approach, if one name from hlex matches exactly with a name/alias/label in wikidata
     # *and* if either of the feast days match, consider this a match
     match_entries(dev_set_list=dev_set_list, hlex_df=hlex_df)
+    #Using edit distance: as long as a name is similar enough to pass an edit distance threshold, it is considered to be a name match
+    #Feast day tolerance: allow the feast days between hlex and wiki entries to diverge within a fixed number of days
+    match_entries(dev_set_list=dev_set_list, hlex_df=hlex_df, name_edit_distance_threshold=80, feast_day_tolerance=0)
     match_entries(dev_set_list=dev_set_list, hlex_df=hlex_df, name_edit_distance_threshold=80, feast_day_tolerance=2)
-    #slightly differentiated approach where
+    match_entries(dev_set_list=dev_set_list, hlex_df=hlex_df, name_edit_distance_threshold=80, feast_day_tolerance=7)
+    match_entries(dev_set_list=dev_set_list, hlex_df=hlex_df, name_edit_distance_threshold=70, feast_day_tolerance=0)
