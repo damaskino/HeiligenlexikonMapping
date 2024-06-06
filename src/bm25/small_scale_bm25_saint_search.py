@@ -1,5 +1,6 @@
 # generator
 import json
+import os
 import sqlite3
 import math
 import pandas as pd
@@ -27,7 +28,7 @@ def load_wikidata_data(path_to_db: str, saints_table: str):
     saints_cursor = saints_db.cursor()
 
     saints_cursor.execute(f"SELECT * FROM {saints_table};")
-    print("Query executed")
+    #print("Query executed")
     return saints_cursor
 
 
@@ -82,10 +83,11 @@ def write_matches_to_file(matches: list, edit_distance_threshold = 100, feast_da
     file_name_base = "match_results"
     edit_distance_string = "edit_dist_thresh_"+ str(edit_distance_threshold)
     feast_day_tolerance = "feast_tolerance_"+ str(feast_day_tolerance)
-    file_ending = ".txt"
+    file_ending = ".csv"
     file_name_full = "_".join([file_name_base, edit_distance_string, feast_day_tolerance]) + file_ending
-
-    with open(file_name_full, "w") as match_results_file:
+    target_folder = "matching_results"
+    full_path = os.path.join(target_folder, file_name_full)
+    with open(full_path, "w") as match_results_file:
         match_results_file.write(output_string)
 
 def load_data()-> (list, pd.DataFrame):
@@ -95,14 +97,16 @@ def load_data()-> (list, pd.DataFrame):
     print("Hlex loaded!")
     return dev_set_list, hlex_df
 
-#TODO: make use of parameters
-#TODO: if only one name matches don't consider feast days, if multiple name matches found, look at feast days
+
+#If only one name matches don't consider feast days, if multiple name matches found, look at feast days
 def match_entries(dev_set_list, hlex_df, name_edit_distance_threshold=100, feast_day_tolerance=0):
     entry_matches = []
-    for entry_to_map in dev_set_list:
+    for idx,entry_to_map in enumerate(dev_set_list):
+
         entry_split = entry_to_map.split(";")
         hlex_entry_id = entry_split[0]
         entry_gold_standard_wiki_match = entry_split[2].rstrip()
+        print(f"At entry: {idx} with id: {hlex_entry_id}")
 
         # retrieve the info we have from hlex
         hlex_entry = hlex_df[hlex_entry_id]
@@ -129,49 +133,67 @@ def match_entries(dev_set_list, hlex_df, name_edit_distance_threshold=100, feast
         if len(hlex_aliases_list) > 0:
             hlex_saint_names += hlex_aliases_list
 
-            # for alias in hlex_aliases_list:
-            #    print(alias)
+        #Account for multiple name matches across wiki entries,
+        # highly likely in cases where the saint name is common (e.g. Peter)
+        #If there is more than one name match, we take the feast day as an additional distinguishing feature
+        name_matches = []
+        feast_matches = []
+        system_match = ""
+        # for alias in hlex_aliases_list:
+        #    print(alias)
         # match the info from hlex to wikidata
 
         # needs to be done everytime unfortunately because the cursor needs to be reset everytime
         wikidata_saints = load_wikidata_data("../wikidata/processed_saints.db", "saints")
         for wiki_entry_id, wiki_namelist, wiki_feastlist in wikidata_saints:
             wiki_entry_id = wiki_entry_id.rstrip()
-            print(wiki_entry_id)
-            print(wiki_namelist)
+            #print(wiki_entry_id)
+            #print(wiki_namelist)
             wiki_namelist = wiki_namelist.split(";")
-            print(wiki_feastlist)
+            #print(wiki_feastlist)
             wiki_feastlist = wiki_feastlist.split(";")
 
             # match names
+            # NOTE: currently only considers the first found match and does not look further if a match is found
             name_match_found, result = match_name(
                 hlex_names=hlex_saint_names, wikidata_names=wiki_namelist, edit_distance_threshold=name_edit_distance_threshold
             )
             if name_match_found:
-                print("Found name match!")
-                print("Entry: ", hlex_entry_id, "->", wiki_entry_id)
+                #print("Found name match!")
+                #print("Entry: ", hlex_entry_id, "->", wiki_entry_id)
+                name_matches.append(wiki_entry_id)
 
-            feast_match_found = match_feast_day(
-                hlex_feast_days=hlex_feast_days, wikidata_feast_days=wiki_feastlist
-            )
-            if feast_match_found:
-                print("Feast day match found!")
-                print("Entry: ", hlex_entry_id, "->", wiki_entry_id)
-
-            if feast_match_found and name_match_found:
-                print("Found matching entry!")
-                entry_matches.append(
-                    {
-                        "HlexEntry": hlex_entry_id,
-                        "GoldStandardMatch": entry_gold_standard_wiki_match,
-                        "SystemMatch": wiki_entry_id,
-                    }
+            # NOTE: currently only considers the first found match and does not look further if a match is found
+            #ONLY consider feast days if the name was a match
+                feast_match_found = match_feast_day(
+                    hlex_feast_days=hlex_feast_days, wikidata_feast_days=wiki_feastlist
                 )
-                # sys.exit()
-            # match_feast_day(hlex_feast_days=hlex_feast_day, wikidata_feast_days=wiki_feastlist)
-            # match feast day(s)
+                if feast_match_found:
+                    print("Feast day match found!")
+                    #print("Entry: ", hlex_entry_id, "->", wiki_entry_id)
+                    feast_matches.append(wiki_entry_id)
 
-    print(entry_matches)
+
+
+        #Gone through all wiki entries for this hlex entry, now we tally up the matching results
+        if len(name_matches) == 1:
+            system_match = name_matches[0]
+        elif len(name_matches) >1:
+            for candidate_entry in name_matches:
+                if candidate_entry in feast_matches:
+                    system_match=candidate_entry
+                    #TODO only checks for first matching feast day atm, might consider adding more feast days
+                    #and give higher priority to wiki entries when multiple feast days match for the same entry
+                    break
+        entry_matches.append(
+            {
+                "HlexEntry": hlex_entry_id,
+                "GoldStandardMatch": entry_gold_standard_wiki_match,
+                "SystemMatch": system_match,
+            }
+        )
+
+    #print(entry_matches)
     write_matches_to_file(entry_matches, name_edit_distance_threshold, feast_day_tolerance)
     # print(hlex_df)
     # corpus
@@ -183,6 +205,7 @@ if __name__ == '__main__':
     match_entries(dev_set_list=dev_set_list, hlex_df=hlex_df)
     #Using edit distance: as long as a name is similar enough to pass an edit distance threshold, it is considered to be a name match
     #Feast day tolerance: allow the feast days between hlex and wiki entries to diverge within a fixed number of days
+    match_entries(dev_set_list=dev_set_list, hlex_df=hlex_df, name_edit_distance_threshold=90)
     match_entries(dev_set_list=dev_set_list, hlex_df=hlex_df, name_edit_distance_threshold=80, feast_day_tolerance=0)
     match_entries(dev_set_list=dev_set_list, hlex_df=hlex_df, name_edit_distance_threshold=80, feast_day_tolerance=2)
     match_entries(dev_set_list=dev_set_list, hlex_df=hlex_df, name_edit_distance_threshold=80, feast_day_tolerance=7)

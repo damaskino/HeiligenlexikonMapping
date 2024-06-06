@@ -146,9 +146,17 @@ primitive baseline (feast day + name(edit distance, cutoff proportional to lengt
 document statistics of the datasets
 
 
-Check if devset items available in wikidata
-Check if devset item has no canonization status
-Check if devset item has no german wikipedia page
+Check if devset items available in wikidata - DONE, all available
+Check if devset item has no canonization status -
+    DONE, all devset items have a canonization status Property in the wikidata entry
+Check if devset item has no german wikipedia page -
+    DONE, the following have no german wikipedia page
+    https://en.wikipedia.org/wiki/Mercurialis_of_Forl%C3%AC
+    https://en.wikipedia.org/wiki/Gerontius_(bishop_of_Milan)
+    https://fr.wikipedia.org/wiki/Etton_de_Dompierre_sur_Helpe
+    https://en.wikipedia.org/wiki/Cwenburh
+
+
 -Further filtering for humans:
     - cutoff date Watch out for edition date
     - Check if entry has some spiritual occupation
