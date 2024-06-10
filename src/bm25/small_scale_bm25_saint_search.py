@@ -177,7 +177,8 @@ def match_entries(dev_set_list, hlex_df, name_edit_distance_threshold=100, feast
 
         #Gone through all wiki entries for this hlex entry, now we tally up the matching results
         if len(name_matches) == 1:
-            system_match = name_matches[0]
+            if name_matches[0] in feast_matches:
+                system_match = name_matches[0]
         elif len(name_matches) >1:
             for candidate_entry in name_matches:
                 if candidate_entry in feast_matches:

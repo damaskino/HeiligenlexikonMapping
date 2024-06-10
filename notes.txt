@@ -161,9 +161,10 @@ Check if devset item has no german wikipedia page -
     - cutoff date Watch out for edition date
     - Check if entry has some spiritual occupation
 Name matching/alias 2 versions
-    -strict match, potentially without function/stop words, potentially only first name
-    -minimum edit distance
-Until next time: Table with matched entries
+    -strict match - DONE
+    - potentially without function/stop words, potentially only first name
+    -minimum edit distance - DONE
+Until next time: Table with matched entries - DONE
 
 
 #Keep count of name matches
@@ -182,3 +183,9 @@ Later: precision + recall
 how many non-null matches are correct
 try substituting names with accents to letters without accents
 #table with: goldstandard-match, algorithmus-match
+
+100 threshold needs more precision, make feast day mandatory
+
+check false positives, some need to be added to gold standard, e.g.
+https://www.wikidata.org/wiki/Q3855701
+Q3340821
