@@ -184,8 +184,10 @@ how many non-null matches are correct
 try substituting names with accents to letters without accents
 #table with: goldstandard-match, algorithmus-match
 
-100 threshold needs more precision, make feast day mandatory
+100 threshold needs more precision, make feast day mandatory - DONE
 
 check false positives, some need to be added to gold standard, e.g.
 https://www.wikidata.org/wiki/Q3855701
 Q3340821
+
+For debugging: Add the name(s) that were determined to be matching

@@ -9,7 +9,7 @@ d5e131894Heiligenlexikon-1858;https://de.wikipedia.org/wiki/Nikolaus_I._(Papst);
 d3e321505Heiligenlexikon-1858;https://en.wikipedia.org/wiki/Gerontius_(bishop_of_Milan);Q3761242
 d5e18584Heiligenlexikon-1858;;
 d3e205046Heiligenlexikon-1858;;
-d5e96404Heiligenlexikon-1858;;
+d5e96404Heiligenlexikon-1858;https://it.wikipedia.org/wiki/San_Metrano;Q3855701
 d5e404388Heiligenlexikon-1858;https://fr.wikipedia.org/wiki/Etton_de_Dompierre_sur_Helpe;Q2693006
 d5e151127Heiligenlexikon-1858;https://en.wikipedia.org/wiki/Jutta_of_Kulmsee;Q273705
 d3e177449Heiligenlexikon-1858;;
@@ -19,7 +19,7 @@ d3e344556Heiligenlexikon-1858;;
 d5e320528Heiligenlexikon-1858;;
 d3e60557Heiligenlexikon-1858;https://en.wikipedia.org/wiki/Anthony_of_Padua;Q167477
 d3e236574Heiligenlexikon-1858;;
-d5e399777Heiligenlexikon-1858;;
+d5e399777Heiligenlexikon-1858;https://fr.wikipedia.org/wiki/Vulfetrude_de_Nivelles;Q3340821
 d5e108603Heiligenlexikon-1858;;
 d5e56226Heiligenlexikon-1858;;
 d3e218526Heiligenlexikon-1858;;

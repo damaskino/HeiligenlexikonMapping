@@ -17,6 +17,8 @@ def calculate_metric_components_of_results(result_list: object) -> list:
 
         prediction_tuple = (hlex_id, gold_standard_match, system_match)
 
+        #TODO use system match for identifying
+
         if gold_standard_match == '':
             if gold_standard_match == system_match:
                 true_negatives.append(prediction_tuple)
@@ -42,9 +44,11 @@ def calculate_metrics(tp, tn, fp, fn):
 def calculate_accuracy(true_positives:int, true_negatives:int, false_positives:int, false_negatives):
     return (true_positives + true_negatives) / (true_positives+true_negatives+false_positives+false_negatives)
 
+#TODO doublecheck
 def calculate_precision(true_positives:int, false_positives:int):
     return true_positives / (true_positives+false_positives)
 
+#TODO doublecheck
 def calculate_recall(true_positives:int, false_negatives:int):
     return true_positives / (true_positives+false_negatives)
 
