@@ -5,7 +5,7 @@ $(document).ready(function() {
     success: function(data) {
       const dataArray = Object.entries(data).map(([key, value]) => ({ key, ...value }));
 
-      $('#GoldStandardTable').DataTable({
+      $('#goldStandardTable').DataTable({
         data: dataArray,
         columns: [
           { data: 'key', title: 'Key' },
@@ -35,7 +35,7 @@ $(document).ready(function() {
     success: function(data) {
       const dataArray = Object.entries(data).map(([key, value]) => ({ key, ...value }));
 
-      $('#HlexDataTable').DataTable({
+      $('#hlexDataTable').DataTable({
         data: dataArray,
         columns: [
           { data: 'key', title: 'Key' },

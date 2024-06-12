@@ -6,25 +6,25 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 </head>
 <body>
-<h1>Gold Standard Review</h1>
 
 
-<div id="tabs">
-  <ul>
-    <li><a href="#tab-1">Current Table</a></li>
-    <li><a href="#tab-2">Another Table</a></li>
+<div id="tabs" class="tabs">
+  <ul class="tab-list">
+    <li class="tab-list-item"><a href="#tab-1" class="tab-link">Current Table</a></li>
+    <li class="tab-list-item"><a href="#tab-2" class="tab-link">Another Table</a></li>
   </ul>
-  <div id="tab-1">
-    <table id="HlexDataTable" class="display" style="width:100%"></table>
+  <div id="tab-1" class="tab-content">
+    <table id="hlexDataTable" class="display" style="width:100%"></table>
   </div>
-  <div id="tab-2">
-    <table id="GoldStandardTable" class="display" style="width:100%"></table>
+  <div id="tab-2" class="tab-content">
+    <table id="goldStandardTable" class="display" style="width:100%"></table>
   </div>
 </div>
 
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-<script src="script.js"></script> <!-- Your JavaScript file -->
+<script src="script.js"></script>
 </body>
 </html>
