@@ -8,9 +8,20 @@
 <body>
 <h1>Gold Standard Review</h1>
 
-<table id="dataTable" class="display">
-  <!-- Table content will be added by JavaScript -->
-</table>
+
+<div id="tabs">
+  <ul>
+    <li><a href="#tab-1">Current Table</a></li>
+    <li><a href="#tab-2">Another Table</a></li>
+  </ul>
+  <div id="tab-1">
+    <table id="HlexDataTable" class="display" style="width:100%"></table>
+  </div>
+  <div id="tab-2">
+    <table id="GoldStandardTable" class="display" style="width:100%"></table>
+  </div>
+</div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
