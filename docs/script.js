@@ -28,6 +28,7 @@ $(document).ready(function() {
     error: function(xhr, status, error) {
       console.error('Error loading JSON file:', error);
     }
+    });
 
     $.ajax({
     url: 'parsed_heiligenlexikon.json',
@@ -55,5 +56,8 @@ $(document).ready(function() {
         ]
       });
     },
+    error: function(xhr, status, error) {
+      console.error('Error loading JSON file:', error);
+    }
   });
 });
