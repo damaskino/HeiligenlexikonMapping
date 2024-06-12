@@ -48,12 +48,10 @@ $(document).ready(function() {
           { data: 'RawFeastDay', title: 'Raw Feast Day' },
           { data: 'OriginalText',  title: 'Raw Text from Saints Lexicon'}
           { data: 'Gender',  title: 'Gender' },
-          //{ data: 'Occupation', title: 'Occupation' },
-          //{ data: 'RawOccupation', title: 'Raw Occupation' },
           { data: 'EntryLength', title: 'Character Length of Entry' },
           { data: 'CanonizationStatus', title: 'Canonization' },
-
-
+          //{ data: 'Occupation', title: 'Occupation' },
+          //{ data: 'RawOccupation', title: 'Raw Occupation' },
           // Add more columns as needed
         ]
       });
