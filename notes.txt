@@ -186,8 +186,7 @@ try substituting names with accents to letters without accents
 
 100 threshold needs more precision, make feast day mandatory - DONE
 
-check false positives, some need to be added to gold standard, e.g.
-https://www.wikidata.org/wiki/Q3855701
-Q3340821
+check false positives, some need to be added to gold standard, DONE
+e.g. https://www.wikidata.org/wiki/Q3855701, Q3340821
 
 For debugging: Add the name(s) that were determined to be matching

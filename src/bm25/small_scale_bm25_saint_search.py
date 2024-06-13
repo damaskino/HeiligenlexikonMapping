@@ -4,6 +4,7 @@ import os
 import sqlite3
 import math
 import pandas as pd
+import datetime
 from thefuzz import fuzz
 
 
@@ -42,7 +43,17 @@ def match_name(hlex_names: list, wikidata_names: list, edit_distance_threshold: 
 
     return False, "NA"
 
+#Calculate the day distance between two dates, using 1804 as an arbitrarily picked leap year that
+#still allows for february 29th to exist if necessary.
 
+def calculate_feast_day_distance(hlex_day:int, hlex_month: int, wiki_day:int, wiki_month):
+    reference_year = 1804
+    hlex_date = datetime.date(year=reference_year, month=hlex_month, day=hlex_day)
+    wiki_date = datetime.date(year=reference_year, month=wiki_month, day=wiki_day)
+
+    hlex_wiki_delta = hlex_date-wiki_date
+    days_delta = abs(hlex_wiki_delta.days)
+    return days_delta
 
 def match_feast_day(hlex_feast_days: list, wikidata_feast_days: list, feast_day_tolerance:int = 0):
     for hlex_feast_day in hlex_feast_days:
@@ -51,16 +62,19 @@ def match_feast_day(hlex_feast_days: list, wikidata_feast_days: list, feast_day_
                 continue
         hlex_feast_day = str(hlex_feast_day)
         hlex_feast_day_split = hlex_feast_day.split(".")
-        day = int(hlex_feast_day_split[0])
-        month = int(hlex_feast_day_split[1])
+        hlex_day = int(hlex_feast_day_split[0])
+        hlex_month = int(hlex_feast_day_split[1])
+        #TODO: Workaround, remove when fixed
+        if hlex_month==20:
+            continue
         for wiki_feast_day in wikidata_feast_days:
             if len(wiki_feast_day) == 0:
                 continue
             wiki_feast_day_split = wiki_feast_day.split(",")
             wiki_day = int(wiki_feast_day_split[1])
             wiki_month = int(wiki_feast_day_split[0])
-            if month == wiki_month:
-                if abs(day - wiki_day)<= feast_day_tolerance:
+            days_delta = calculate_feast_day_distance(hlex_day=hlex_day, hlex_month=hlex_month, wiki_day=wiki_day, wiki_month=wiki_month)
+            if days_delta <= feast_day_tolerance:
                     return True
                     break
     return False
