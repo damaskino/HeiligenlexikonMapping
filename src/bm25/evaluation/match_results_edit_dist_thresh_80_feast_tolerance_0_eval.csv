@@ -1,61 +1,61 @@
 File;Accuracy;Precision;Recall
 match_results_edit_dist_thresh_80_feast_tolerance_0.csv;0.9;1.0;0.5454545454545454
 
-;Gold Standard Match; System Match
+;Gold Standard Match; System Match;HLexLink;WikidataLinkGold;WikidataLinkSystem
 True Positives
-d5e94352Heiligenlexikon-1858;Q3855076;Q3855076
-d5e131894Heiligenlexikon-1858;Q170503;Q170503
-d3e321505Heiligenlexikon-1858;Q3761242;Q3761242
-d3e401079Heiligenlexikon-1858;Q1171057;Q1171057
-d3e60557Heiligenlexikon-1858;Q167477;Q167477
-d5e399777Heiligenlexikon-1858;Q3340821;Q3340821
+d5e94352Heiligenlexikon-1858;Q3855076;Q3855076;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e94352Heiligenlexikon-1858;https://www.wikidata.org/wiki/Q3855076;https://www.wikidata.org/wiki/Q3855076
+d5e131894Heiligenlexikon-1858;Q170503;Q170503;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e131894Heiligenlexikon-1858;https://www.wikidata.org/wiki/Q170503;https://www.wikidata.org/wiki/Q170503
+d3e321505Heiligenlexikon-1858;Q3761242;Q3761242;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e321505Heiligenlexikon-1858;https://www.wikidata.org/wiki/Q3761242;https://www.wikidata.org/wiki/Q3761242
+d3e401079Heiligenlexikon-1858;Q1171057;Q1171057;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e401079Heiligenlexikon-1858;https://www.wikidata.org/wiki/Q1171057;https://www.wikidata.org/wiki/Q1171057
+d3e60557Heiligenlexikon-1858;Q167477;Q167477;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e60557Heiligenlexikon-1858;https://www.wikidata.org/wiki/Q167477;https://www.wikidata.org/wiki/Q167477
+d5e399777Heiligenlexikon-1858;Q3340821;Q3340821;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e399777Heiligenlexikon-1858;https://www.wikidata.org/wiki/Q3340821;https://www.wikidata.org/wiki/Q3340821
 
 True Negatives
-d5e111476Heiligenlexikon-1858;;
-d3e349781Heiligenlexikon-1858;;
-d5e100967Heiligenlexikon-1858;;
-d5e94865Heiligenlexikon-1858;;
-d5e402499Heiligenlexikon-1858;;
-d3e147617Heiligenlexikon-1858;;
-d5e18584Heiligenlexikon-1858;;
-d3e205046Heiligenlexikon-1858;;
-d3e177449Heiligenlexikon-1858;;
-d3e196703Heiligenlexikon-1858;;
-d3e344556Heiligenlexikon-1858;;
-d5e320528Heiligenlexikon-1858;;
-d3e236574Heiligenlexikon-1858;;
-d5e108603Heiligenlexikon-1858;;
-d5e56226Heiligenlexikon-1858;;
-d3e218526Heiligenlexikon-1858;;
-d3e333569Heiligenlexikon-1858;;
-d5e397250Heiligenlexikon-1858;;
-d5e146481Heiligenlexikon-1858;;
-d3e300221Heiligenlexikon-1858;;
-d5e152369Heiligenlexikon-1858;;
-d3e440659Heiligenlexikon-1858;;
-d5e158784Heiligenlexikon-1858;;
-d5e220619Heiligenlexikon-1858;;
-d3e184242Heiligenlexikon-1858;;
-d5e288987Heiligenlexikon-1858;;
-d5e145954Heiligenlexikon-1858;;
-d5e291874Heiligenlexikon-1858;;
-d5e212059Heiligenlexikon-1858;;
-d3e68866Heiligenlexikon-1858;;
-d5e19682Heiligenlexikon-1858;;
-d3e52329Heiligenlexikon-1858;;
-d5e224901Heiligenlexikon-1858;;
-d3e245535Heiligenlexikon-1858;;
-d3e551467Heiligenlexikon-1858;;
-d3e138529Heiligenlexikon-1858;;
-d5e96722Heiligenlexikon-1858;;
-d5e177875Heiligenlexikon-1858;;
-d5e352592Heiligenlexikon-1858;;
+d5e111476Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e111476Heiligenlexikon-1858;;
+d3e349781Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e349781Heiligenlexikon-1858;;
+d5e100967Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e100967Heiligenlexikon-1858;;
+d5e94865Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e94865Heiligenlexikon-1858;;
+d5e402499Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e402499Heiligenlexikon-1858;;
+d3e147617Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e147617Heiligenlexikon-1858;;
+d5e18584Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e18584Heiligenlexikon-1858;;
+d3e205046Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e205046Heiligenlexikon-1858;;
+d3e177449Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e177449Heiligenlexikon-1858;;
+d3e196703Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e196703Heiligenlexikon-1858;;
+d3e344556Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e344556Heiligenlexikon-1858;;
+d5e320528Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e320528Heiligenlexikon-1858;;
+d3e236574Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e236574Heiligenlexikon-1858;;
+d5e108603Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e108603Heiligenlexikon-1858;;
+d5e56226Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e56226Heiligenlexikon-1858;;
+d3e218526Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e218526Heiligenlexikon-1858;;
+d3e333569Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e333569Heiligenlexikon-1858;;
+d5e397250Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e397250Heiligenlexikon-1858;;
+d5e146481Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e146481Heiligenlexikon-1858;;
+d3e300221Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e300221Heiligenlexikon-1858;;
+d5e152369Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e152369Heiligenlexikon-1858;;
+d3e440659Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e440659Heiligenlexikon-1858;;
+d5e158784Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e158784Heiligenlexikon-1858;;
+d5e220619Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e220619Heiligenlexikon-1858;;
+d3e184242Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e184242Heiligenlexikon-1858;;
+d5e288987Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e288987Heiligenlexikon-1858;;
+d5e145954Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e145954Heiligenlexikon-1858;;
+d5e291874Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e291874Heiligenlexikon-1858;;
+d5e212059Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e212059Heiligenlexikon-1858;;
+d3e68866Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e68866Heiligenlexikon-1858;;
+d5e19682Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e19682Heiligenlexikon-1858;;
+d3e52329Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e52329Heiligenlexikon-1858;;
+d5e224901Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e224901Heiligenlexikon-1858;;
+d3e245535Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e245535Heiligenlexikon-1858;;
+d3e551467Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e551467Heiligenlexikon-1858;;
+d3e138529Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e138529Heiligenlexikon-1858;;
+d5e96722Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e96722Heiligenlexikon-1858;;
+d5e177875Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e177875Heiligenlexikon-1858;;
+d5e352592Heiligenlexikon-1858;;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e352592Heiligenlexikon-1858;;
 
 False Positives
 
 False Negatives
-d5e96404Heiligenlexikon-1858;Q3855701;
-d5e404388Heiligenlexikon-1858;Q2693006;
-d5e151127Heiligenlexikon-1858;Q273705;
-d3e102421Heiligenlexikon-1858;Q236326;
-d5e225483Heiligenlexikon-1858;Q16208335;
+d5e96404Heiligenlexikon-1858;Q3855701;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e96404Heiligenlexikon-1858;Q3855701;
+d5e404388Heiligenlexikon-1858;Q2693006;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e404388Heiligenlexikon-1858;Q2693006;
+d5e151127Heiligenlexikon-1858;Q273705;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e151127Heiligenlexikon-1858;Q273705;
+d3e102421Heiligenlexikon-1858;Q236326;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d3e102421Heiligenlexikon-1858;Q236326;
+d5e225483Heiligenlexikon-1858;Q16208335;;https://damaskino.github.io/HeiligenlexikonMapping?entry=d5e225483Heiligenlexikon-1858;Q16208335;

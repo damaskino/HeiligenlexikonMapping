@@ -79,8 +79,26 @@ def get_metric_components_from_result_file(filepath: str):
 def write_metric_component_entries_to_str(metric_component_list: str):
     result_string = ""
     for entry_tuple in metric_component_list:
+        hlex_base_link = "https://damaskino.github.io/HeiligenlexikonMapping?entry="
+        wikidata_base_link = "https://www.wikidata.org/wiki/"
+        if len(entry_tuple[1]) == 0 or len(entry_tuple[2]) == 0:
+            wikidata_base_link = ""
+        hlex_link = hlex_base_link + entry_tuple[0]
+        wikidata_link_gold_match = wikidata_base_link + entry_tuple[1]
+        wikidata_link_system_match = wikidata_base_link + entry_tuple[2]
+
         result_string += (
-                ";".join([entry_tuple[0], entry_tuple[1], entry_tuple[2]]) + "\n"
+                ";".join(
+                    [
+                        entry_tuple[0],
+                        entry_tuple[1],
+                        entry_tuple[2],
+                        hlex_link,
+                        wikidata_link_gold_match,
+                        wikidata_link_system_match,
+                    ]
+                )
+                + "\n"
         )
     return result_string
 
@@ -118,7 +136,7 @@ if __name__ == "__main__":
                     + ";".join([result_file, str(accuracy), str(precision), str(recall)])
                     + "\n"
             )
-            output_string += "\n;Gold Standard Match; System Match"
+            output_string += "\n;Gold Standard Match; System Match;HLexLink;WikidataLinkGold;WikidataLinkSystem"
             output_string += "\nTrue Positives\n"
             output_string += write_metric_component_entries_to_str(true_positives)
             output_string += "\nTrue Negatives\n"
