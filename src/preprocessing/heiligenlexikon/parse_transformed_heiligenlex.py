@@ -10,15 +10,15 @@ import json
 import re
 import stanza
 
-from src.saint_alias_extraction import get_saint_aliases
-from src.occupation_extraction import (
+from src.preprocessing.heiligenlexikon.saint_alias_extraction import get_saint_aliases
+from src.preprocessing.heiligenlexikon.occupation_extraction import (
     extract_occupation,
     setup_occupation_list,
     setup_occupation_dict,
     get_occupation_category,
 )
-from src.parse_dates import convert_date
-from src.regex_matching import (
+from src.preprocessing.heiligenlexikon.parse_dates import convert_date
+from src.preprocessing.heiligenlexikon.regex_matching import (
     match_saint_name,
     match_canonization,
     match_second_hlex_number,
@@ -195,7 +195,9 @@ class HlexParser:
     @classmethod
     def write_dict_to_json(cls, data: dict):
         json_data = json.dumps(data)
-        with open("../outputs_to_review/parsed_heiligenlexikon.json", "w") as json_file:
+        with open(
+                "../../../outputs_to_review/parsed_heiligenlexikon.json", "w"
+        ) as json_file:
             json_file.write(json_data)
 
 
@@ -271,7 +273,9 @@ if __name__ == "__main__":
             # print(hlex_soup)
     else:
         print("No pickle found, loading from XML...")
-        hlex_soup = timing_wrapper(hlex_parser.load_transformed_hlex_to_soup, "../data/Heiligenlex-1858.xml")
+        hlex_soup = timing_wrapper(
+            hlex_parser.load_transformed_hlex_to_soup, "../data/Heiligenlex-1858.xml"
+        )
         print("Size of Hlex Object: ", sys.getsizeof(hlex_soup))
         hlex_parser.pickle_it(hlex_soup, "tmp/" + HLEX_SOUP_PICKLE)
     print("Loaded", hlex_soup.title.text)

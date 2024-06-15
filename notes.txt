@@ -190,3 +190,18 @@ check false positives, some need to be added to gold standard, DONE
 e.g. https://www.wikidata.org/wiki/Q3855701, Q3340821
 
 For debugging: Add the name(s) that were determined to be matching
+
+- Baseline fixed, run on all data
+
+- Supervised:
+
+create "wholeset" (all data minus dev and goldstandard)
+
+- using bm25 score as threshold
+              - learn supervised
+              use matched saints as training data (ignore saints that didn't get a match)
+                find non-matching saints for the matched saints only
+                limit unmatched to plausibly similar saints, e.g. gender matches
+              - must abstract away from strict name and feast day matching
+              - find a more general way to match, like similarity of description texts
+              - e.g. encode texts into vectors and find threshold

@@ -1,6 +1,6 @@
 import unittest
 
-from src.bm25.evaluation import calculate_accuracy, calculate_precision
+from src.wikification.evaluation import calculate_accuracy, calculate_precision
 
 
 class MetricsTestCase(unittest.TestCase):

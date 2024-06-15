@@ -1,8 +1,6 @@
-import sys
-
 from tqdm import tqdm
 
-from src.parse_transformed_heiligenlex import HlexParser
+from src.preprocessing.heiligenlexikon.parse_transformed_heiligenlex import HlexParser
 
 # the <term> tag in the document contains only the name and the canonization status
 
@@ -14,7 +12,7 @@ entries = [entry for entry in hlex_soup.find_all("entry")]
 first_hi_rends = []
 for entry in tqdm(entries):
     entry_id = entry.get("xml:id")
-    hi_rends = entry.find_all('hi', rend="bold")
+    hi_rends = entry.find_all("hi", rend="bold")
 
     hi_rends_to_add = ""
     if hi_rends:
@@ -37,5 +35,7 @@ for entry in tqdm(entries):
     # first_hi_rends.append(first_hi_rend)
 
 print("writing to file")
-with open("../../data/1_intermediate/first_hi_rends.txt", "w", encoding="utf-8") as entries_file:
+with open(
+        "../../../data/1_intermediate/first_hi_rends.txt", "w", encoding="utf-8"
+) as entries_file:
     entries_file.write("\n#\n#\n#\n".join(first_hi_rends))

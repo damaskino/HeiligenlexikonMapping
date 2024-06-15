@@ -1,6 +1,6 @@
 import unittest
 
-from src.saint_alias_extraction import get_saint_aliases
+from src.preprocessing.heiligenlexikon.saint_alias_extraction import get_saint_aliases
 
 
 class AlternativeNameSpellingTestCase(unittest.TestCase):

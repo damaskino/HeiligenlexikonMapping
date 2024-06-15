@@ -83,15 +83,15 @@ def resolve_multiple_dates(raw_date: str) -> List:
             if first_month == None and second_month != None:
                 first_month = second_month
 
-            result.append({'Day': int(first_day), 'Month': int(first_month)})
+            result.append({"Day": int(first_day), "Month": int(first_month)})
 
             if second_day != None and second_month != None:
-                result.append({'Day': int(second_day), 'Month': int(second_month)})
+                result.append({"Day": int(second_day), "Month": int(second_month)})
 
             if len(raw_date_al_split) > 2:
                 third_date = raw_date_al_split[2].strip()
                 third_day, third_month = split_date_into_day_and_month(third_date)
-                result.append({'Day': int(third_day), 'Month': int(third_month)})
+                result.append({"Day": int(third_day), "Month": int(third_month)})
 
             return result
 
@@ -111,14 +111,14 @@ def convert_date(raw_date: str):
         result_dates = resolve_multiple_dates(raw_date)
     else:
         day, month = split_date_into_day_and_month(raw_date)
-        result_dates.append({'Day': int(day), 'Month': int(month)})
+        result_dates.append({"Day": int(day), "Month": int(month)})
     return result_dates
 
 
 # TODO write test that checks if all dates conform to the same format at the end
 
 if __name__ == "__main__":
-    with open(r"../outputs_to_review/parsed_heiligenlexikon.json") as json_file:
+    with open(r"../../../outputs_to_review/parsed_heiligenlexikon.json") as json_file:
         json_data = json.load(json_file)
         for item in json_data:
             # print(item)

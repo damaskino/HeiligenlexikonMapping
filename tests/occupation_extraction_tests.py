@@ -1,9 +1,13 @@
 import unittest
 
-from bs4 import BeautifulSoup
-
-from src.occupation_extraction import extract_occupation, setup_occupation_dict, get_occupation_category
-from src.parse_transformed_heiligenlex import setup_occupation_list
+from src.preprocessing.heiligenlexikon.occupation_extraction import (
+    extract_occupation,
+    setup_occupation_dict,
+    get_occupation_category,
+)
+from src.preprocessing.heiligenlexikon.parse_transformed_heiligenlex import (
+    setup_occupation_list,
+)
 
 
 class OccupationTestCase(unittest.TestCase):
@@ -43,9 +47,10 @@ class OccupationTestCase(unittest.TestCase):
         occupation = extract_occupation(
             paragraph_text=text, occupation_list=self.occupation_list
         )
-        self.assertEqual(occupation, 'Abb.')
+        self.assertEqual(occupation, "Abb.")
         category = get_occupation_category(occupation, self.occupation_dict)
         self.assertEqual(category, "AbtIssin")
+
 
 if __name__ == "__main__":
     unittest.main()

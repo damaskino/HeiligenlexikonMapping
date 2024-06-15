@@ -1,7 +1,11 @@
 import unittest
 
-from src.parse_transformed_heiligenlex import match_saint_name, match_canonization, match_hlex_number, \
-    match_second_hlex_number
+from src.preprocessing.heiligenlexikon.parse_transformed_heiligenlex import (
+    match_saint_name,
+    match_canonization,
+    match_hlex_number,
+    match_second_hlex_number,
+)
 
 
 class RegexExtractionTestCase(unittest.TestCase):
@@ -132,6 +136,7 @@ class RegexExtractionTestCase(unittest.TestCase):
 
         second_hlex_number = match_second_hlex_number("Zetula, S. [2]")
         self.assertEqual(second_hlex_number, "[2]")
+
 
 if __name__ == "__main__":
     unittest.main()
