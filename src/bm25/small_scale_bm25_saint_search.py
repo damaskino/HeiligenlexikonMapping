@@ -76,7 +76,7 @@ def match_feast_day(
         hlex_day = int(hlex_feast_day_split[0])
         hlex_month = int(hlex_feast_day_split[1])
         # TODO: Workaround, remove when fixed
-        if hlex_month == 20:
+        if hlex_month == 20 or hlex_month == 23:
             continue
         for wiki_feast_day in wikidata_feast_days:
             if len(wiki_feast_day) == 0:
@@ -97,7 +97,7 @@ def match_feast_day(
 
 
 def write_matches_to_file(
-        matches: list, edit_distance_threshold=100, feast_day_tolerance=0
+        matches: list, edit_distance_threshold=100, feast_day_tolerance=0, dev_flag=True
 ):
     output_string = ""
     for entry_dict in matches:
@@ -115,6 +115,7 @@ def write_matches_to_file(
     file_name_base = "match_results"
     edit_distance_string = "edit_dist_thresh_" + str(edit_distance_threshold)
     feast_day_tolerance = "feast_tolerance_" + str(feast_day_tolerance)
+    dev_flag = "devmode_" + str(dev_flag)
     file_ending = ".csv"
     file_name_full = (
             "_".join([file_name_base, edit_distance_string, feast_day_tolerance])
@@ -136,13 +137,22 @@ def load_data() -> (list, pd.DataFrame):
 
 # If only one name matches don't consider feast days, if multiple name matches found, look at feast days
 def match_entries(
-        dev_set_list, hlex_df, name_edit_distance_threshold=100, feast_day_tolerance=0
+        entries_to_match,
+        hlex_df,
+        name_edit_distance_threshold=100,
+        feast_day_tolerance=0,
+        dev_flag=True,
 ):
+    if not dev_flag:
+        entries_to_match = list(hlex_df.columns)
     entry_matches = []
-    for idx, entry_to_map in enumerate(dev_set_list):
+    for idx, entry_to_map in enumerate(entries_to_match):
         entry_split = entry_to_map.split(";")
         hlex_entry_id = entry_split[0]
-        entry_gold_standard_wiki_match = entry_split[2].rstrip()
+
+        entry_gold_standard_wiki_match = ""
+        if dev_flag:
+            entry_gold_standard_wiki_match = entry_split[2].rstrip()
         print(f"At entry: {idx} with id: {hlex_entry_id}")
 
         # retrieve the info we have from hlex
@@ -235,7 +245,7 @@ def match_entries(
 
     # print(entry_matches)
     write_matches_to_file(
-        entry_matches, name_edit_distance_threshold, feast_day_tolerance
+        entry_matches, name_edit_distance_threshold, feast_day_tolerance, dev_flag
     )
     # print(hlex_df)
     # corpus
@@ -245,50 +255,51 @@ if __name__ == "__main__":
     dev_set_list, hlex_df = load_data()
     # the naivest approach, if one name from hlex matches exactly with a name/alias/label in wikidata
     # *and* if either of the feast days match, consider this a match
-    match_entries(dev_set_list=dev_set_list, hlex_df=hlex_df)
+    match_entries(entries_to_match=dev_set_list, hlex_df=hlex_df, dev_flag=False)
+    match_entries(entries_to_match=dev_set_list, hlex_df=hlex_df)
     # Using edit distance: as long as a name is similar enough to pass an edit distance threshold, it is considered to be a name match
     # Feast day tolerance: allow the feast days between hlex and wiki entries to diverge within a fixed number of days
     match_entries(
-        dev_set_list=dev_set_list, hlex_df=hlex_df, name_edit_distance_threshold=90
+        entries_to_match=dev_set_list, hlex_df=hlex_df, name_edit_distance_threshold=90
     )
     match_entries(
-        dev_set_list=dev_set_list,
+        entries_to_match=dev_set_list,
         hlex_df=hlex_df,
         name_edit_distance_threshold=80,
         feast_day_tolerance=0,
     )
     match_entries(
-        dev_set_list=dev_set_list,
+        entries_to_match=dev_set_list,
         hlex_df=hlex_df,
         name_edit_distance_threshold=80,
         feast_day_tolerance=2,
     )
     match_entries(
-        dev_set_list=dev_set_list,
+        entries_to_match=dev_set_list,
         hlex_df=hlex_df,
         name_edit_distance_threshold=80,
         feast_day_tolerance=7,
     )
     match_entries(
-        dev_set_list=dev_set_list,
+        entries_to_match=dev_set_list,
         hlex_df=hlex_df,
         name_edit_distance_threshold=70,
         feast_day_tolerance=0,
     )
     match_entries(
-        dev_set_list=dev_set_list,
+        entries_to_match=dev_set_list,
         hlex_df=hlex_df,
         name_edit_distance_threshold=70,
         feast_day_tolerance=2,
     )
     match_entries(
-        dev_set_list=dev_set_list,
+        entries_to_match=dev_set_list,
         hlex_df=hlex_df,
         name_edit_distance_threshold=70,
         feast_day_tolerance=5,
     )
     match_entries(
-        dev_set_list=dev_set_list,
+        entries_to_match=dev_set_list,
         hlex_df=hlex_df,
         name_edit_distance_threshold=70,
         feast_day_tolerance=10,
