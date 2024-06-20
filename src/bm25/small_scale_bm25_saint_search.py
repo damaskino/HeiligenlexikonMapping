@@ -76,7 +76,13 @@ def match_feast_day(
         hlex_day = int(hlex_feast_day_split[0])
         hlex_month = int(hlex_feast_day_split[1])
         # TODO: Workaround, remove when fixed
-        if hlex_month == 20 or hlex_month == 23:
+        if (
+                hlex_month == 20
+                or hlex_month == 23
+                or hlex_month == 21
+                or hlex_month == 26
+                or hlex_month == 14
+        ):
             continue
         for wiki_feast_day in wikidata_feast_days:
             if len(wiki_feast_day) == 0:
@@ -176,7 +182,11 @@ def match_entries(
         if hlex_feast_day2:
             hlex_feast_days.append(hlex_feast_day2)
         hlex_occupation = hlex_entry["Occupation"]
+
         hlex_aliases_list = hlex_entry["Aliases"]
+        if hlex_aliases_list == math.nan:
+            hlex_aliases_list = []
+
         if len(hlex_aliases_list) > 0:
             hlex_saint_names += hlex_aliases_list
 
