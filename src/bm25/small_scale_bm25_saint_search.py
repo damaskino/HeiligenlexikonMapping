@@ -75,15 +75,21 @@ def match_feast_day(
         hlex_feast_day_split = hlex_feast_day.split(".")
         hlex_day = int(hlex_feast_day_split[0])
         hlex_month = int(hlex_feast_day_split[1])
-        # TODO: Workaround, remove when fixed
-        if (
-                hlex_month == 20
-                or hlex_month == 23
-                or hlex_month == 21
-                or hlex_month == 26
-                or hlex_month == 14
-        ):
+        # TODO: Workarounds, remove when respective entries are fixed in extraction
+
+        if hlex_month > 12 or hlex_month < 1:
+            print("INVALID MONTH: ", hlex_month)
             continue
+        if hlex_day > 31:
+            print("INVALID DAY: ", hlex_day)
+            continue
+
+        if hlex_month==6 and hlex_day ==31:
+            continue
+        if hlex_day==0:
+            continue
+
+
         for wiki_feast_day in wikidata_feast_days:
             if len(wiki_feast_day) == 0:
                 continue
@@ -124,7 +130,7 @@ def write_matches_to_file(
     dev_flag = "devmode_" + str(dev_flag)
     file_ending = ".csv"
     file_name_full = (
-            "_".join([file_name_base, edit_distance_string, feast_day_tolerance])
+            "_".join([file_name_base, edit_distance_string, feast_day_tolerance, dev_flag])
             + file_ending
     )
     target_folder = "matching_results"
@@ -151,6 +157,7 @@ def match_entries(
 ):
     if not dev_flag:
         entries_to_match = list(hlex_df.columns)
+        #entries_to_match = entries_to_match[20440:]
     entry_matches = []
     for idx, entry_to_map in enumerate(entries_to_match):
         entry_split = entry_to_map.split(";")
@@ -184,7 +191,7 @@ def match_entries(
         hlex_occupation = hlex_entry["Occupation"]
 
         hlex_aliases_list = hlex_entry["Aliases"]
-        if hlex_aliases_list == math.nan:
+        if not isinstance(hlex_aliases_list, list):
             hlex_aliases_list = []
 
         if len(hlex_aliases_list) > 0:
@@ -265,6 +272,8 @@ if __name__ == "__main__":
     dev_set_list, hlex_df = load_data()
     # the naivest approach, if one name from hlex matches exactly with a name/alias/label in wikidata
     # *and* if either of the feast days match, consider this a match
+    match_entries(entries_to_match=dev_set_list, hlex_df=hlex_df, name_edit_distance_threshold=70, dev_flag=False)
+    sys.exit()
     match_entries(entries_to_match=dev_set_list, hlex_df=hlex_df, dev_flag=False)
     match_entries(entries_to_match=dev_set_list, hlex_df=hlex_df)
     # Using edit distance: as long as a name is similar enough to pass an edit distance threshold, it is considered to be a name match

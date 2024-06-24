@@ -205,3 +205,36 @@ create "wholeset" (all data minus dev and goldstandard)
               - must abstract away from strict name and feast day matching
               - find a more general way to match, like similarity of description texts
               - e.g. encode texts into vectors and find threshold
+
+TODO
+known false dates:
+
+months
+        #         20
+        #         22
+        #         24
+        #         23
+        #         21
+        #         26
+        #         14
+        #         28
+        #         15
+        #         16
+        #         18
+        #         29
+        #         17
+        #         27
+        #         31
+        #         1119
+        #         30
+        #         13
+        #         1603
+        #         307
+        #         19
+        #         1096
+        #         25
+false date combination:
+        hlex_month==6 and hlex_day ==31:
+day
+        if hlex_day==0:
+            continue
