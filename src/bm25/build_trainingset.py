@@ -23,13 +23,13 @@ def load_rulebased_results(ids_to_remove: list):
         wholeset_string = ""
         for match_line in result_file.readlines():
             entry_id = match_line.split(';')[0]
-            print(entry_id)
-            if entry_id in ids_to_remove:
+            match = match_line.split(';')[2]
+            if entry_id in ids_to_remove or len(match.strip())==0:
                 continue
             else:
                 wholeset_string+=match_line
 
-        with open("wholeset.csv", 'w') as wholeset_file:
+        with open("wholeset_match_results_edit_thresh_100_feast_0.csv", 'w') as wholeset_file:
             wholeset_file.write(wholeset_string)
 
 if __name__ == '__main__':
