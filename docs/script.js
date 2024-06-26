@@ -66,17 +66,16 @@ $(document).ready(function() {
           { data: 'key', title: 'Key' },
           { data: 'SaintName', title: 'Saint Name' },
           { data: 'NumberInHlex', title: 'Number in Lexicon' },
-          { data: 'FeastDay0', title: 'FeastDay0' },
-          { data: 'FeastDay1', title: 'FeastDay1' },
-          { data: 'FeastDay2', title: 'FeastDay2' },
-          { data: 'RawFeastDay', title: 'Raw Feast Day' },
-          { data: 'OriginalText',  title: 'Raw Text from Saints Lexicon'},
+          { data: 'FeastDay0', title: 'FeastDay0', defaultContent:'' },
+          { data: 'FeastDay1', title: 'FeastDay1', defaultContent:''  },
+          { data: 'FeastDay2', title: 'FeastDay2', defaultContent:''  },
+          { data: 'RawFeastDay', title: 'Raw Feast Day', defaultContent:'' },
           { data: 'Gender',  title: 'Gender' },
           { data: 'EntryLength', title: 'Character Length of Entry' },
           { data: 'CanonizationStatus', title: 'Canonization' }
+          { data: 'OriginalText',  title: 'Raw Text from Saints Lexicon'},
           //{ data: 'Occupation', title: 'Occupation' },
           //{ data: 'RawOccupation', title: 'Raw Occupation' },
-          // Add more columns as needed
         ]
       });
     },
