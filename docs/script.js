@@ -60,7 +60,7 @@ $(document).ready(function() {
     success: function(data) {
       const dataArray = Object.entries(data).map(([key, value]) => ({ key, ...value }));
 
-      $('#hlexDataTable').DataTable({
+      var table = $('#hlexDataTable').DataTable({
         data: dataArray,
         columns: [
           { data: 'key', title: 'Key' },
@@ -70,14 +70,21 @@ $(document).ready(function() {
           { data: 'FeastDay1', title: 'FeastDay1', defaultContent:''  },
           { data: 'FeastDay2', title: 'FeastDay2', defaultContent:''  },
           { data: 'RawFeastDay', title: 'Raw Feast Day', defaultContent:'' },
+          { data: 'OriginalText',  title: 'Raw Text from Saints Lexicon'},
           { data: 'Gender',  title: 'Gender' },
           { data: 'EntryLength', title: 'Character Length of Entry' },
-          { data: 'CanonizationStatus', title: 'Canonization' },
-          { data: 'OriginalText',  title: 'Raw Text from Saints Lexicon'},
+          { data: 'CanonizationStatus', title: 'Canonization' }
           //{ data: 'Occupation', title: 'Occupation' },
           //{ data: 'RawOccupation', title: 'Raw Occupation' },
+          // Add more columns as needed
         ]
       });
+        let searchParams = new URLSearchParams(window.location.search)
+        console.log(searchParams)
+        if (searchParams.has('id')) {
+            var idParam = searchParams.get('id')
+            table.search(idParam).draw();
+        }
     },
     error: function(xhr, status, error) {
       console.error('Error loading JSON file:', error);
