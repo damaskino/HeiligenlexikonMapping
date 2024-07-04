@@ -251,8 +251,8 @@ def get_entry_length(paragraph_list):
 if __name__ == "__main__":
     HLEX_SOUP_PICKLE = "hlex_soup.pickle"
 
-    occupations = setup_occupation_list("../resources/occupation_list.txt")
-    occupations_dict = setup_occupation_dict("../resources/occupation_list.txt")
+    occupations = setup_occupation_list("../../../resources/occupation_list.txt")
+    occupations_dict = setup_occupation_dict("../../../resources/occupation_list.txt")
     # hlex_parser = HlexParser(
     #     no_nlp=True, occupation_list=occupations, occupations_dict=occupations_dict
     # )
@@ -274,7 +274,7 @@ if __name__ == "__main__":
     else:
         print("No pickle found, loading from XML...")
         hlex_soup = timing_wrapper(
-            hlex_parser.load_transformed_hlex_to_soup, "../data/Heiligenlex-1858.xml"
+            hlex_parser.load_transformed_hlex_to_soup, "../../../data/0_raw/Heiligenlex-1858.xml"
         )
         print("Size of Hlex Object: ", sys.getsizeof(hlex_soup))
         hlex_parser.pickle_it(hlex_soup, "tmp/" + HLEX_SOUP_PICKLE)
