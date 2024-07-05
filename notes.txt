@@ -195,7 +195,7 @@ For debugging: Add the name(s) that were determined to be matching
 
 - Supervised:
 
-create "wholeset" (all data minus dev and goldstandard)
+create "wholeset" (all data minus dev and goldstandard) - DONE
 
 - using bm25 score as threshold
               - learn supervised
@@ -206,35 +206,9 @@ create "wholeset" (all data minus dev and goldstandard)
               - find a more general way to match, like similarity of description texts
               - e.g. encode texts into vectors and find threshold
 
-TODO
-known false dates:
+Isolated false dates and resolved those
+next steps: include date resolution and validation back into the preprocessing step to gain potentially ~200 more entries
+assign false matches to training set for supervised training
 
-months
-        #         20
-        #         22
-        #         24
-        #         23
-        #         21
-        #         26
-        #         14
-        #         28
-        #         15
-        #         16
-        #         18
-        #         29
-        #         17
-        #         27
-        #         31
-        #         1119
-        #         30
-        #         13
-        #         1603
-        #         307
-        #         19
-        #         1096
-        #         25
-false date combination:
-        hlex_month==6 and hlex_day ==31:
-day
-        if hlex_day==0:
-            continue
+For negative examples, go beyond wholeset, use same name, potentially same feast day
+training_set can be 50/50
