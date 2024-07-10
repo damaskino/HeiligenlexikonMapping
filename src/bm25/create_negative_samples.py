@@ -11,6 +11,7 @@ def shuffle_negative_set(hlex_df: pd.DataFrame, wiki_df: pd.DataFrame):
 # Draw from the full dataset by finding entries with the same name
 # and if available, the same feast day
 def find_same_name_entries(hlex_df: pd.DataFrame):
+    git_base_url = "https://damaskino.github.io/HeiligenlexikonMapping?entry="
     hlex_df['NegativeExample']=False
     full_dataset_df = pd.read_json("../../outputs_to_review/parsed_heiligenlexikon.json")
     full_dataset_length = len(full_dataset_df)
@@ -29,13 +30,15 @@ def find_same_name_entries(hlex_df: pd.DataFrame):
         if len(same_name_saint) > 0:
             hlex_new_id = same_name_saint.index.values[0]
             negative_examples_to_replace.append((hlex_id, hlex_new_id))
-
-            hlex
+            #TODO: name columns for better readability
+            index_to_replace = hlex_df.index[hlex_df[0] == hlex_new_id].values[0]
+            hlex_df.iloc[index_to_replace] = pd.Series([hlex_new_id,git_base_url+hlex_new_id,True])
             if len(negative_examples_to_replace) >= int(full_dataset_length/2):
                 break
         else:
             no_double_found += 1
 
+    print(hlex_df)
     print("Negative examples")
     print(negative_examples_to_replace)
     print(len(negative_examples_to_replace))
