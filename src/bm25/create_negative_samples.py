@@ -13,11 +13,12 @@ def shuffle_negative_set(hlex_df: pd.DataFrame, wiki_df: pd.DataFrame):
 def find_same_name_entries(hlex_df: pd.DataFrame):
     git_base_url = "https://damaskino.github.io/HeiligenlexikonMapping?entry="
     hlex_df['NegativeExample']=False
+    hlex_df_copy = hlex_df.copy()
     full_dataset_df = pd.read_json("../../outputs_to_review/parsed_heiligenlexikon.json")
-    full_dataset_length = len(full_dataset_df)
+    wholeset_length = len(hlex_df)
     no_double_found = 0
-    negative_examples_to_replace = []
-    for item in hlex_df.itertuples():
+    negative_examples_found = []
+    for item in hlex_df_copy.itertuples():
 
         hlex_id = item[1]
         entry = full_dataset_df[hlex_id]
@@ -29,19 +30,25 @@ def find_same_name_entries(hlex_df: pd.DataFrame):
         same_name_saint = same_name_candidates.head(1)
         if len(same_name_saint) > 0:
             hlex_new_id = same_name_saint.index.values[0]
-            negative_examples_to_replace.append((hlex_id, hlex_new_id))
+            negative_examples_found.append((hlex_id, hlex_new_id))
             #TODO: name columns for better readability
-            index_to_replace = hlex_df.index[hlex_df[0] == hlex_new_id].values[0]
-            hlex_df.iloc[index_to_replace] = pd.Series([hlex_new_id,git_base_url+hlex_new_id,True])
-            if len(negative_examples_to_replace) >= int(full_dataset_length/2):
+            # index_to_replace = hlex_df.index[hlex_df[0] == hlex_new_id]
+            # index_to_replace = index_to_replace.values[0]
+            # name_at_index = hlex_df.iloc[index_to_replace][0]
+            # print("Replacing ", name_at_index, " with ", hlex_new_id)
+            # print("Adding new name")
+            hlex_df.loc[len(hlex_df) + 1] = pd.Series([hlex_new_id, git_base_url + hlex_new_id, True])
+
+            if len(negative_examples_found) >= int(wholeset_length / 2):
+                print("Found enough negatives samples!")
                 break
         else:
             no_double_found += 1
 
     print(hlex_df)
     print("Negative examples")
-    print(negative_examples_to_replace)
-    print(len(negative_examples_to_replace))
+    print(negative_examples_found)
+    print(len(negative_examples_found))
     print("No doubles found: ", no_double_found)
 
 
@@ -49,9 +56,8 @@ def find_same_name_entries(hlex_df: pd.DataFrame):
 if __name__ == '__main__':
     wholeset_df = pd.read_csv('wholeset_match_results_edit_thresh_100_feast_0.csv', sep=";", header=None)
     print(wholeset_df)
-    negative_set_df = wholeset_df
 
-    hlex_columns_df = negative_set_df[[0, 2]]
-    wiki_columns_df = negative_set_df[[1, 3]]
+    hlex_columns_df = wholeset_df.loc[:, (0, 2)]
+    wiki_columns_df = wholeset_df.loc[:, (1, 3)]
 
     find_same_name_entries(hlex_df=hlex_columns_df)
