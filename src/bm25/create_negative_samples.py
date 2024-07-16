@@ -12,9 +12,11 @@ def shuffle_negative_set(hlex_df: pd.DataFrame, wiki_df: pd.DataFrame):
 # and if available, the same feast day
 def find_same_name_entries(hlex_df: pd.DataFrame):
     git_base_url = "https://damaskino.github.io/HeiligenlexikonMapping?entry="
-    hlex_df['NegativeExample']=False
+    hlex_df['NegativeExample'] = 0
     hlex_df_copy = hlex_df.copy()
     full_dataset_df = pd.read_json("../../outputs_to_review/parsed_heiligenlexikon.json")
+    hlex_df = pd.merge(hlex_df, full_dataset_df.T[['SaintName']], left_on=0, right_index=True)
+
     wholeset_length = len(hlex_df)
     no_double_found = 0
     negative_examples_found = []
@@ -37,7 +39,8 @@ def find_same_name_entries(hlex_df: pd.DataFrame):
             # name_at_index = hlex_df.iloc[index_to_replace][0]
             # print("Replacing ", name_at_index, " with ", hlex_new_id)
             # print("Adding new name")
-            hlex_df.loc[len(hlex_df) + 1] = pd.Series([hlex_new_id, git_base_url + hlex_new_id, True])
+            hlex_df.loc[len(hlex_df) + 1] = pd.Series([hlex_new_id, git_base_url + hlex_new_id, 1],
+                                                      index=[0, 2, 'NegativeExample'])
 
             if len(negative_examples_found) >= int(wholeset_length / 2):
                 print("Found enough negatives samples!")
@@ -50,6 +53,7 @@ def find_same_name_entries(hlex_df: pd.DataFrame):
     print(negative_examples_found)
     print(len(negative_examples_found))
     print("No doubles found: ", no_double_found)
+    return hlex_df
 
 
 # TODO filter out devset and goldstandard set entries
@@ -57,7 +61,8 @@ if __name__ == '__main__':
     wholeset_df = pd.read_csv('wholeset_match_results_edit_thresh_100_feast_0.csv', sep=";", header=None)
     print(wholeset_df)
 
-    hlex_columns_df = wholeset_df.loc[:, (0, 2)]
-    wiki_columns_df = wholeset_df.loc[:, (1, 3)]
+    # hlex_columns_df = wholeset_df.loc[:, (0, 2)]
+    # wiki_columns_df = wholeset_df.loc[:, (1, 3)]
 
-    find_same_name_entries(hlex_df=hlex_columns_df)
+    positive_negative_samples_df = find_same_name_entries(hlex_df=wholeset_df)
+    positive_negative_samples_df.to_csv('positive_negative_set.csv', header=None, index=False, sep=";")
