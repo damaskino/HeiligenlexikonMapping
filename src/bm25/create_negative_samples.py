@@ -39,8 +39,8 @@ def find_same_name_entries(hlex_df: pd.DataFrame):
             # name_at_index = hlex_df.iloc[index_to_replace][0]
             # print("Replacing ", name_at_index, " with ", hlex_new_id)
             # print("Adding new name")
-            hlex_df.loc[len(hlex_df) + 1] = pd.Series([hlex_new_id, git_base_url + hlex_new_id, 1],
-                                                      index=[0, 2, 'NegativeExample'])
+            hlex_df.loc[len(hlex_df) + 1] = pd.Series([hlex_new_id, git_base_url + hlex_new_id, 1, name],
+                                                      index=[0, 2, 'NegativeExample','SaintName'])
 
             if len(negative_examples_found) >= int(wholeset_length / 2):
                 print("Found enough negatives samples!")
