@@ -24,7 +24,12 @@ if __name__ == '__main__':
             # wikipedia_base_url = f"https://{wiki_lang_str}.wikipedia.org"
             page_title = wiki_page_split[1]
 
-            lang_wiki = wikipediaapi.Wikipedia('Heiligenlexikonmapping (chen.li@posteo.net)', wiki_lang_str)
-            page_title = page_title.replace(' ', '_')
-            page_py = lang_wiki.page(page_title)
-            # print(page_py)
+            # Get wiki content as text
+            wiki_obj = wikipediaapi.Wikipedia('Heiligenlexikonmapping (chen.li@posteo.net)', wiki_lang_str)
+
+            # Get wiki content as html
+            # wiki_obj = wikipediaapi.Wikipedia('Heiligenlexikonmapping (chen.li@posteo.net)', wiki_lang_str,
+            #                                   extract_format = wikipediaapi.ExtractFormat.HTML)
+
+            page_py = wiki_obj.page(page_title)
+            print(page_py.text)
