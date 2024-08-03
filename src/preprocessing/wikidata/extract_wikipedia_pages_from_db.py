@@ -2,6 +2,18 @@ import sqlite3
 import wikipediaapi
 import json
 
+
+def fetch_page_text(page_title, wiki_lang_str):
+    wiki_obj = wikipediaapi.Wikipedia('Heiligenlexikonmapping (chen.li@posteo.net)', wiki_lang_str)
+    #
+    # # Get wiki content as html
+    # # wiki_obj = wikipediaapi.Wikipedia('Heiligenlexikonmapping (chen.li@posteo.net)', wiki_lang_str,
+    # #                                   extract_format = wikipediaapi.ExtractFormat.HTML)
+    #
+    page_py = wiki_obj.page(page_title)
+    page_text = page_py.text
+    return page_text
+
 if __name__ == '__main__':
     conn = sqlite3.connect("processed_saints.db")
     cursor = conn.cursor()
@@ -34,14 +46,7 @@ if __name__ == '__main__':
             page_title = wiki_page_split[1]
 
             # Get wiki content as text
-            wiki_obj = wikipediaapi.Wikipedia('Heiligenlexikonmapping (chen.li@posteo.net)', wiki_lang_str)
-            #
-            # # Get wiki content as html
-            # # wiki_obj = wikipediaapi.Wikipedia('Heiligenlexikonmapping (chen.li@posteo.net)', wiki_lang_str,
-            # #                                   extract_format = wikipediaapi.ExtractFormat.HTML)
-            #
-            page_py = wiki_obj.page(page_title)
-            page_text = page_py.text
+            page_text = fetch_page_text(page_title, wiki_lang_str)
             lang_text_dict[wiki_lang_str] = page_text
         saints_to_text_dict[wiki_id] = lang_text_dict
     json_obj = json.dumps(saints_to_text_dict)
