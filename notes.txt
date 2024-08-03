@@ -212,3 +212,9 @@ assign false matches to training set for supervised training
 
 For negative examples, go beyond wholeset, use same name, potentially same feast day
 training_set can be 50/50
+
+For experiments:
+- Maybe use more similar entries for H2
+- ensure 50/50 balance of positives and negatives, e.g. maybe add all candidates with the same name
+- embedding of text in SBERT, define similarity cutoff point
+
