@@ -14,6 +14,8 @@ if __name__ == '__main__':
     for index, entry in enumerate(saints):
         # if index % 100 == 0:
         print("At index: ", index)
+        if index == 1:
+            break
         # print(id)
         # print(content)
         wikis_string = entry[3]
@@ -21,9 +23,8 @@ if __name__ == '__main__':
         if len(wikis_string) == 0:
             continue
         wiki_page_str_list = wikis_string.split("$")
-
+        lang_text_dict = {}
         for lang_entry in wiki_page_str_list:
-            lang_text_dict = {}
             wiki_page_split = lang_entry.split(";")
             wiki = wiki_page_split[0]
             wiki_lang_str = wiki.removesuffix('wiki')
@@ -36,16 +37,16 @@ if __name__ == '__main__':
 
             # Get wiki content as text
             wiki_obj = wikipediaapi.Wikipedia('Heiligenlexikonmapping (chen.li@posteo.net)', wiki_lang_str)
-
-            # Get wiki content as html
-            # wiki_obj = wikipediaapi.Wikipedia('Heiligenlexikonmapping (chen.li@posteo.net)', wiki_lang_str,
-            #                                   extract_format = wikipediaapi.ExtractFormat.HTML)
-
+            #
+            # # Get wiki content as html
+            # # wiki_obj = wikipediaapi.Wikipedia('Heiligenlexikonmapping (chen.li@posteo.net)', wiki_lang_str,
+            # #                                   extract_format = wikipediaapi.ExtractFormat.HTML)
+            #
             page_py = wiki_obj.page(page_title)
             page_text = page_py.text
-            lang_text_dict = {wiki_lang_str: page_text}
+            lang_text_dict[wiki_lang_str] = page_text
         saints_to_text_dict[wiki_id] = lang_text_dict
     json_obj = json.dumps(saints_to_text_dict)
 
-    with open("saints_wikitexts", "w") as jsonoutput:
+    with open("saints_wikitexts.json", "w") as jsonoutput:
         jsonoutput.write(json_obj)
