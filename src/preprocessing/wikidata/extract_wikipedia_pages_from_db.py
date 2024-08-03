@@ -14,8 +14,6 @@ if __name__ == '__main__':
     for index, entry in enumerate(saints):
         # if index % 100 == 0:
         print("At index: ", index)
-        if index == 1:
-            break
         # print(id)
         # print(content)
         wikis_string = entry[3]
@@ -28,7 +26,7 @@ if __name__ == '__main__':
             wiki_page_split = lang_entry.split(";")
             wiki = wiki_page_split[0]
             wiki_lang_str = wiki.removesuffix('wiki')
-            if wiki_lang_str.endswith("quote") or wiki_lang_str.endswith("news"):
+            if wiki_lang_str.endswith("quote") or wiki_lang_str.endswith("news") or wiki_lang_str.endswith("source") or wiki_lang_str.endswith("wikiversity") or wiki_lang_str.endswith("books") :
                 continue
             if wiki_lang_str == "be_x_old":
                 wiki_lang_str = wiki_lang_str.replace("_", "-")
