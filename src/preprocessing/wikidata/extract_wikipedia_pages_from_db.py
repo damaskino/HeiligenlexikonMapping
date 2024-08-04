@@ -1,8 +1,11 @@
 import sqlite3
 import wikipediaapi
 import json
+import tenacity
+from tenacity import wait_fixed
 
 
+@tenacity.retry(wait=wait_fixed(2))
 def fetch_page_text(page_title, wiki_lang_str):
     wiki_obj = wikipediaapi.Wikipedia('Heiligenlexikonmapping (chen.li@posteo.net)', wiki_lang_str)
     #
@@ -11,7 +14,10 @@ def fetch_page_text(page_title, wiki_lang_str):
     # #                                   extract_format = wikipediaapi.ExtractFormat.HTML)
     #
     page_py = wiki_obj.page(page_title)
+    page_text = ""
     page_text = page_py.text
+    # wikipedia_base_url = f"https://{wiki_lang_str}.wikipedia.org"
+
     return page_text
 
 if __name__ == '__main__':
@@ -40,9 +46,8 @@ if __name__ == '__main__':
             wiki_lang_str = wiki.removesuffix('wiki')
             if wiki_lang_str.endswith("quote") or wiki_lang_str.endswith("news") or wiki_lang_str.endswith("source") or wiki_lang_str.endswith("wikiversity") or wiki_lang_str.endswith("books") :
                 continue
-            if wiki_lang_str == "be_x_old":
-                wiki_lang_str = wiki_lang_str.replace("_", "-")
-            # wikipedia_base_url = f"https://{wiki_lang_str}.wikipedia.org"
+            wiki_lang_str = wiki_lang_str.replace("_", "-")
+
             page_title = wiki_page_split[1]
 
             # Get wiki content as text
