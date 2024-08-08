@@ -44,7 +44,7 @@ if __name__ == '__main__':
             wiki_page_split = lang_entry.split(";")
             wiki = wiki_page_split[0]
             wiki_lang_str = wiki.removesuffix('wiki')
-            if wiki_lang_str.endswith("quote") or wiki_lang_str.endswith("news") or wiki_lang_str.endswith("source") or wiki_lang_str.endswith("wikiversity") or wiki_lang_str.endswith("books") :
+            if wiki_lang_str.endswith("quote") or wiki_lang_str.endswith("news") or wiki_lang_str.endswith("source") or wiki_lang_str.endswith("wikiversity") or wiki_lang_str.endswith("books") or wiki_lang_str.endswith("voyage"):
                 continue
             wiki_lang_str = wiki_lang_str.replace("_", "-")
 
