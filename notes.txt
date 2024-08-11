@@ -218,3 +218,20 @@ For experiments:
 - ensure 50/50 balance of positives and negatives, e.g. maybe add all candidates with the same name
 - embedding of text in SBERT, define similarity cutoff point
 
+Steps since last time:
+- Wikipedia pages extracted
+- Sentence Transformer first attempts
+
+
+Get Threshold from training data -> Supervised because we get threshold from
+-> Can we get a good threshold from the training data that separates negative and positive examples well?
+-> Limit search space, gender, roughly same century,
+-> Limit search on Wikipedia text to initial paragraph
+
+Use German sbert model or try multilingual
+https://arxiv.org/abs/2004.09813
+- Questions:How to use sbert further? How to include other features?
+For other supervised method, potentially include SBERT, similarity as feature
+- What to do if other languages do not exist?
+- Wikipedia Texts from dumps instead of through API?
+- Make statistics for matches per wiki languages for each saint
