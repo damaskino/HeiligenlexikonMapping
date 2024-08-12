@@ -72,7 +72,7 @@ for idx, hlex_tuple in enumerate(hlex_texts[:]):
         wiki_embeddings = model.encode(wiki_sentences)
 
         # Aggregate sentence embeddings to get document embeddings
-        # H    ere, we use mean pooling
+        # Here, we use mean pooling
 
         wiki_doc_embedding = wiki_embeddings.mean(axis=0)
 

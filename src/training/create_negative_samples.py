@@ -1,6 +1,6 @@
 import pandas as pd
 
-from src.bm25.build_trainingset import load_goldstandard_ids, load_devset_ids
+from src.training.build_trainingset import load_goldstandard_ids, load_devset_ids
 
 
 # Alternative way to create negative data
