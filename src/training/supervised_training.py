@@ -71,7 +71,7 @@ full_training_list = full_training_df.to_numpy().tolist()
 training_samples_num = len(full_training_list)
 # TODO: going through a fraction of the entries to iron out the details, expand to full data later
 # for idx, hlex_tuple in enumerate(hlex_texts[:]):
-for idx, hlex_list in enumerate(full_training_list[:2]):
+for idx, hlex_list in enumerate(full_training_list[:]):
     match_id = ""
     max_similarity = 0
     best_candidate_wiki_id = ""
@@ -94,7 +94,7 @@ for idx, hlex_list in enumerate(full_training_list[:2]):
     hlex_doc_embedding = hlex_embeddings.mean(axis=0)
 
     print("Going through wiki texts...")
-    for sent_idx, item in enumerate(wiki_training_texts_df.columns[:2]):
+    for sent_idx, item in enumerate(wiki_training_texts_df.columns[:]):
         if sent_idx % 100 == 0:
             print("At wiki sentence: ", sent_idx)
         # print(df[item])
