@@ -6,3 +6,6 @@ thefuzz
 lxml
 qwikidata
 rank_bm25
+accelerate
+datasets
+sentence-transformers
