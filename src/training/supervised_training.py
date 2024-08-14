@@ -3,7 +3,9 @@ import json
 import pandas as pd
 import numpy as np
 from sentence_transformers import SentenceTransformer, util
+import datetime
 
+print("Starting at: ", str(datetime.datetime.now()))
 print("Loading model...")
 # TODO: check if this model is appropriate for german data!
 model = SentenceTransformer("all-MiniLM-L6-v2")
@@ -69,7 +71,7 @@ full_training_list = full_training_df.to_numpy().tolist()
 training_samples_num = len(full_training_list)
 # TODO: going through a fraction of the entries to iron out the details, expand to full data later
 # for idx, hlex_tuple in enumerate(hlex_texts[:]):
-for idx, hlex_list in enumerate(full_training_list[:2]):
+for idx, hlex_list in enumerate(full_training_list[:]):
     match_id = ""
     max_similarity = 0
     best_candidate_wiki_id = ""
@@ -129,21 +131,21 @@ for idx, hlex_list in enumerate(full_training_list[:2]):
             true_positives += 1
         else:
             false_positives += 1
-        continue
+
 
     if max_similarity < threshold:
         if should_match:
             false_negatives += 1
         else:
             true_negatives += 1
-        continue
+
 
     single_match_dict = {"HLexID": hlex_id, "MatchID": match_id, "TP": tp, "TN": tn, "FP": fp, "FN": fn}
     result_list.append(single_match_dict)
 
 filename = f"training_embedding_results_{str(threshold)}.json"
 
-with open(filename) as outputfile:
+with open(filename,'w') as outputfile:
     json.dump(result_list, outputfile)
 
 print("Treshold: ", threshold)
