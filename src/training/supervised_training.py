@@ -71,7 +71,7 @@ full_training_list = full_training_df.to_numpy().tolist()
 training_samples_num = len(full_training_list)
 # TODO: going through a fraction of the entries to iron out the details, expand to full data later
 # for idx, hlex_tuple in enumerate(hlex_texts[:]):
-for idx, hlex_list in enumerate(full_training_list[:]):
+for idx, hlex_list in enumerate(full_training_list[:2]):
     match_id = ""
     max_similarity = 0
     best_candidate_wiki_id = ""
@@ -94,7 +94,7 @@ for idx, hlex_list in enumerate(full_training_list[:]):
     hlex_doc_embedding = hlex_embeddings.mean(axis=0)
 
     print("Going through wiki texts...")
-    for sent_idx, item in enumerate(wiki_training_texts_df.columns):
+    for sent_idx, item in enumerate(wiki_training_texts_df.columns[:2]):
         if sent_idx % 100 == 0:
             print("At wiki sentence: ", sent_idx)
         # print(df[item])
@@ -129,15 +129,19 @@ for idx, hlex_list in enumerate(full_training_list[:]):
         # check if the identified match is correct
         if should_match:
             true_positives += 1
+            tp = 1
         else:
             false_positives += 1
+            fp = 1
 
 
     if max_similarity < threshold:
         if should_match:
             false_negatives += 1
+            fn = 1
         else:
             true_negatives += 1
+            tn = 1
 
 
     single_match_dict = {"HLexID": hlex_id, "MatchID": match_id, "TP": tp, "TN": tn, "FP": fp, "FN": fn}
