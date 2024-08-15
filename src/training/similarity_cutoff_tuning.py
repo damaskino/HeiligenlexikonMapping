@@ -15,9 +15,6 @@ for threshold in np.arange(0,1.0, 0.01):
     matches_series = matches_series.astype(int)
     training_df['SystemMatch'] = matches_series
 
-    #TODO: find a good cut off point, look into using the other languages
-    #check if current embedding model works, look into the paper
-
     gold_matches = training_df['ShouldMatch']
     system_matches = training_df['SystemMatch']
 

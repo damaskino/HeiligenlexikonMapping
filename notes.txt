@@ -235,3 +235,8 @@ For other supervised method, potentially include SBERT, similarity as feature
 - What to do if other languages do not exist?
 - Wikipedia Texts from dumps instead of through API?
 - Make statistics for matches per wiki languages for each saint
+
+TRAINING
+- look into using the other languages
+- check if current embedding model works, look into the paper
+- make script for determining good cut off point - DONE
