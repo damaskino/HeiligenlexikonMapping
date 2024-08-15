@@ -57,6 +57,8 @@ wiki_training_texts_df = wiki_text_df[wikidata_ids_with_pages]
 
 # TODO starting with fixed threshold, make it shifting later to find best threshold
 threshold = 0.75
+threshold = 0.5
+threshold = 0.2
 
 total_matches = 0
 true_positives = 0
@@ -71,7 +73,7 @@ full_training_list = full_training_df.to_numpy().tolist()
 training_samples_num = len(full_training_list)
 # TODO: going through a fraction of the entries to iron out the details, expand to full data later
 # for idx, hlex_tuple in enumerate(hlex_texts[:]):
-for idx, hlex_list in enumerate(full_training_list[:]):
+for idx, hlex_list in enumerate(full_training_list[:10]):
     match_id = ""
     max_similarity = 0
     best_candidate_wiki_id = ""
@@ -83,17 +85,20 @@ for idx, hlex_list in enumerate(full_training_list[:]):
     fn = 0
 
     hlex_id = hlex_list[0]
-    hlex_doc = hlex_list[1]
+    wikidata_id = hlex_list[1]
     should_match = hlex_list[2]
     # if idx % 100 == 0:
     #    print("At index: ", idx, "out of ", training_samples_num)
     print("At index: ", idx, "out of ", training_samples_num)
+    hlex_doc = hlex_df[hlex_id]['OriginalText']
     hlex_sentences = hlex_doc.split('.')
     wiki_sentences = []
     hlex_embeddings = model.encode(hlex_sentences)
     hlex_doc_embedding = hlex_embeddings.mean(axis=0)
 
+    #TODO don't go through all the texts! only go through the ones we've matched to find a suitable threshold!
     print("Going through wiki texts...")
+
     for sent_idx, item in enumerate(wiki_training_texts_df.columns[:]):
         if sent_idx % 100 == 0:
             print("At wiki sentence: ", sent_idx)
@@ -108,13 +113,15 @@ for idx, hlex_list in enumerate(full_training_list[:]):
             continue
 
         # TODO only use a couple sentences for now
-        wiki_embeddings = model.encode(wiki_sentences[:3])
+        wiki_embeddings = model.encode(wiki_sentences[:])
         # Aggregate sentence embeddings to get document embeddings
         # Here, we use mean pooling
         wiki_doc_embedding = wiki_embeddings.mean(axis=0)
 
         # Compute cosine similarity between the two document embeddings
         similarity = util.cos_sim(hlex_doc_embedding, wiki_doc_embedding)
+        print(wiki_sentences)
+        print(similarity)
         if similarity > max_similarity:
             max_similarity = similarity
             best_candidate_wiki_id = item
@@ -127,7 +134,7 @@ for idx, hlex_list in enumerate(full_training_list[:]):
         total_matches += 1
         match_id = best_candidate_wiki_id
         # check if the identified match is correct
-        if should_match:
+        if should_match and match_id==wikidata_id:
             true_positives += 1
             tp = 1
         else:
