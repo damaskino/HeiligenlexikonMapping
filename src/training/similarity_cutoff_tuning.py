@@ -2,8 +2,8 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import accuracy_score
 
-
-training_df = pd.read_csv("training_similarities.csv", sep=";", header=None)
+# training_df = pd.read_csv("training_similarities.csv", sep=";", header=None)
+training_df = pd.read_csv("training_similarities_first_3_sentences.csv", sep=";", header=None)
 print(training_df)
 training_df.columns = ['HLexID', 'WikidataID', 'ShouldMatch', 'Similarity']
 
@@ -20,4 +20,6 @@ for threshold in np.arange(0,1.0, 0.01):
 
 
     acc = accuracy_score(gold_matches, system_matches)
+    # Add precision recall
+    #check acc, threshold 0 or 1 should yield 50% acc!
     print(threshold, acc)

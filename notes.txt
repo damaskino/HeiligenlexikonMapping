@@ -241,3 +241,11 @@ TRAINING
 - check if current embedding model works, look into the paper
 - make script for determining good cut off point - DONE
 - doublecheck if paraphrase-multilingual-MiniLM-L12-v2 covers all languages
+
+
+-Background: Related work, Entity Linking&Wikification, EncycNet, a little Knowledge Graph
+    check Entity Linking new Jurafsky Martin online, Coreference Resolution
+    for us we know which span needs to be linked
+-Data Chapter
+    -statistics on HLex and Wikidata
+    -devset and trainingset creation

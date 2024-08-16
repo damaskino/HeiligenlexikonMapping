@@ -94,8 +94,11 @@ for wiki_sentences_num in range(1,wiki_sentences_max):
         wiki_sentences = []
         hlex_embeddings = model.encode(hlex_sentences)
         hlex_doc_embedding = hlex_embeddings.mean(axis=0)
-
-
+        # Test with small sentence, Truncated version
+        # Use only first x sentences for hlex as well
+        # Add column for which language text was used
+        # Doublecheck Texts with high similarity
+        # Secondary information may be enough to push similarity very high
         if wikidata_id not in wiki_text_df.keys():
             wikidata_ids_without_pages.append(wikidata_id)
 
