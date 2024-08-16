@@ -240,3 +240,4 @@ TRAINING
 - look into using the other languages
 - check if current embedding model works, look into the paper
 - make script for determining good cut off point - DONE
+- doublecheck if paraphrase-multilingual-MiniLM-L12-v2 covers all languages
