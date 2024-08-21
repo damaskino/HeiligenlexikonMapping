@@ -16,18 +16,20 @@ def find_same_name_entries(wholeset_df: pd.DataFrame, ids_to_remove: list[str]):
 
     git_base_url = "https://damaskino.github.io/HeiligenlexikonMapping?id="
     wholeset_df.insert(loc=2, column='NegativeExample', value='')
-    wholeset_df_copy = wholeset_df.copy()
+
     full_dataset_df = pd.read_json("../../outputs_to_review/parsed_heiligenlexikon.json")
     full_dataset_df.drop(ids_to_remove, axis=1, inplace=True)
     #wholeset_df = pd.merge(wholeset_df, full_dataset_df.T[['SaintName']], left_on=0, right_index=True)
-    wholeset_df = pd.merge(wholeset_df, full_dataset_df.T, left_on=0, right_index=True)
-    wholeset_df.rename({0:'HeiligenLexikonID', 1:'WikidataID', 3:'WikidataLink'}, axis="columns", inplace=True)
-    wholeset_df.drop(2, inplace=True, axis=1)
-    wholeset_df.set_index('HeiligenLexikonID', inplace=True)
-    wholeset_df.insert(loc=2, column='NegativeExampleLink', value='')
+    wholeset_df = pd.merge(wholeset_df, full_dataset_df.T['SaintName'], left_on=0, right_index=True)
+    wholeset_df.drop([2, 3], inplace=True, axis=1)
+    wholeset_df.rename({0: 'HeiligenLexikonID', 1: 'WikidataID'}, axis="columns", inplace=True)
     wholeset_length = len(wholeset_df)
     no_double_found = 0
     negative_examples_found = []
+    wholeset_df_copy = wholeset_df.copy()
+
+    # TODO Rather than awkwardly trying to insert negative examples, just build up a new dataframe with maybe up to 2 or 3 same name saints
+
     for item in wholeset_df_copy.itertuples():
 
         hlex_id = item[1]
@@ -50,7 +52,8 @@ def find_same_name_entries(wholeset_df: pd.DataFrame, ids_to_remove: list[str]):
             #wholeset_df.loc[len(wholeset_df) + 1] = pd.Series([hlex_new_id, git_base_url + hlex_new_id, 1, name],
             #                                                  index=[0, 2, 'NegativeExample','SaintName'])
             wholeset_df.at[hlex_id,'NegativeExample']=hlex_new_id
-            wholeset_df.at[hlex_id, 'NegativeExampleLink'] = git_base_url + hlex_new_id
+            # wholeset_df.at[hlex_id, 'NegativeExampleLink'] = git_base_url + hlex_new_id
+
             #wholeset_df.loc[len(wholeset_df)+1] = full_dataset_df[hlex_new_id]
 
 
