@@ -2,7 +2,7 @@ import pandas as pd
 
 from src.training.build_trainingset import load_goldstandard_ids, load_devset_ids
 
-
+max_same_name_candidates = 10
 # Alternative way to create negative data
 def shuffle_negative_set(hlex_df: pd.DataFrame, wiki_df: pd.DataFrame):
     shuffled_wiki_samples = wiki_df.sample(frac=1, random_state=0).reset_index(drop=True)
@@ -38,8 +38,11 @@ def find_same_name_entries(wholeset_df: pd.DataFrame, ids_to_remove: list[str]):
         same_name_candidates = same_name_candidates.drop(index=hlex_id)
         # saint_candidates = same_name_candidates[same_name_candidates["CanonizationStatus"]=='S.']
         if len(same_name_candidates) > 0:
-            for same_name_saint_id in same_name_candidates.T:
-                negative_examples_found.append((same_name_saint_id, wiki_id, 0))
+            for saint_idx, same_name_saint_id in enumerate(same_name_candidates.T):
+                if saint_idx < max_same_name_candidates:
+                    negative_examples_found.append((same_name_saint_id, wiki_id, 0))
+                else:
+                    break
         else:
             no_double_found += 1
 
