@@ -24,28 +24,23 @@ model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
 print("Done")
 
 print("Loading training data...")
-training_data_ids_df = pd.read_csv('positive_negative_set.csv', encoding='utf-8', sep=';')
+training_data_ids_df = pd.read_csv('positive_negative_set.csv', encoding='utf-8', sep=';', index_col=0)
 print("Done")
-positive_examples_df = training_data_ids_df.loc[:, ('HeiligenLexikonID', 'WikidataID')]
-negative_examples_df = training_data_ids_df.loc[:, ('NegativeExample', "WikidataID")]
-negative_examples_df = negative_examples_df.dropna()
-negative_examples_df.rename(columns={'NegativeExample': 'HeiligenLexikonID'}, inplace=True)
-
-negative_examples_df['ShouldMatch'] = False
-positive_examples_df['ShouldMatch'] = True
-full_training_df = pd.concat([positive_examples_df, negative_examples_df], axis=0, ignore_index=True)
-
-# put hlex texts into a list
-# TODO: need to be able to reassign it to their respective entries!
-hlex_texts_positives = list(zip(training_data_ids_df['HeiligenLexikonID'], training_data_ids_df['OriginalText']))
-# TODO may have to add some more examples that just don't have positive matches, but do have negative matches...
+positive_examples_df = training_data_ids_df[training_data_ids_df['ShouldMatch'] == 1]
+negative_examples_df = training_data_ids_df[training_data_ids_df['ShouldMatch'] == 0]
 
 # prepare the hlex text data
 hlex_df = pd.read_json('../../outputs_to_review/parsed_heiligenlexikon.json')
-hlex_texts_negatives_df = pd.merge(negative_examples_df['HeiligenLexikonID'], hlex_df.T[['OriginalText']],
-                                   left_on='HeiligenLexikonID', right_index=True, how='left')
-hlex_texts_positives_df = pd.merge(positive_examples_df['HeiligenLexikonID'], hlex_df.T[['OriginalText']],
-                                   left_on='HeiligenLexikonID', right_index=True, how='left')
+
+training_with_texts_df = pd.merge(training_data_ids_df, hlex_df.T[['OriginalText']],
+                                  left_on='HeiligenLexikonID', right_index=True, how='left')
+
+# hlex_texts_negatives_df = pd.merge(negative_examples_df['HeiligenLexikonID'], hlex_df.T[['OriginalText']],
+#                                    left_on='HeiligenLexikonID', right_index=True, how='left')
+# hlex_texts_positives_df = pd.merge(positive_examples_df['HeiligenLexikonID'], hlex_df.T[['OriginalText']],
+#                                    left_on='HeiligenLexikonID', right_index=True, how='left')
+
+
 
 # Wikidata IDs mapped to dicts of language/wikitext pairs
 wiki_text_df = pd.read_json("../../data/3_wikipedia_texts/saints_wikitexts.json")
@@ -56,7 +51,6 @@ wikidata_ids_with_pages = [id for id in wikidata_ids if (id in wiki_text_df.colu
 
 wiki_training_texts_df = wiki_text_df[wikidata_ids_with_pages]
 # go through all texts in Wikitext and create list
-# TODO: going only through German for now
 # total_text_num = len(hlex_texts)
 # NOTE: some entries from the traning data are wikidata entries only, meaning they do not have any associated
 # Wikipedia pages!
@@ -75,7 +69,7 @@ for wiki_sentences_num in range(1,wiki_sentences_max):
 
 
     # converting to list for faster iteration
-    full_training_list = full_training_df.to_numpy().tolist()
+    full_training_list = training_with_texts_df.to_numpy().tolist()
     training_samples_num = len(full_training_list)
     # TODO: going through a fraction of the entries to iron out the details, expand to full data later
     # for idx, hlex_tuple in enumerate(hlex_texts[:]):
