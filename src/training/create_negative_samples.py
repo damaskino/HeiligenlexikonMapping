@@ -2,7 +2,7 @@ import pandas as pd
 
 from src.training.build_trainingset import load_goldstandard_ids, load_devset_ids
 
-max_same_name_candidates = 10
+max_same_name_candidates = 2
 # Alternative way to create negative data
 def shuffle_negative_set(hlex_df: pd.DataFrame, wiki_df: pd.DataFrame):
     shuffled_wiki_samples = wiki_df.sample(frac=1, random_state=0).reset_index(drop=True)
@@ -13,21 +13,22 @@ def shuffle_negative_set(hlex_df: pd.DataFrame, wiki_df: pd.DataFrame):
 # TODO: limit number of negative samples per entry to reasonable number
 # Draw from the full dataset by finding entries with the same name
 # and if available, the same feast day
-def find_same_name_entries(wholeset_df: pd.DataFrame, ids_to_remove: list[str]):
+def find_same_name_entries(full_set_no_gold_no_dev_df: pd.DataFrame, ids_to_remove: list[str]):
 
     full_dataset_df = pd.read_json("../../outputs_to_review/parsed_heiligenlexikon.json")
     full_dataset_df.drop(ids_to_remove, axis=1, inplace=True)
-    wholeset_df = pd.merge(wholeset_df, full_dataset_df.T['SaintName'], left_on=0, right_index=True)
-    wholeset_df.drop([2, 3], inplace=True, axis=1)
-    wholeset_df.rename({0: 'HeiligenLexikonID', 1: 'WikidataID'}, axis="columns", inplace=True)
-    wholeset_length = len(wholeset_df)
-    wholeset_df['ShouldMatch'] = 1
+    full_set_no_gold_no_dev_df = pd.merge(full_set_no_gold_no_dev_df, full_dataset_df.T['SaintName'], left_on=0,
+                                          right_index=True)
+    full_set_no_gold_no_dev_df.drop([2, 3], inplace=True, axis=1)
+    full_set_no_gold_no_dev_df.rename({0: 'HeiligenLexikonID', 1: 'WikidataID'}, axis="columns", inplace=True)
+    full_set_length = len(full_set_no_gold_no_dev_df)
+    full_set_no_gold_no_dev_df['ShouldMatch'] = 1
     no_double_found = 0
     negative_examples_found = []
-    wholeset_df_copy = wholeset_df.copy()
+    full_set_df_copy = full_set_no_gold_no_dev_df.copy()
 
     #Positive examples are taken care of at this point, just need to generate negatives samples from here
-    for item in wholeset_df_copy.itertuples():
+    for item in full_set_df_copy.itertuples():
 
         hlex_id = item[1]
         wiki_id = item[2]
@@ -40,18 +41,21 @@ def find_same_name_entries(wholeset_df: pd.DataFrame, ids_to_remove: list[str]):
         if len(same_name_candidates) > 0:
             for saint_idx, same_name_saint_id in enumerate(same_name_candidates.T):
                 if saint_idx < max_same_name_candidates:
-                    negative_examples_found.append((same_name_saint_id, wiki_id, 0))
+                    negative_examples_found.append((same_name_saint_id, wiki_id, name, 0))
                 else:
                     break
         else:
             no_double_found += 1
 
-        if len(negative_examples_found) == wholeset_length:
+        if len(negative_examples_found) >= full_set_length:
             break
 
+    negative_examples_found = negative_examples_found[:full_set_length]
     negative_samples_df = pd.DataFrame(negative_examples_found)
-    negative_samples_df.columns = ["HeiligenLexikonID", "WikidataID", "ShouldMatch"]
-    positive_negative_samples_df = pd.concat([wholeset_df, negative_samples_df])
+
+    negative_samples_df.columns = ["HeiligenLexikonID", "WikidataID", "SaintName", "ShouldMatch"]
+    positive_negative_samples_df = pd.concat([full_set_no_gold_no_dev_df, negative_samples_df])
+    positive_negative_samples_df.reset_index(drop=True, inplace=True)
     print("Negative examples")
     print(negative_examples_found)
     print(len(negative_examples_found))
@@ -61,12 +65,15 @@ def find_same_name_entries(wholeset_df: pd.DataFrame, ids_to_remove: list[str]):
 
 
 if __name__ == '__main__':
-    wholeset_df = pd.read_csv('wholeset_match_results_edit_thresh_100_feast_0.csv', sep=";", header=None)
+    full_set_no_gold_no_dev_df = pd.read_csv('wholeset_match_results_edit_thresh_100_feast_0.csv', sep=";", header=None)
     # hlex_columns_df = wholeset_df.loc[:, (0, 2)]
     # wiki_columns_df = wholeset_df.loc[:, (1, 3)]
     gold_ids = load_goldstandard_ids()
     dev_ids = load_devset_ids()
     ids_to_remove = gold_ids + dev_ids
+    # TODO: This part is most likely redundant, the fullset above should already have the gold and dev sets removed
+    # But might be good to do a double check here for consistency
 
-    positive_negative_samples_df = find_same_name_entries(wholeset_df=wholeset_df, ids_to_remove=ids_to_remove)
+    positive_negative_samples_df = find_same_name_entries(full_set_no_gold_no_dev_df=full_set_no_gold_no_dev_df,
+                                                          ids_to_remove=ids_to_remove)
     positive_negative_samples_df.to_csv('refactored_positive_negative_set.csv', header=True, index=True, sep=";")
