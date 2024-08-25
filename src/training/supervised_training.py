@@ -78,7 +78,7 @@ for wiki_sentences_num in range(1,wiki_sentences_max):
 
         hlex_id = hlex_list[0]
         wikidata_id = hlex_list[1]
-        should_match = hlex_list[2]
+        should_match = hlex_list[3]
         # if idx % 100 == 0:
         #    print("At index: ", idx, "out of ", training_samples_num)
         print("At index: ", idx, "out of ", training_samples_num)
