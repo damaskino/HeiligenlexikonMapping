@@ -10,13 +10,11 @@ def shuffle_negative_set(hlex_df: pd.DataFrame, wiki_df: pd.DataFrame):
     negative_samples_df.to_csv(sep=";", path_or_buf='negative_samples.csv', header=None, index=None)
 
 
-# TODO: limit number of negative samples per entry to reasonable number
 # Draw from the full dataset by finding entries with the same name
 # and if available, the same feast day
-def find_same_name_entries(full_set_no_gold_no_dev_df: pd.DataFrame, ids_to_remove: list[str]):
+def find_same_name_entries(full_set_no_gold_no_dev_df: pd.DataFrame):
 
     full_dataset_df = pd.read_json("../../outputs_to_review/parsed_heiligenlexikon.json")
-    full_dataset_df.drop(ids_to_remove, axis=1, inplace=True)
     full_set_no_gold_no_dev_df = pd.merge(full_set_no_gold_no_dev_df, full_dataset_df.T['SaintName'], left_on=0,
                                           right_index=True)
     full_set_no_gold_no_dev_df.drop([2, 3], inplace=True, axis=1)
@@ -66,14 +64,5 @@ def find_same_name_entries(full_set_no_gold_no_dev_df: pd.DataFrame, ids_to_remo
 
 if __name__ == '__main__':
     full_set_no_gold_no_dev_df = pd.read_csv('wholeset_match_results_edit_thresh_100_feast_0.csv', sep=";", header=None)
-    # hlex_columns_df = wholeset_df.loc[:, (0, 2)]
-    # wiki_columns_df = wholeset_df.loc[:, (1, 3)]
-    gold_ids = load_goldstandard_ids()
-    dev_ids = load_devset_ids()
-    ids_to_remove = gold_ids + dev_ids
-    # TODO: This part is most likely redundant, the fullset above should already have the gold and dev sets removed
-    # But might be good to do a double check here for consistency
-
-    positive_negative_samples_df = find_same_name_entries(full_set_no_gold_no_dev_df=full_set_no_gold_no_dev_df,
-                                                          ids_to_remove=ids_to_remove)
-    positive_negative_samples_df.to_csv('refactored_positive_negative_set.csv', header=True, index=True, sep=";")
+    positive_negative_samples_df = find_same_name_entries(full_set_no_gold_no_dev_df=full_set_no_gold_no_dev_df)
+    positive_negative_samples_df.to_csv('positive_negative_set.csv', header=True, index=True, sep=";")
