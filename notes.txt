@@ -249,3 +249,6 @@ TRAINING
 -Data Chapter
     -statistics on HLex and Wikidata
     -devset and trainingset creation
+
+- Send data chapter
+-   include results and graphics for data creation
