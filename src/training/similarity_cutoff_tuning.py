@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.metrics import accuracy_score
-
+from decimal import Decimal
 
 def calculate_acc_for_similarity_cutoff(training_df, threshold):
     matches_series = training_df['Similarity'].where(training_df['Similarity'] < threshold, 1)
@@ -40,7 +40,7 @@ def evaluate_files():
         for threshold in np.arange(0.5, 1.0, 0.01):
             acc = calculate_acc_for_similarity_cutoff(training_df, threshold)
 
-            result_tuple = (str(sent_length), str(threshold), str(acc))
+            result_tuple = (str(sent_length), str(round(Decimal(threshold), 2)), str(acc))
             acc_results.append(";".join(result_tuple))
 
             if acc > max_acc:
