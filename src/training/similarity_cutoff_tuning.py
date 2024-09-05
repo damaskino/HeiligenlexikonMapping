@@ -74,8 +74,16 @@ def evaluate_files():
     results_string = "\n".join(acc_results)
     header = "SentenceLength;SimilarityThreshold;Accuracy\n"
     results_string = header+results_string
+
+    max_acc_params_string = ";".join([str(max_acc_sent_length), str(max_acc_sim_thresh), str(max_acc)])
+    max_acc_result_string = header + max_acc_params_string
+
     with open("acc_results_across_sent_len_and_similarity_cutoff.csv", "w") as acc_result_file:
         acc_result_file.write(results_string)
+
+    with open("similarity_max_acc_params.csv","w") as max_acc_result_file:
+        max_acc_result_file.write(max_acc_result_string)
+
 
 
 if __name__ == '__main__':

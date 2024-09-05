@@ -150,7 +150,9 @@ wiki_sentences_max = 10
 
 # TODO compute embeddings for all Hlex descriptions?
 
+#Compute for different sentence lengths
 for wiki_sentences_num in range(1,wiki_sentences_max):
     calculate_similarities(wiki_sentences_num)
 
+#Compute once for full sentence lengths
 calculate_similarities()
