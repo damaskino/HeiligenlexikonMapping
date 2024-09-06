@@ -251,4 +251,20 @@ TRAINING
     -devset and trainingset creation
 
 - Send data chapter
--   include results and graphics for data creation
+- include results and graphics for data creation
+- devset
+- testset
+- Comparability to rule-based
+    - e.g. use sbert similarity on full dataset to find matching entry
+-writeup feedback:
+    -Structure
+        Gold Standard before preprocessing
+        rule based baseline should not be in Data -> Methodology: Unsupervised & Supervised
+        Data: Figures always need to be cited
+        Enumerate formulas and explicitly cite in text
+
+    -Put List of occupations and similar lists into appendix be explicit about size (I created a list of 29 occupations see appendix )
+    -Style & Language: Less passives more active "we extracted", shorter sentences, as concretely as possible
+        -Shorter sentences in general at occupations
+        Difficulty for mapping at end of Data Chapter
+    Processing flow in 4.4 was good
