@@ -268,3 +268,4 @@ TRAINING
         -Shorter sentences in general at occupations
         Difficulty for mapping at end of Data Chapter
     Processing flow in 4.4 was good
+    Check out comments of gold standard for some more info to write
