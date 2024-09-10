@@ -269,3 +269,6 @@ TRAINING
         Difficulty for mapping at end of Data Chapter
     Processing flow in 4.4 was good
     Check out comments of gold standard for some more info to write
+Given nature of data, using a combination of wikidata and wikipedia information probably makes most sense, as sometimes wikidata page exists without textual wikipedia pages
+https://www.wikidata.org/wiki/Q24254812
+Statistics of wikidata pages with no german page and all empty pages
