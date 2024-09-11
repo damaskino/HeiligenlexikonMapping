@@ -14,19 +14,78 @@ def find_longest_doc_language(wiki_text_series):
                 longest_doc_lang = lang
     return longest_doc_lang
 
+
+#go through all Wikipedia texts and calculate their respective embeddings
+#return a wiki ID and an embedding, maybe the information which language was used
+def calculate_embeddings(wiki_text_df):
+
+    print("Calculating Wikipedia text embeddings")
+    wikidata_ids_without_pages = []
+    wikidata_ids_no_german_page = []
+
+    wiki_id_embedding_language_tuples = []
+    for wikidata_id in wiki_text_df[:20]:
+
+        wikitext_series = wiki_text_df[wikidata_id]
+
+        doc_lang = ""
+
+        # TODO better to perform this check during the embedding calculations
+        if "de" not in wikitext_series.keys():
+            wikidata_ids_no_german_page.append(wikidata_id)
+            doc_lang = find_longest_doc_language(wikitext_series)
+
+        if "de" in wikitext_series.keys():
+            if type(wikitext_series["de"]) != str:
+                wikidata_ids_no_german_page.append(wikidata_id)
+                doc_lang = find_longest_doc_language(wikitext_series)
+            # Edge Case: german is available, but is nan -> use other longest language
+            # other languages are also all nan --> skip entry
+            if doc_lang == "":
+                wikidata_ids_without_pages.append(wikidata_id)
+                continue
+
+        wiki_doc = wikitext_series[doc_lang]
+        # todo add similarities
+        wiki_german_doc = wiki_doc.replace("\n", " ")
+        wiki_sentences = wiki_doc.split('.')
+
+        wiki_embeddings = model.encode(wiki_sentences)
+        # Aggregate sentence embeddings to get document embeddings
+        # Here, we use mean pooling
+        wiki_doc_embedding = wiki_embeddings.mean(axis=0)
+
+        wiki_id_embedding_language_tuples.append((wikidata_id, wiki_doc_embedding, doc_lang))
+
+    print("Wikidata pages without Wikipedia pages:")
+    print(len(wikidata_ids_without_pages))
+    print(wikidata_ids_without_pages)
+
+    print("Wikidata pages without German pages:")
+    print(len(wikidata_ids_no_german_page))
+    print(wikidata_ids_no_german_page)
+
+    print("Finished calculating embeddings")
+
+
+    return wiki_id_embedding_language_tuples
+
+
 #NOTE: partially copied from supervised_training.py, should be refactored if time allows
 #TODO: go through all gold standard entries,
 # for every entry, compare all the texts, based on highest similarity, assign an entry, if all entries fall below our calculated threshold, do not match anything
 #TODO: don't need to calculate all embeddings everytime, makes more sense to go through once on the wikipedia side and get the embeddings ready
-def calculate_similarities(gold_standard_df, wikitexts_df):
-
-
-
+def calculate_similarities(gold_standard_df, wikitexts_df, threshold = 0.00):
 
     result_list = []
 
-    wikidata_ids_without_pages = []
-    wikidata_ids_no_german_page = []
+
+
+    wiki_embeddings = calculate_embeddings(wikitexts_df)
+
+    gold_standard_df["SystemMatch"]=""
+    gold_standard_df["SystemMatchLanguage"]=""
+    gold_standard_df["SystemMatchSimilarity"]=""
 
     # converting to list for faster iteration
     gold_standard_list = gold_standard_df.to_numpy().tolist()
@@ -34,7 +93,10 @@ def calculate_similarities(gold_standard_df, wikitexts_df):
     # TODO: going through a fraction of the entries to iron out the details, expand to full data later
     # for idx, hlex_tuple in enumerate(hlex_texts[:]):
     for idx, hlex_list in enumerate(gold_standard_list):
-        similarity = 0
+        max_similarity = 0.0
+        max_sim_wiki_id = ""
+        max_sim_wiki_lang = ""
+
 
         hlex_id = hlex_list[0]
         wikidata_id = hlex_list[1]
@@ -52,58 +114,29 @@ def calculate_similarities(gold_standard_df, wikitexts_df):
         # Doublecheck Texts with high similarity
         # Secondary information may be enough to push similarity very high
 
+        for wiki_doc_embedding_tuple in wiki_embeddings:
 
-        print("Going through Wikidata entries")
-        for wikidata_id in wikitexts_df:
-
-
-            wikitext_series = wiki_text_df[wikidata_id]
-
-            doc_lang = ""
-
-
-            if "de" not in wikitext_series.keys():
-                wikidata_ids_no_german_page.append(wikidata_id)
-                doc_lang = find_longest_doc_language(wikitext_series)
-
-            if "de" in wikitext_series.keys():
-                if type(wikitext_series["de"]) != str:
-                    wikidata_ids_no_german_page.append(wikidata_id)
-                    doc_lang = find_longest_doc_language(wikitext_series)
-                # Edge Case: german is available, but is nan -> use other longest language
-                # other languages are also all nan --> skip entry
-                if doc_lang == "":
-                    wikidata_ids_without_pages.append(wikidata_id)
-                    continue
-
-            wiki_doc = wikitext_series[doc_lang]
-            # todo add similarities
-            wiki_german_doc = wiki_doc.replace("\n", " ")
-            wiki_sentences = wiki_doc.split('.')
-
-            wiki_embeddings= model.encode(wiki_sentences)
-            # Aggregate sentence embeddings to get document embeddings
-            # Here, we use mean pooling
-            wiki_doc_embedding = wiki_embeddings.mean(axis=0)
-
+            wiki_data_id = wiki_doc_embedding_tuple[0]
+            wiki_doc_embedding = wiki_doc_embedding_tuple[1]
+            wiki_doc_lang = wiki_doc_embedding_tuple[2]
             # Compute cosine similarity between the two document embeddings
             similarity = util.cos_sim(hlex_doc_embedding, wiki_doc_embedding)
+            if max_similarity < similarity:
+                max_similarity=similarity
+                max_sim_wiki_id = wiki_data_id
+                max_sim_wiki_lang = wiki_doc_lang
 
+        if max_similarity < threshold:
+            continue
+        else:
+            #update dataframe with system_match
+            print("System match:", max_sim_wiki_id)
+            gold_standard_df.loc[gold_standard_df['HeiligenLexikonID'] == hlex_id, 'SystemMatch'] = max_sim_wiki_id
+            gold_standard_df.loc[gold_standard_df['HeiligenLexikonID'] == hlex_id, 'SystemMatchLanguage'] = max_sim_wiki_lang
+            gold_standard_df.loc[gold_standard_df['HeiligenLexikonID'] == hlex_id, 'SystemMatchSimilarity'] = str(float(max_similarity))
+    file_name = "gold_standard_sbert_results.csv"
 
-
-
-    print("Wikidata pages without Wikipedia pages:")
-    print(len(wikidata_ids_without_pages))
-    print(wikidata_ids_without_pages)
-
-    print("Wikidata pages without German pages:")
-    print(len(wikidata_ids_no_german_page))
-    print(wikidata_ids_no_german_page)
-
-    file_name = ""
-
-
-    file_name = "gold_standard_sbert_results"
+    gold_standard_df.to_csv(file_name, sep=";")
 
 if __name__ == "__main__":
 
@@ -138,7 +171,7 @@ if __name__ == "__main__":
     wikidata_ids_with_pages = [id for id in wikidata_ids if (id in wiki_text_df.columns)]
 
 
-    calculate_similarities(gold_standard_with_hlex_texts_df, wiki_text_df)
+    calculate_similarities(gold_standard_with_hlex_texts_df, wiki_text_df, threshold=0.81)
     # hlex_texts_negatives_df = pd.merge(negative_examples_df['HeiligenLexikonID'], hlex_df.T[['OriginalText']],
     #                                    left_on='HeiligenLexikonID', right_index=True, how='left')
     # hlex_texts_positives_df = pd.merge(positive_examples_df['HeiligenLexikonID'], hlex_df.T[['OriginalText']],

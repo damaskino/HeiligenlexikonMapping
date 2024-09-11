@@ -30,8 +30,6 @@ def evaluate_files():
 
     acc_results = []
 
-
-
     #Compute for varying sentence lengths
     for sent_length in range(1, 10):
 
