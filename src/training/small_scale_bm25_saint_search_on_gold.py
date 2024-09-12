@@ -15,8 +15,8 @@ import sys
 
 
 def load_hlex_gold_set_entries():
-    gold_set_df = pd.read_csv("../../data/2_annotated_data_gold_and_dev/gold_standard_hand_annotated_eschbach_li_no_comments.csv", sep=";") as dev_set_file:
-    return gold_set_df
+    gold_data_set_df = pd.read_csv("../../data/2_annotated_data_gold_and_dev/gold_standard_hand_annotated_eschbach_li_no_comments.csv", sep=";")
+    return gold_data_set_df
 
 
 def load_hlex_data():
@@ -127,9 +127,9 @@ def write_matches_to_file(
     file_name_base = "match_results"
     edit_distance_string = "edit_dist_thresh_" + str(edit_distance_threshold)
     feast_day_tolerance = "feast_tolerance_" + str(feast_day_tolerance)
-    file_ending = ".csv"
+    file_ending = "_on_gold.csv"
     file_name_full = (
-            "_".join([file_name_base, edit_distance_string, feast_day_tolerance, dev_flag])
+            "_".join([file_name_base, edit_distance_string, feast_day_tolerance])
             + file_ending
     )
     target_folder = "matching_results"
@@ -148,13 +148,13 @@ def load_data() -> (list, pd.DataFrame):
 
 # If only one name matches don't consider feast days, if multiple name matches found, look at feast days
 def match_entries(
-        entries_to_match,
+        gold_set_df,
         hlex_df,
         name_edit_distance_threshold=100,
         feast_day_tolerance=0,
 ):
 
-    entries_to_match = list(hlex_df.columns)
+    entries_to_match = list(gold_set_df["HeiligenLexikonID"])
     entry_matches = []
     for idx, entry_to_map in enumerate(entries_to_match):
         entry_split = entry_to_map.split(";")
@@ -207,7 +207,11 @@ def match_entries(
         wikidata_saints = load_wikidata_data(
             "../preprocessing/wikidata/processed_saints.db", "saints"
         )
-        for wiki_entry_id, wiki_namelist, wiki_feastlist in wikidata_saints:
+        for wiki_saint_tuple in wikidata_saints:
+
+            wiki_entry_id = wiki_saint_tuple[0]
+            wiki_namelist = wiki_saint_tuple[1]
+            wiki_feastlist = wiki_saint_tuple[2]
             wiki_entry_id = wiki_entry_id.rstrip()
             # print(wiki_entry_id)
             # print(wiki_namelist)
@@ -258,7 +262,7 @@ def match_entries(
 
     # print(entry_matches)
     write_matches_to_file(
-        entry_matches, name_edit_distance_threshold, feast_day_tolerance, dev_flag
+        entry_matches, name_edit_distance_threshold, feast_day_tolerance
     )
     # print(hlex_df)
     # corpus
@@ -268,7 +272,7 @@ if __name__ == "__main__":
     gold_set_df, hlex_df = load_data()
     # the naivest approach, if one name from hlex matches exactly with a name/alias/label in wikidata
     # *and* if either of the feast days match, consider this a match
-    match_entries(entries_to_match=gold_set_df, hlex_df=hlex_df, name_edit_distance_threshold=70)
+    match_entries(gold_set_df=gold_set_df, hlex_df=hlex_df, name_edit_distance_threshold=70)
     sys.exit()
     match_entries(entries_to_match=gold_set_df, hlex_df=hlex_df, dev_flag=False)
     match_entries(entries_to_match=gold_set_df, hlex_df=hlex_df)
