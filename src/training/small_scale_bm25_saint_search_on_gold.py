@@ -160,9 +160,15 @@ def match_entries(
         entry_split = entry_to_map.split(";")
         hlex_entry_id = entry_split[0]
 
-        entry_gold_standard_wiki_match = ""
-
+        gold_data_series_item = gold_set_df.loc[gold_set_df['HeiligenLexikonID']==hlex_entry_id]
+        gold_match_series_item = gold_data_series_item['GoldWikidataID']
+        gold_match_series_item = list(gold_match_series_item)[0]
+        entry_gold_standard_wiki_match=""
+        print("Extracting Entry value...")
         print(f"At entry: {idx} with id: {hlex_entry_id}")
+        if type(gold_match_series_item)==str:
+            entry_gold_standard_wiki_match=gold_match_series_item
+
 
         # retrieve the info we have from hlex
         hlex_entry = hlex_df[hlex_entry_id]
