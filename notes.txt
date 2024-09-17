@@ -272,3 +272,9 @@ TRAINING
 Given nature of data, using a combination of wikidata and wikipedia information probably makes most sense, as sometimes wikidata page exists without textual wikipedia pages
 https://www.wikidata.org/wiki/Q24254812
 Statistics of wikidata pages with no german page and all empty pages
+
+Code and Daten bei Abgabe?
+
+Section + Chapter
+Konzentration auf Related Work, Daten + Statistiken besonders wichtig
+Gut beschreiben
